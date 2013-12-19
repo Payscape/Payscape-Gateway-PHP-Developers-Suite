@@ -17,6 +17,8 @@ $time = gmdate('YmdHis');
 
 $ipaddress = $_SERVER['REMOTE_ADDR'];
 
+$orderid = date('YmdHis') . "Test";
+
 			require_once 'classes/Payscape/Payscape.php';
 	
 
@@ -106,23 +108,36 @@ $ipaddress = $_SERVER['REMOTE_ADDR'];
 		$incoming['orderid'] = $orderid;
 
 
-		/*
-		 echo "<pre>";
-		echo "INCOMING: <br>";
-		print_r($incoming);
-		*/
-		echo "<br>OUTPUT:<br>";
-		print_r($response);
-		echo "<pre>";
+	
 		
 
 		$Payscape = NEW Payscape();
 		$response = $Payscape->Sale($incoming);
 		
 		
-		if($response['response']===1){
+		/*
+		 echo "<pre>";
+		echo "INCOMING: <br>";
+		print_r($incoming);
+		*/
 		
-			$transactionid = $response['transactionid'];		
+		echo "<br>RESPONSE:<br>";
+		print_r($response);
+		echo "<pre>";
+		//exit();
+		
+		parse_str($response, $result_array);
+		
+		echo "<pre>";
+		echo "RESULT ARRAY: ";
+		print_r($result_array);
+		echo "</pre>";
+		
+	//	exit();
+		
+		if($result_array['response']==1){
+		
+			$transactionid = $result_array['transactionid'];		
 			$message = "The transaction was successful "; 
 		
 		
@@ -137,7 +152,7 @@ $ipaddress = $_SERVER['REMOTE_ADDR'];
 				'$hash', '$time', '$ccnumber', '$ccexp', 
 				$amount, '$cvv', '$payment', '$ipaddress', '$firstname', 
 				'$lastname', '$company', '$address1', '$city', '$state', '$zip', '$country',
-				'$phone', '$fax', '$email', $orderid, $transactionid)";
+				'$phone', '$fax', '$email', '$orderid', $transactionid)";
 						/*		
 								echo "SQL: <BR>";
 										echo "<pre>";
@@ -163,18 +178,13 @@ $ipaddress = $_SERVER['REMOTE_ADDR'];
 			
 			mysqli_close($conn);
 									
-				
-			
-				
-				
-				
 
     } else {
     	
     	require_once 'includes/add_cc_form.php';
     	
     }		
-    echo $message;
+ //   echo $message;
     
  // end add_cc   
 ?>		

@@ -18,6 +18,8 @@
 	$account_holder_type = 'business'; // Replace with your Payscape Account Holder Type (business / personal)
 	$account_type = 'checking'; // Replace with your bank account type (checking / savings)
 	$checkname = 'Test'; // Replace with the name on your ACH Account
+
+	$orderid = date('YmdHis') . "TestCheck";	
 	
 	require_once 'classes/Payscape/Payscape.php';
 	
@@ -89,75 +91,70 @@
 		$incoming['phone'] = $phone;
 		$incoming['fax'] = $fax;
 		$incoming['email'] = $email;
+		$incoming['orderid'] = $orderid;		
 		
+		$Payscape = NEW Payscape();
+		$response = $Payscape->SaleCheck($incoming);
 		
-			
-		/* save the submission */
-			
-		$sql = "INSERT INTO `transactions` (`type`, `key_id`, 
-				`hash`, `time`, `checkname`, `checkaba`, 
-				`checkaccount`, `account_holder_type`, `account_type`, `sec_code`, 
-				`amount`, `payment`, `ipaddress`, `firstname`, 
-				`lastname`, `company`, `address1`, `city`, `state`, `zip`, `country`, 
-				`phone`, `fax`, `email`) 
-				VALUES('$type', '$key_id',
-				'$hash', '$time', '$checkname', '$checkaba', 
-				'$checkaccount', '$account_holder_type', '$account_type', '$sec_code',
-				$amount, '$payment', '$ipaddress', '$firstname', 
-				'$lastname', '$company', '$address1', '$city', '$state', '$zip', '$country',
-				'$phone', '$fax', '$email')";
-		
-	//echo "$sql";
-	//exit();	
-		
-		
-		if(!mysqli_query($conn, $sql)){
-			printf("Error: %s\n", mysqli_error($conn));
-			$message = "The transaction has not been saved.";
-		} else {
-
-			$message = "The transaction $time has been saved.";
-		}	
-		
-		mysqli_close($conn);
-		
-		
-		$Payscape = NEW Payscape;
-		$output = $Payscape->SaleCheck($incoming);
-		
-				
-				
-	//debug($incoming);
-	//exit();
-				/*
-				echo "PAYSCAPE: <br>";
-				echo "<pre>";
-				print_r($incoming);
-				echo "</pre>";
-				
-				exit();
-				*/
-				
-				
-		echo "<br>OUTPUT:<br>";
-		print_r($output);
+		/*
 		echo "<pre>";
+		echo "INCOMING: ";
+		print_r($response);
+		echo "</pre>";
 		
+		
+		echo $response;
+		exit();
+		*/
 
-	
-	
-	/*
-	echo "<br>PAYSCAPE:<br>";
-	
-	echo "<pre>";
-		print_r($payscape);
-	echo "<pre>";
-	exit();
-	*/
-	
+		parse_str($response, $result_array);
+		
+					if($result_array['response']==1){
+						
+						$message = "The transaction was successful";
+						$transactionid = $result_array['transactionid'];
+						
+					/* save the submission */
+						
+					$sql = "INSERT INTO `transactions` (`type`, `key_id`, 
+							`hash`, `time`, `checkname`, `checkaba`, 
+							`checkaccount`, `account_holder_type`, `account_type`, `sec_code`, 
+							`amount`, `payment`, `ipaddress`, `firstname`, 
+							`lastname`, `company`, `address1`, `city`, `state`, `zip`, `country`, 
+							`phone`, `fax`, `email`, `orderid`, `transactionid`) 
+							VALUES('$type', '$key_id',
+							'$hash', '$time', '$checkname', '$checkaba', 
+							'$checkaccount', '$account_holder_type', '$account_type', '$sec_code',
+							$amount, '$payment', '$ipaddress', '$firstname', 
+							'$lastname', '$company', '$address1', '$city', '$state', '$zip', '$country',
+							'$phone', '$fax', '$email', '$orderid', $transactionid)";
+					
+			//	echo "$sql";
+			//	exit();	
+					
+					
+								if(!mysqli_query($conn, $sql)){
+									printf("Error: %s\n", mysqli_error($conn));
+						
+									$message .= " but could not be saved to the database";
+								} else {
+						
+									$message .= "and has been saved to the database.";
+								}	
+
+							
+							} else {
+								$message = "Transaction has failed.";
+							}
+								
+							mysqli_close($conn);
+		
 				
 			} else {
 		    	require_once 'includes/add_cc_form.php';
-    		}// method post		
+    		}// method post	
+
+    	//	echo $message;
+    		
 // end add_check		
 ?>		
