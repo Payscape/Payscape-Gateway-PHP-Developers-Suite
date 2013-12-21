@@ -18,7 +18,7 @@ $account_type = 'checking'; // test bank account type (checking / savings)
 <div class="transactions form">
 <form action="transactions.php" id="TransactionAddForm" method="post" accept-charset="utf-8">
 	<fieldset>
-		<legend>New Check Transaction</legend>
+		<legend>Sale Check Transaction</legend>
 <input type="hidden" name="_method" value="POST"/>
 <input type="hidden" name="payment" id="TransactionPayment" value="check">
 <input type="hidden" name="type" id="TransactionType" value="sale">

@@ -1,8 +1,25 @@
 <?php 
+
+		if (mysqli_connect_errno($conn))
+		{
+			echo "Failed to connect to Database: " . mysqli_connect_error();
+		}
 		
-	$sql = "SELECT * FROM transactions ORDER BY id";	
-    $result = mysqli_query($sql) or die(mysql_error());
+	$sql = "SELECT * FROM transactions WHERE `id` = $id";	
     
+    if ($result=mysqli_query($conn,$sql))
+    {
+    	// Return the number of rows in result set
+    	$rowcount=mysqli_num_rows($result);
+    //	printf("Result set has %d rows.\n",$rowcount);
+
+    }
+    
+ 
+    if ($rowcount==0) {
+    	echo "No rows found, nothing to print so am exiting";
+    	exit;
+    }
 
     
     /*
@@ -12,171 +29,168 @@
     exit();
     */
 ?>
+
+
+
+
+
+
 <?php 
-	if (mysql_num_rows($result) == 0) {
-		echo "No rows found, nothing to print so am exiting";
-		exit;
-	}
+	$counter = 0;	
+	
+		while($row = mysqli_fetch_assoc($result)){ 
+		
+			if($counter % 2){
+				$class="odd";
+			} else {
+				$class="even";
+			}
 
 ?>
+<div class="row">
 
+	<h2>Transaction #<?php echo $row['transactionid']; ?></h2>
 
-<div class="transactions view">
-<h2>Transactions</h2>
-<dl>
-<?php while($row = mysqli_fetch_assoc($result)){ ?>
+	<div class="span7 <?php echo $class; ?>">
+		<table class="transaction">
+		<caption><h3>Customer</h3></caption>
+		<tr>
+			<th>Name</th><th>Phone</th><th>Fax></th><th>Email</th><th>Company</th><th>IP Address</th>
+		</tr>
+		<tr>
+			<td><?php echo $row['firstname'];?>&nbps;<?php echo $row['lastname']; ?></td>
+			<td><?php echo $row['phone']; ?></td>
+			<td><?php echo $row['fax']; ?></td>
+			<td><?php echo $row['email']; ?></td>
+			<td><?php echo $row['company']; ?></td>
+			<td><?php echo $row['ipaddress']; ?></td>
+		</tr>	
+	</table>
+	<hr>
+	</div>
 	
-		<dt>Id</dt>
-		<dd>
-			<?php echo $row['id']; ?>
+	<div class="span7">
+		<table class="transaction">
+			<caption><h3>Order</h3></caption>
+			<tr>
+				<th>Id</th><th>Amount</th><th>Type</th><th>&nbsp;</th><th>Time</th><th>Payment</th><th>Transaction ID</th><th>Order Id</th><th>Auth Code</th>
+			</tr>
+			<tr>
+				<td><?php echo $row['id']; ?></td>
+				<td><?php echo $row['amount']; ?></td>
+				<td><?php echo $row['type']; ?></td>
+				<td>
+							<?php if($row['type']=='auth'){ ?>
+				<a href="transactions.php?action=capture&transid=<?php echo $row['transactionid']; ?>">Capture</a>
+			<?php } ?>	
 			&nbsp;
-		</dd>
-		<dt>Type</dt>
-		<dd>
-			<?php echo $row['type']; ?>
-			&nbsp;
-		</dd>
-		<dt>Key Id</dt>
-		<dd>
-			<?php echo $row['key_id']; ?>
-			&nbsp;
-		</dd>
-		<dt>Hash</dt>
-		<dd>
-			<?php echo $row['hash']; ?>
-			&nbsp;
-		</dd>
-		<dt>Time</dt>
-		<dd>
-			<?php echo $row['time']; ?>
-			&nbsp;
-		</dd>
-		<dt>Ccnumber</dt>
-		<dd>
-			<?php echo $row['ccnumber']; ?>
-			&nbsp;
-		</dd>
-		<dt>Ccexp</dt>
-		<dd>
-			<?php echo $row['ccexp']; ?>
-			&nbsp;
-		</dd>
-		<dt>Checkname</dt>
-		<dd>
-			<?php echo $row['checkname']; ?>
-			&nbsp;
-		</dd>
-		<dt>Checkaba</dt>
-		<dd>
-			<?php echo $row['checkaba']; ?>
-			&nbsp;
-		</dd>
-		<dt>Checkaccount</dt>
-		<dd>
-			<?php echo $row['checkaccount']; ?>
-			&nbsp;
-		</dd>
-		<dt>Account Holder Type</dt>
-		<dd>
-			<?php echo $row['account_holder_type']; ?>
-			&nbsp;
-		</dd>
-		<dt>Account Type</dt>
-		<dd>
-			<?php echo $row['account_type']; ?>
-			&nbsp;
-		</dd>
-		<dt>Sec Code</dt>
-		<dd>
-			<?php echo $row['sec_code']; ?>
-			&nbsp;
-		</dd>
-		<dt>Processor Id</dt>
-		<dd>
-			<?php echo $row['processor_id']; ?>
-			&nbsp;
-		</dd>
-		<dt>Amount</dt>
-		<dd>
-			<?php echo $row['amount']; ?>
-			&nbsp;
-		</dd>
-		<dt>Cvv</dt>
-		<dd>
-			<?php echo $row['cvv']; ?>
-			&nbsp;
-		</dd>
-		<dt>Payment</dt>
-		<dd>
-			<?php echo $row['payment']; ?>
-			&nbsp;
-		</dd>
-		<dt>Ipaddress</dt>
-		<dd>
-			<?php echo $row['ipaddress']; ?>
-			&nbsp;
-		</dd>
-		<dt>Firstname</dt>
-		<dd>
-			<?php echo $row['firstname']; ?>
-			&nbsp;
-		</dd>
-		<dt>Lastname</dt>
-		<dd>
-			<?php echo $row['lastname']; ?>
-			&nbsp;
-		</dd>
-		<dt>Company</dt>
-		<dd>
-			<?php echo $row['company']; ?>
-			&nbsp;
-		</dd>
-		<dt>Address1</dt>
-		<dd>
-			<?php echo $row['address1']; ?>
-			&nbsp;
-		</dd>
-		<dt>City</dt>
-		<dd>
-			<?php echo $row['city']; ?>
-			&nbsp;
-		</dd>
-		<dt>State</dt>
-		<dd>
-			<?php echo $row['state']; ?>
-			&nbsp;
-		</dd>
-		<dt>Zip</dt>
-		<dd>
-			<?php echo $row['zip']; ?>
-			&nbsp;
-		</dd>
-		<dt>Country</dt>
-		<dd>
-			<?php echo $row['country']; ?>
-			&nbsp;
-		</dd>
-		<dt>Phone</dt>
-		<dd>
-			<?php echo $row['phone']; ?>
-			&nbsp;
-		</dd>
-		<dt>Fax</dt>
-		<dd>
-			<?php echo $row['fax']; ?>
-			&nbsp;
-		</dd>
-		<dt>Email</dt>
-		<dd>
-			<?php echo $row['email']; ?>
-			&nbsp;
-		</dd>
+				</td>
+				<td><?php echo $row['time']; ?></td>
+				<td><?php echo $row['payment']; ?></td>
+				<td><?php echo $row['transactionid']; ?></td>
+				<td><?php echo $row['orderid']; ?></td>
+				<td><?php echo $row['authcode']; ?></td>
+				
+			</tr>
+		
+		</table>
 		<hr>
-	<?php } ?>	
-	</dl>
+	
+	</div>
+
+	
+	<div class="span7">
+	
+	<table>
+	<caption><h3>Shipping</h3></caption>
+	<tr>
+		<th>Address</th><th>City</th><th>State</th><th>Zip</th><th>Country</th>
+	</tr>
+	<tr>
+		<td>&nbsp;</td><td><?php echo $row['address1']; ?>
+		</td>
+		<td><?php echo $row['city']; ?></td>
+		<td><?php echo $row['state']; ?></td>
+		<td><?php echo $row['zip']; ?></td>
+		<td><?php echo $row['country']; ?></td>
+	</tr>
+	
+	</table>
+		<hr>
+	
+	</div>
+	
+	
+	<div class="span7">
+	<table class="transaction">
+		<caption><h3>Payment</h3></caption>
+		
+<?php if($row['payment']=='check'){ ?>
+	<tr>
+		<th>Payment</th><th>Credit Card Number</th><th>Expiration</th><th>CVV</th>
+		</tr>
+	<tr>	
+		<td><?php echo $row['payment']; ?></td>
+		<td><?php echo $row['ccnumber']; ?></td>
+		<td><?php echo $row['ccexp']; ?></td>
+		<td><?php echo $row['cvv']; ?></td>
+	</tr>
+
+<?php } else { ?>
+	<tr>
+	<th>Checkname</th><th>Check Account </th><th>Routing Number</th><th>Account Type</th><th>Account Holder Type</th>
+	</tr>
+	<tr>
+	<td><?php echo $row['checkname']; ?></td>
+	<td><?php echo $row['checkaccount']; ?></td>
+	<td><?php echo $row['checkaba']; ?></td>
+	<td>	<?php echo $row['account_type']; ?></td>
+	<td>	<?php echo $row['account_holder_type']; ?></td>
+	
+	</tr>
+<?php } ?>
+
+	
+	</table>
+		<hr>
+	
+	</div>
+	<div class="span7">
+	
+		<table>
+	<caption><h3>Credentials</h3></caption>
+	<tr>
+		<th>Key ID</th><th>Hash</th><th>Sec Code</th><th>Processor ID</th>
+	</tr>
+	<tr>
+		<td><?php echo $row['key_id']; ?>
+		</td>
+		<td><?php echo $row['hash']; ?></td>
+		<td><?php echo $row['sec_code']; ?></td>
+		<td><?php echo $row['processor_id']; ?></td>
+	
+	</tr>
+	
+	</table>
+		<hr>
+	
+	</div>
+
+	
+	
+	</div>
+	<div class="clearfix"></div>
+	
+		<hr>
+	<?php 
+	$counter++;
+		} 
+	?>	
+	
 </div>
 
 <?php 
 		mysqli_free_result($result);
+		mysqli_close($conn);
 
 ?>

@@ -16,13 +16,24 @@
 					$paymentselect = "check";
 					$required = "add_check.php";
 					break;
-						
+				case "auth-cc":
+				
+					$paymentselect = "auth";
+					$required = "auth_cc.php";
+					break;
+				case "capture":
+					$transactionid = $_GET['trans'];		
+					$required = "auth_cc.php";
+						echo "TRANSACTIONID: $transactionid";
+						exit();
+					break;	
 			}			
 		
 			
 		} else {
 				if(!isset($_GET['action'])){
-					redirect('/');
+				
+					header("Location: http://localhost/sporty.localdomain/transactions.php?action=index");
 				} else {
 					
 					$action = $_GET['action'];
@@ -37,7 +48,52 @@
 							$required = "add_check_form.php";
 							$message = "New eCheck Transaction";
 							break;
+						case "auth-cc":
+							$paymentselect = "auth";
+							$required = "auth_cc_form.php";
+							$message = "New Auth CC Transaction";
+							break;
+							
+						case "capture":
+							$paymentselect = "capture";
+							$required = "capture_cc_form.php";
+							$transactionid = $_GET['transid'];
+							$capture_message = "Capture Transaction";
+
+							break; 
+							
+						case "credit":
+							$paymentselect = "credit";
+							$required = "credit_form.php";
+							$transactionid = $_GET['transid'];
+							$message = "Credit Transaction";
+								
+						case "void":
+							$paymentselect = "void";
+							$required = "void_form.php";
+							$transactionid = $_GET['transid'];
+							$message = "Void Transaction";
+
+						case "refund":
+							$paymentselect = "refund";
+							$required = "refund_form.php";
+							$transactionid = $_GET['transid'];
+							$message = "Refund Transaction";
+
+						case "update":
+							$paymentselect = "update";
+							$required = "update_form.php";
+							$transactionid = $_GET['transid'];
+							$message = "Update Transaction";									
+							
+							
+						case "index":
+							$required = "index.php";
+							$message = "View Posted Transactions";
+							break;							
+							
 						case "view":
+							$id = $_GET['id'];
 							$required = "view.php";
 							$message = "View Posted Transactions";
 							break;
@@ -72,7 +128,9 @@
     <!-- Bootstrap core CSS -->
 
     
-    <link rel="stylesheet" type="text/css" href="/sporty.localdomain/css/bootstrap.css" /><link rel="stylesheet" type="text/css" href="/sporty.localdomain/css/jumbotron-narrow.css" /><link rel="stylesheet" type="text/css" href="/sporty.localdomain/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="/sporty.localdomain/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="/sporty.localdomain/css/jumbotron-narrow.css" />
+    <link rel="stylesheet" type="text/css" href="/sporty.localdomain/css/custom.css" />
     <!-- Custom styles for this template -->
 
 
@@ -85,7 +143,13 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
     <link href="/sporty.localdomain/favicon.ico" type="image/x-icon" rel="icon" /><link href="/sporty.localdomain/favicon.ico" type="image/x-icon" rel="shortcut icon" />    
-</head>
+        <style>
+	.odd {background-color:#ffffff;}
+	.even {background-color:#eeeeee;}
+	</style>  
+    
+
+    </head>
 
   <body>
 

@@ -26,7 +26,7 @@ class Payscape
 	
 	protected function _send($trans){
 		
-		$trans['type'] = 'sale';
+	//	$trans['type'] = 'sale';
 		$trans['username'] = $this->userid;
 		$trans['password'] = $this->password;
 		
@@ -156,7 +156,7 @@ public function SaleCheck($incoming=null){
 
 	$time = gmdate('YmdHis');
 
-	$type = 'sale';
+	$type = 'auth';
 
 	$amount = (isset($incoming['amount']) ? $incoming['amount'] : '');
 	$payment = 'check';
@@ -247,9 +247,90 @@ public function SaleCheck($incoming=null){
 
 	
 	public function Auth($incoming=null){
+		$key = $this->key;
+		$time = gmdate('YmdHis');
+		$type = 'auth';
+		
+		$key = $this->key;
+		$time = gmdate('YmdHis');
+		$type = 'auth';
+		
+		$amount = (isset($incoming['amount']) ? $incoming['amount'] : '');
+		$payment = (isset($incoming['payment']) ? $incoming['payment'] : '');
+		
+		$required = array('type', 'ccnumber', 'ccexp', 'amount');
+		
+		if(count(array_intersect_key(array_flip($required), $incoming)) === count($required)) {
+			$transactiondata = array();
+			$transactiondata['type'] = 'auth';
+			$transactiondata['amount'] = urlencode($amount);
+		
+			/*
+				$transactiondata['type'] = 'sale';
+			$transactiondata['key_id'] = $this->keyid;
+			$transactiondata['hash'] = $hash;
+			$transactiondata['time'] = $time;
+			$transactiondata['redirect'] = $this->redirect_url;
+		
+			$transactiondata['username'] = $this->userid;
+			$transactiondata['password'] = $this->password;
+			$transactiondata['key'] = $this->key;
+		
+			$transactiondata['redirect'] = $this->redirect_url;
+			*/
+		
+			/* user supplied required data */
+			if($payment=='check'){
+				$transactiondata['checkname'] = (isset($incoming['checkname']) ? $incoming['checkname'] : '');
+				$transactiondata['checkaba'] = (isset($incoming['checkaba']) ? $incoming['checkaba'] : '');
+				$transactiondata['checkaccount'] = (isset($incoming['checkaccount']) ? $incoming['checkaccount'] : '');
+				$transactiondata['account_holder_type'] = (isset($incoming['account_holder_type']) ? $incoming['account_holder_type'] : '');
+				$transactiondata['account_type'] = (isset($incoming['account_type']) ? $incoming['account_type'] : '');
+			} else {
+				$transactiondata['ccexp'] = (isset($incoming['ccexp']) ? $incoming['ccexp'] : '');
+				$transactiondata['ccnumber'] = (isset($incoming['ccnumber']) ? $incoming['ccnumber'] : '');
+				$transactiondata['cvv'] = (isset($incoming['cvv']) ? $incoming['cvv'] : '');
+			}
 		
 		
-	}
+		
+		
+		
+			/* user supplied optional data */
+		
+		
+			$transactiondata['firstname'] = (isset($incoming['firstname']) ? $incoming['firstname'] : '');
+			$transactiondata['lastname'] = (isset($incoming['lastname']) ? $incoming['lastname'] : '');
+			$transactiondata['company'] = (isset($incoming['company']) ? $incoming['company'] : '');
+			$transactiondata['address1'] = (isset($incoming['address1']) ? $incoming['address1'] : '');
+			$transactiondata['city'] = (isset($incoming['city']) ? $incoming['city'] : '');
+			$transactiondata['state'] = (isset($incoming['state']) ? $incoming['state'] : '');
+			$transactiondata['zip'] = (isset($incoming['zip']) ? $incoming['zip'] : '');
+			$transactiondata['country'] = (isset($incoming['country']) ? $incoming['country'] : '');
+			$transactiondata['phone'] = (isset($incoming['phone']) ? $incoming['phone'] : '');
+			$transactiondata['fax'] = (isset($incoming['fax']) ? $incoming['fax'] : '');
+			$transactiondata['email'] = (isset($incoming['email']) ? $incoming['email'] : '');
+			$transactiondata['orderid'] = (isset($incoming['orderid']) ? $incoming['orderid'] : '');
+		
+		
+		
+		/*
+			 echo "TRANSACTIONDATA:";
+			echo "<pre>";
+			print_r($transactiondata);
+			echo "</pre>";
+			exit();
+		*/	
+		
+			return $this->_send($transactiondata);
+		
+		} else {
+			$response['Message'] = 'Required Values Are Missing';
+			$response['error'] = 1;
+			return $response;
+		}		
+		
+}// end Auth
 	
 	public function Credit($incoming=null){
 		
@@ -260,6 +341,18 @@ public function SaleCheck($incoming=null){
 	}
 	
 	public function Capture($incoming=null){
+		
+		$key = $this->key;
+		$time = gmdate('YmdHis');
+		$type = 'capture';
+		
+		$required = array('type', 'ccnumber', 'ccexp', 'amount', 'transactionid');
+		
+		if(count(array_intersect_key(array_flip($required), $incoming)) === count($required)) {
+			$transactiondata = array();
+			$transactiondata['type'] = 'sale';
+			$transactiondata['amount'] = urlencode($amount);
+		}
 		
 	}
 	

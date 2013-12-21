@@ -5,10 +5,10 @@
 	<li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Transactions <b class="caret"></b></a>
               <ul class="dropdown-menu">
-                <li><a href="transactions.php?action=add-cc">Add Credit Card</a></li>
-                <li><a href="transactions.php?action=add-check">Add Check</a></li>
-                
-                <li>	<a href="transactions.php?action=view">View</a></li>
+                <li><a href="transactions.php?action=add-cc">Sale Credit Card</a></li>
+                <li><a href="transactions.php?action=add-check">Sale Check</a></li>
+                   <li><a href="transactions.php?action=auth-cc">Auth Credit Card</a></li>
+                <li>	<a href="transactions.php?action=index">View Transactions</a></li>
                 <li><a href="#">Something else here</a></li>
                 <li class="divider"></li>
                 <li class="dropdown-header">Nav header</li>
