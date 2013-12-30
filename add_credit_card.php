@@ -69,16 +69,16 @@
 		
 		$Payscape = NEW Payscape;
 		$response = $this->Payscape->Sale($incoming);
-		
+		/*
 		echo "<pre>";
 		echo "RESULT: ";
 		print_r($result);
 		
 		echo "MESSAGE: ";
-		$echo $message;
+		echo $message;
 		
 		echo "</pre>";
-		
+		*/
 		if($response['response']===1){
 		
 			$transactionid = $response['transactionid'];

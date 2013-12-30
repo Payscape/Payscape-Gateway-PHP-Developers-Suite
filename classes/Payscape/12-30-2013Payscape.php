@@ -23,7 +23,6 @@ class Payscape
 	var $redirect_url	= 'transactions/complete';	//Replace with the URL of your success page;
 	var $message = '';
 	var $response = array();
-	var $ca_path = getcwd() . "/includes/ca/GeoTrustGlobalCA.crt";
 
 	
 	/* we are using this to post to the API */
@@ -45,7 +44,7 @@ class Payscape
 			/* gateway SSL certificate options */
 			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
 			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-			curl_setopt($ch, CURLOPT_CAINFO, $this->ca_path);
+			curl_setopt($ch, CURLOPT_CAINFO, getcwd() . "/includes/ca/GeoTrustGlobalCA.crt");
 				
 			$outcome = curl_exec($ch);
 			curl_close($ch);		

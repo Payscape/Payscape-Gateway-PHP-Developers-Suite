@@ -21,11 +21,7 @@ class Payscape
 	var $userid 	= 'demo'; 					//Replace with your UserID from Payscape.com
 	var $password	= 'password';				//Replace with your Password from Payscape.com
 	var $redirect_url	= 'transactions/complete';	//Replace with the URL of your success page;
-	var $message = '';
-	var $response = array();
-	var $ca_path = getcwd() . "/includes/ca/GeoTrustGlobalCA.crt";
-
-	
+	var $message = '';	
 	/* we are using this to post to the API */
 	
 	protected function _send($trans){
@@ -45,7 +41,7 @@ class Payscape
 			/* gateway SSL certificate options */
 			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
 			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-			curl_setopt($ch, CURLOPT_CAINFO, $this->ca_path);
+			curl_setopt($ch, CURLOPT_CAINFO, getcwd() . "/includes/ca/GeoTrustGlobalCA.crt");
 				
 			$outcome = curl_exec($ch);
 			curl_close($ch);		
@@ -72,6 +68,7 @@ class Payscape
 		$key = $this->key;
 		$time = gmdate('YmdHis');
 		$type = 'sale';
+		$response = array();
 		
 		$amount = (isset($incoming['amount']) ? $incoming['amount'] : '');
 		$payment = (isset($incoming['payment']) ? $incoming['payment'] : '');
@@ -160,6 +157,7 @@ class Payscape
 public function SaleCheck($incoming=null){
 
 	$key = $this->key;
+	$response = array();
 
 	$order_id = (isset($incoming['order_id']) ? $incoming['order_id'] : '');
 	//	$amount = (isset($incoming['amount']) ? $incoming['amount'] : '');
