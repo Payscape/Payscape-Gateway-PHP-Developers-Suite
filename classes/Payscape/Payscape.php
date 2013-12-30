@@ -1,8 +1,11 @@
 <?php 
 /*
-* Payscape Class v2.0
+* Payscape Class v2.2
 * checks for Check or Credit Card transaction
 * and sends the relevant data to the Payment API
+*
+* Uses SSL verification
+* 12/30/2013
 *
 * */
 
@@ -20,6 +23,7 @@ class Payscape
 	var $redirect_url	= 'transactions/complete';	//Replace with the URL of your success page;
 	var $message = '';
 	var $response = array();
+	var $ca_path = getcwd() . "/includes/ca/GeoTrustGlobalCA.crt";
 
 	
 	/* we are using this to post to the API */
@@ -37,6 +41,12 @@ class Payscape
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 			curl_setopt($ch, CURLOPT_POSTFIELDS, $trans);
 			curl_setopt($ch, CURLOPT_REFERER, "");
+			
+			/* gateway SSL certificate options */
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+			curl_setopt($ch, CURLOPT_CAINFO, $this->ca_path);
+				
 			$outcome = curl_exec($ch);
 			curl_close($ch);		
 			unset($ch);
@@ -373,6 +383,14 @@ public function SaleCheck($incoming=null){
 	
 	
 	public function Update($incoming=null){
+		
+	}
+	
+	/* test cURL */
+	
+	protected function _sendtest($incoming=null){
+		
+		
 		
 	}
 	
