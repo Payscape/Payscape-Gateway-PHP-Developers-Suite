@@ -45,10 +45,12 @@ class Payscape
 			curl_setopt($ch, CURLOPT_CAINFO, getcwd() . "/crt/cacert.pem");
 				
 			$outcome = curl_exec($ch);
-			if(curl_errno($ch)){
-				die('Could not send request: ' .curl_error($ch));
-				exit();
-			}
+			/* uncommment for testing */
+	//		if(curl_errno($ch)){
+	//			die('Could not send request: ' .curl_error($ch));
+	//			exit();
+	//ß		}
+			/* end testing */
 			curl_close($ch);		
 			unset($ch);
 
