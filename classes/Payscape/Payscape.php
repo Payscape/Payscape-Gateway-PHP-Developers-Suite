@@ -49,7 +49,7 @@ class Payscape
 	//		if(curl_errno($ch)){
 	//			die('Could not send request: ' .curl_error($ch));
 	//			exit();
-	//ß		}
+	//		}
 			/* end testing */
 			curl_close($ch);		
 			unset($ch);
