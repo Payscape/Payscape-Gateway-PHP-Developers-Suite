@@ -17,7 +17,6 @@
 					$required = "add_check.php";
 					break;
 				case "auth-cc":
-				
 					$paymentselect = "auth";
 					$required = "auth_cc.php";
 					break;
