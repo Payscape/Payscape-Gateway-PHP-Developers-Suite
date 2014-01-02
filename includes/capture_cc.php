@@ -124,10 +124,7 @@ $orderid = date('YmdHis') . "TestAuthCC";
 
     } else {
     	
-   	
-    	
-    	
-    	require_once 'includes/capture_cc_form.php';
+   		require_once 'includes/capture_cc_form.php';
     	
     }		
  //   echo $message;

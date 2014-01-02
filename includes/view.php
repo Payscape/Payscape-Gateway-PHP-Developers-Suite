@@ -81,7 +81,7 @@
 				<td><?php echo $row['type']; ?></td>
 				<td>
 							<?php if($row['type']=='auth'){ ?>
-				<a href="transactions.php?action=capture&transid=<?php echo $row['transactionid']; ?>">Capture</a>
+				<a href="transactions.php?action=capture_cc&transactionid=<?php echo $row['transactionid']; ?>">Capture</a>
 			<?php } ?>	
 			&nbsp;
 				</td>

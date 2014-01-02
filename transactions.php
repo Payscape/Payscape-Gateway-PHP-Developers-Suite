@@ -21,10 +21,11 @@
 					$required = "auth_cc.php";
 					break;
 				case "capture":
-					$transactionid = $_GET['trans'];		
-					$required = "auth_cc.php";
-						echo "TRANSACTIONID: $transactionid";
-						exit();
+					$transactionid = $_GET['trans'];	
+						if(isset($transactionid)){
+							$transactionid = int $transactionid;
+						}	
+					$required = "capture_cc.php";
 					break;	
 			}			
 		
@@ -56,7 +57,7 @@
 						case "capture":
 							$paymentselect = "capture";
 							$required = "capture_cc_form.php";
-							$transactionid = $_GET['transid'];
+							$transactionid = $_GET['transactionid'];
 							$capture_message = "Capture Transaction";
 
 							break; 
@@ -64,25 +65,25 @@
 						case "credit":
 							$paymentselect = "credit";
 							$required = "credit_form.php";
-							$transactionid = $_GET['transid'];
+							$transactionid = $_GET['transactionid'];
 							$message = "Credit Transaction";
 								
 						case "void":
 							$paymentselect = "void";
 							$required = "void_form.php";
-							$transactionid = $_GET['transid'];
+							$transactionid = $_GET['transactionid'];
 							$message = "Void Transaction";
 
 						case "refund":
 							$paymentselect = "refund";
 							$required = "refund_form.php";
-							$transactionid = $_GET['transid'];
+							$transactionid = $_GET['transactionid'];
 							$message = "Refund Transaction";
 
 						case "update":
 							$paymentselect = "update";
 							$required = "update_form.php";
-							$transactionid = $_GET['transid'];
+							$transactionid = $_GET['transactionid'];
 							$message = "Update Transaction";									
 							
 							
