@@ -273,7 +273,7 @@ public function SaleCheck($incoming=null){
 	if($payment=='check'){
 		$required = array('type', 'checkname', 'checkaba', 'checkaba', 'checkaccount', 'account_holder_type', 'account_type', 'amount');
 	} else {	
-		$required = array('type', 'ccnumber', 'ccexp', 'ccv', 'amount');
+		$required = array('type', 'ccnumber', 'ccexp', 'amount');
 	}
 		
 		if(count(array_intersect_key(array_flip($required), $incoming)) === count($required)) {
@@ -318,7 +318,7 @@ public function SaleCheck($incoming=null){
 				$response['Message'] = 'One or more Required Values of <strong>type, checkname, checkaba, checkaba, checkaccount, account_holder_type, account_type, amount</strong> Are Missing';
 				
 			} else {
-				$response['Message'] = 'One or more Required Values of <strong>type, ccnumber, ccexp, ccv or amount</strong> Are Missing';
+				$response['Message'] = 'One or more Required Values of <strong>type, ccnumber, ccexp or amount</strong> Are Missing';
 			}
 			$response['error'] = 1;
 			return $response;
@@ -339,7 +339,7 @@ public function SaleCheck($incoming=null){
 		if($payment=='check'){
 			$required = array('type', 'checkname', 'checkaba', 'checkaccount', 'account_holder_type', 'account_type', 'amount');					
 		} else {
-			$required = array('type', 'ccnumber', 'ccexp', 'ccv', 'amount');
+			$required = array('type', 'ccnumber', 'ccexp', 'amount');
 		}		
 		
 		if(count(array_intersect_key(array_flip($required), $incoming)) === count($required)) {		
@@ -361,9 +361,11 @@ public function SaleCheck($incoming=null){
 			$transactiondata['cvv'] = (isset($incoming['cvv']) ? $incoming['cvv'] : '');		
 		}
 		
+		$transactiondata['transactionid'] = (isset($incoming['transactionid']) ? $incoming['transactionid'] : '');
+		
 		/* user supplied optional data */
 
-
+/*
 		$transactiondata['firstname'] = (isset($incoming['firstname']) ? $incoming['firstname'] : '');
 		$transactiondata['lastname'] = (isset($incoming['lastname']) ? $incoming['lastname'] : '');
 		$transactiondata['company'] = (isset($incoming['company']) ? $incoming['company'] : '');
@@ -376,14 +378,16 @@ public function SaleCheck($incoming=null){
 		$transactiondata['fax'] = (isset($incoming['fax']) ? $incoming['fax'] : '');
 		$transactiondata['email'] = (isset($incoming['email']) ? $incoming['email'] : '');
 		$transactiondata['orderid'] = (isset($incoming['orderid']) ? $incoming['orderid'] : '');
+
+*/		
 		
-/*	
+	/*
 		 echo "TRANSACTIONDATA:";
 		echo "<pre>";
 		print_r($transactiondata);
 		echo "</pre>";
 		exit();
-*/		
+	*/	
 	
 		return $this->_send($transactiondata);
 	
@@ -482,8 +486,8 @@ public function SaleCheck($incoming=null){
 		
 		if(count(array_intersect_key(array_flip($required), $incoming)) === count($required)) {
 			$transactiondata = array();
-			$transactiondata['type'] = 'void';
-			$transactiondata['transactionid'] = (isset($incoming['transactionid']) ? $incoming['transactionid'] : '');
+			$transactiondata['type'] = 'update';
+	//		$transactiondata['transactionid'] = (isset($incoming['transactionid']) ? $incoming['transactionid'] : '');
 			
 			/* optional fields */
 			$transactiondata['tracking_number'] = (isset($incoming['tracking_number']) ? $incoming['tracking_number'] : '');				

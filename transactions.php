@@ -121,7 +121,7 @@
 
 						case "update":
 							$paymentselect = "update";
-							$required = "update_form.php";
+							$required = "update.php";
 							$transactionid = $_GET['transactionid'];
 							$message = "Update Transaction";	
 
