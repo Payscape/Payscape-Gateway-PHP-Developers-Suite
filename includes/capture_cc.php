@@ -1,36 +1,18 @@
 <?php 
 /* 1/02/2014 */
-$posturl = 'https://secure.payscapegateway.com/api/transact.php';
-
-
-$visa = 4111111111111111;
-$mastercard = 5431111111111111;
-$discover = 6011601160116611;
-$american_express = 341111111111111;
-$cc_expire = '1025'; // 10/25
-$cvv = 123;
-
-$key = '\!b2#I/wu%)4_tUdpAxO|GDWW?20:V.w';		// Replace with your Payscape Key
-$key_id = '449510';
-$type = 'capture';
-$time = gmdate('YmdHis');
-
-
-
-$ipaddress = $_SERVER['REMOTE_ADDR'];
-
-
-
-
+/*
+ * REQUIRED FIELDS
+ * type = 'capture' 
+ * transactionid = transactionid returned by the API of previous Auth 
+ * 
+ * */
 
 			require_once 'classes/Payscape/Payscape.php';
 	
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    	
 
-				
-		/* triggers */
+    	/* triggers */
 		
 		/*
 		 * To cause a declined message, pass an amount less than 1.00.
@@ -51,7 +33,6 @@ $ipaddress = $_SERVER['REMOTE_ADDR'];
 		*/
 
 	$type = 'capture';
-
 	$amount = $_POST['amount'];
 
 	$transactionid = $_POST['transactionid'];
@@ -76,8 +57,7 @@ $ipaddress = $_SERVER['REMOTE_ADDR'];
 		{
 			// Return the number of rows in result set
 			$rowcount=mysqli_num_rows($result);
-			//	printf("Result set has %d rows.\n",$rowcount);
-				
+			//	printf("Result set has %d rows.\n",$rowcount);			
 		}
 		
 		
@@ -100,24 +80,21 @@ $ipaddress = $_SERVER['REMOTE_ADDR'];
 		
 		}	
 
-		$hash = md5($orderid|$amount|$time|$key);
-		
-
 		$incoming = array();
 		$incoming['type'] = $type;
-
 		$incoming['transactionid'] = $transactionid;
-
-//		$incoming['amount'] = $amount;
+		
+		// required only if Amount is less than Authorized Amount
+		if($amount < $auth_amount){
+			$incoming['amount'] = $amount; 
+		}
 		
 
 		$Payscape = NEW Payscape();
 		$response = $Payscape->Capture($incoming);
 		
-		
-		
 		echo "<pre>";
-		echo "INCOMING 71: <br>";
+		echo "INCOMING: <br>";
 		print_r($incoming);
 		
 		
@@ -144,7 +121,7 @@ $ipaddress = $_SERVER['REMOTE_ADDR'];
 		
 		/* save the submission and transaction details */
 			
-		$sql = "UPDATE transactions SET `capture` = $response_code WHERE `transactionid` = $authtransactionid";
+		$sql = "UPDATE transactions SET `capture` = $response_code, type = 'capture' WHERE `transactionid` = $authtransactionid";
 		
 							/*			
 								echo "SQL: <BR>";

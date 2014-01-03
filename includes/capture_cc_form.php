@@ -41,11 +41,7 @@
 	<div class="input text"><label for="TransactionType">Type:</label> Capture. 	</div>				
 
 	<div class="input number required"><label for="TransactionTransactionID">Auth Transaction ID</label><input name="transactionid" step="any" type="text" id="TransactionTransactionID" value="<?php echo $transactionid; ?>" required="required"/></div>
-	<div class="input number required"><label for="TransactionAuthcode">Auth Code</label><input name="authcode" step="any" type="text" id="TransactionAuthcode" value="<?php echo $authcode; ?>" required="required"/></div>
-
 	<div class="input number required"><label for="TransactionAmount">Amount Total</label><input name="amount" step="any" type="text" id="TransactionAmount" required="required" value="2.00" /></div>
-	
-	<div class="input text"><input name="payment" type="hidden" value="credit card" id="TransactionPayment"></div>
 
 </fieldset>
 <div class="submit"><input  type="submit" value="Submit"/></div></form></div>

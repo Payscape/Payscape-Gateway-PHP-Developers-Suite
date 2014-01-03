@@ -24,7 +24,9 @@
 
 	<div class="input number required"><label for="TransactionTransactionID">Refund Transaction ID</label><input name="transactionid" step="any" type="text" id="TransactionTransactionID" value="<?php echo $transactionid; ?>" required="required"/></div>
 	
-	<div class="input number required"><label for="TransactionAmount">Amount Total</label><input name="amount" step="any" type="text" id="TransactionAmount" required="required" value="<?php echo $amount; ?>" /></div>
+	<div class="input number required"><label for="TransactionAmount">Refund Total <span style="font-style:italic">(if less than original Amount)</span></label>
+	<br>Transaction Amount: <?php echo $amount; ?><br>
+	<input name="amount" step="any" type="text" id="TransactionAmount" /></div>
 	
 	
 

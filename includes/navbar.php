@@ -8,9 +8,9 @@
                 <li><a href="transactions.php?action=add-cc">Sale Credit Card</a></li>
                 <li><a href="transactions.php?action=add-check">Sale Check</a></li>
                    <li><a href="transactions.php?action=auth-cc">Auth Credit Card</a></li>
-                   <li><a href="transactions.php?action=credit">Customer Credit</a></li>
+              
                 
-                <li>	<a href="transactions.php?action=index">View Transactions</a></li>
+                <li>	<a href="transactions.php?action=index">List Transactions</a></li>
                 <li><a href="#">Something else here</a></li>
                 <li class="divider"></li>
                 <li class="dropdown-header">Nav header</li>

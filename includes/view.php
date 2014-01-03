@@ -51,11 +51,11 @@
 
 	<h2>Transaction #<?php echo $row['transactionid']; ?></h2>
 
-	<div class="span7 <?php echo $class; ?>">
+	<div class="span7">
 		<table class="transaction">
 		<caption><h3>Customer</h3></caption>
 		<tr>
-			<th>Name</th><th>Phone</th><th>Fax></th><th>Email</th><th>Company</th><th>IP Address</th>
+			<th>Name</th><th>Phone</th><th>Fax</th><th>Email</th><th>Company</th><th>IP Address</th>
 		</tr>
 		<tr>
 			<td><?php echo $row['firstname'];?>&nbsp;<?php echo $row['lastname']; ?></td>
@@ -73,30 +73,31 @@
 		<table class="transaction">
 			<caption><h3>Order</h3></caption>
 			<tr>
-				<th>Id</th><th>Amount</th><th>Type</th><th>&nbsp;</th><th>Time</th><th>Payment</th><th>Transaction ID</th><th>Order Id</th><th>Auth Code</th>
+				<th>Action</th><th>Id</th><th>Amount</th><th>Type</th><th>Time</th><th>Payment</th><th>Transaction ID</th><th>Order Id</th><th>Auth Code</th>
 			</tr>
 			<tr>
-				<td><?php echo $row['id']; ?></td>
-				<td><?php echo $row['amount']; ?></td>
-				<td><?php echo $row['type']; ?></td>
-				<td>
+			<td>
 							<?php if($row['type']=='auth'){ ?>
 				<a href="transactions.php?action=capture_cc&transactionid=<?php echo $row['transactionid']; ?>">Capture</a><br>
-				<a href="transactions.php?action=credit&transactionid=<?php echo $row['transactionid']; ?>">Credit</a><br>
+
 				
+				
+			<?php } 
+			
+			if($row['type']=='sale') { ?>
+				<a href="transactions.php?action=refund&transactionid=<?php echo $row['transactionid']; ?>">Refund</a><br>		
+				<a href="transactions.php?action=credit&transactionid=<?php echo $row['transactionid']; ?>">Credit</a><br>
 				<a href="transactions.php?action=update&transactionid=<?php echo $row['transactionid']; ?>">Update</a><br>
 				<a href="transactions.php?action=void&transactionid=<?php echo $row['transactionid']; ?>">Void</a><br>
+								
+			<?php } ?>
 				
-				
-				
-			<?php } else { ?>
-				<a href="transactions.php?action=refund&transactionid=<?php echo $row['transactionid']; ?>">Refund</a><br>		
-			<?php 
-				}
-			?>
-				
-			&nbsp;
+			
 				</td>
+				<td class="highlight"><?php echo $row['id']; ?></td>
+				<td><?php echo $row['amount']; ?></td>
+				<td><?php echo $row['type']; ?></td>
+				
 				<td><?php echo $row['time']; ?></td>
 				<td><?php echo $row['payment']; ?></td>
 				<td><?php echo $row['transactionid']; ?></td>
@@ -113,14 +114,13 @@
 	
 	<div class="span7">
 	
-	<table>
+	<table class="transaction">
 	<caption><h3>Shipping</h3></caption>
 	<tr>
 		<th>Address</th><th>City</th><th>State</th><th>Zip</th><th>Country</th>
 	</tr>
 	<tr>
-		<td>&nbsp;</td><td><?php echo $row['address1']; ?>
-		</td>
+		<td><?php echo $row['address1']; ?></td>
 		<td><?php echo $row['city']; ?></td>
 		<td><?php echo $row['state']; ?></td>
 		<td><?php echo $row['zip']; ?></td>
@@ -137,7 +137,7 @@
 	<table class="transaction">
 		<caption><h3>Payment</h3></caption>
 		
-<?php if($row['payment']=='check'){ ?>
+<?php if($row['payment']=='credit card'){ ?>
 	<tr>
 		<th>Payment</th><th>Credit Card Number</th><th>Expiration</th><th>CVV</th>
 		</tr>
@@ -169,7 +169,7 @@
 	</div>
 	<div class="span7">
 	
-		<table>
+		<table class="transaction">
 	<caption><h3>Credentials</h3></caption>
 	<tr>
 		<th>Key ID</th><th>Hash</th><th>Sec Code</th><th>Processor ID</th>

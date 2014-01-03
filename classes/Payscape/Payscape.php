@@ -21,7 +21,8 @@ class Payscape
 	var $userpass	= 'password';				//Replace with your Password from Payscape.com
 	var $redirect_url	= 'transactions/complete';	//Replace with the URL of your success page;
 	var $message = '';	
-	/* we are using this to post to the API */
+	
+	/* post to the API */
 	
 	protected function _send($trans){
 		
@@ -39,10 +40,9 @@ class Payscape
 			curl_setopt($ch, CURLOPT_POSTFIELDS, $trans);
 			curl_setopt($ch, CURLOPT_REFERER, "");
 			
-			/* gateway SSL certificate options */
+			/* gateway SSL certificate options for Apache on Windows */
 			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
 			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-
 			curl_setopt($ch, CURLOPT_CAINFO, getcwd() . "/crt/cacert.pem");
 				
 			$outcome = curl_exec($ch);
@@ -269,27 +269,17 @@ public function SaleCheck($incoming=null){
 					
 		$amount = (isset($incoming['amount']) ? $incoming['amount'] : '');
 		$payment = (isset($incoming['payment']) ? $incoming['payment'] : '');
-		
-		$required = array('type', 'ccnumber', 'ccexp', 'amount');
+
+	if($payment=='check'){
+		$required = array('type', 'checkname', 'checkaba', 'checkaba', 'checkaccount', 'account_holder_type', 'account_type', 'amount');
+	} else {	
+		$required = array('type', 'ccnumber', 'ccexp', 'ccv', 'amount');
+	}
 		
 		if(count(array_intersect_key(array_flip($required), $incoming)) === count($required)) {
 			$transactiondata = array();
 			$transactiondata['type'] = $type;
 			$transactiondata['amount'] = urlencode($amount);
-		
-			/*
-				$transactiondata['type'] = 'sale';
-			$transactiondata['key_id'] = $this->keyid;
-			$transactiondata['hash'] = $hash;
-			$transactiondata['time'] = $time;
-			$transactiondata['redirect'] = $this->redirect_url;
-		
-			$transactiondata['username'] = $this->userid;
-			$transactiondata['password'] = $this->password;
-			$transactiondata['key'] = $this->key;
-		
-			$transactiondata['redirect'] = $this->redirect_url;
-			*/
 		
 			/* user supplied required data */
 			if($payment=='check'){
@@ -303,10 +293,6 @@ public function SaleCheck($incoming=null){
 				$transactiondata['ccnumber'] = (isset($incoming['ccnumber']) ? $incoming['ccnumber'] : '');
 				$transactiondata['cvv'] = (isset($incoming['cvv']) ? $incoming['cvv'] : '');
 			}
-		
-		
-		
-		
 		
 			/* user supplied optional data */
 		
@@ -324,20 +310,16 @@ public function SaleCheck($incoming=null){
 			$transactiondata['email'] = (isset($incoming['email']) ? $incoming['email'] : '');
 			$transactiondata['orderid'] = (isset($incoming['orderid']) ? $incoming['orderid'] : '');
 		
-		
-		
-		/*
-			 echo "TRANSACTIONDATA:";
-			echo "<pre>";
-			print_r($transactiondata);
-			echo "</pre>";
-			exit();
-		*/	
-		
 			return $this->_send($transactiondata);
 		
 		} else {
-			$response['Message'] = 'Required Values Are Missing';
+			
+			if($payment=='check'){
+				$response['Message'] = 'One or more Required Values of <strong>type, checkname, checkaba, checkaba, checkaccount, account_holder_type, account_type, amount</strong> Are Missing';
+				
+			} else {
+				$response['Message'] = 'One or more Required Values of <strong>type, ccnumber, ccexp, ccv or amount</strong> Are Missing';
+			}
 			$response['error'] = 1;
 			return $response;
 		}		
@@ -355,13 +337,9 @@ public function SaleCheck($incoming=null){
 		$payment = (isset($incoming['payment']) ? $incoming['payment'] : '');
 		
 		if($payment=='check'){
-//			$required = array('type', 'key_id', 'hash', 'time', 'checkname', 'checkaba', 'checkaccount', 'account_holder_type', 'account_type', 'amount');
-			$required = array('type', 'checkname', 'checkaba', 'checkaccount', 'account_holder_type', 'account_type', 'amount');
-					
+			$required = array('type', 'checkname', 'checkaba', 'checkaccount', 'account_holder_type', 'account_type', 'amount');					
 		} else {
-		
-			//$required = array('type', 'key_id', 'hash', 'time', 'ccnumber', 'ccexp', 'amount');
-			$required = array('type', 'ccnumber', 'ccexp', 'amount');
+			$required = array('type', 'ccnumber', 'ccexp', 'ccv', 'amount');
 		}		
 		
 		if(count(array_intersect_key(array_flip($required), $incoming)) === count($required)) {		
@@ -383,10 +361,6 @@ public function SaleCheck($incoming=null){
 			$transactiondata['cvv'] = (isset($incoming['cvv']) ? $incoming['cvv'] : '');		
 		}
 		
-
-		
-		
-		
 		/* user supplied optional data */
 
 
@@ -403,8 +377,6 @@ public function SaleCheck($incoming=null){
 		$transactiondata['email'] = (isset($incoming['email']) ? $incoming['email'] : '');
 		$transactiondata['orderid'] = (isset($incoming['orderid']) ? $incoming['orderid'] : '');
 		
-
-		
 /*	
 		 echo "TRANSACTIONDATA:";
 		echo "<pre>";
@@ -420,7 +392,7 @@ public function SaleCheck($incoming=null){
 		$response['error'] = 1;
 		return $response;
 	}
-}// end Sale()
+}// end Credit()
 	
 	public function Validate($incoming=null){
 		
@@ -428,11 +400,7 @@ public function SaleCheck($incoming=null){
 	
 
 	public function Capture($incoming=null){
-	
-	
-	
-		$key = $this->key;
-		$time = gmdate('YmdHis');
+
 		$type = 'capture';
 	
 	
@@ -441,12 +409,12 @@ public function SaleCheck($incoming=null){
 		if(count(array_intersect_key(array_flip($required), $incoming)) === count($required)) {
 			$transactiondata = array();
 			$transactiondata['type'] = 'capture';
-			$transactiondata['transactionid'] = $incoming['transactionid'];
+			$transactiondata['transactionid'] = (isset($incoming['transactionid']) ? $incoming['transactionid'] : '');
 				
 			return $this->_send($transactiondata);
 				
 		} else {
-			$response['Message'] = 'Required Values Are Missing';
+			$response['Message'] = 'Required Values <strong>type or transactionid</strong> Are Missing';
 			$response['error'] = 1;
 			return $response;
 		}
@@ -458,8 +426,6 @@ public function SaleCheck($incoming=null){
 	
 	public function Void($incoming=null){
 	
-	
-	
 		$key = $this->key;
 		$time = gmdate('YmdHis');
 		$type = 'void';
@@ -470,12 +436,12 @@ public function SaleCheck($incoming=null){
 		if(count(array_intersect_key(array_flip($required), $incoming)) === count($required)) {
 			$transactiondata = array();
 			$transactiondata['type'] = 'void';
-			$transactiondata['transactionid'] = $incoming['transactionid'];
+			$transactiondata['transactionid'] = (isset($incoming['transactionid']) ? $incoming['transactionid'] : '');
 				
 			return $this->_send($transactiondata);
 				
 		} else {
-			$response['Message'] = 'Required Values Are Missing';
+			$response['Message'] = $response['Message'] = 'Required Values <strong>type or transactionid</strong> Are Missing';
 			$response['error'] = 1;
 			return $response;
 		}
@@ -486,23 +452,24 @@ public function SaleCheck($incoming=null){
 	
 	public function Refund($incoming=null){
 
-
-		$key = $this->key;
-		$time = gmdate('YmdHis');
 		$type = 'refund';
-		
-		
 		$required = array('type', 'transactionid');
 		
 		if(count(array_intersect_key(array_flip($required), $incoming)) === count($required)) {
 			$transactiondata = array();
 			$transactiondata['type'] = 'refund';
-			$transactiondata['transactionid'] = $incoming['transactionid'];
-		
+			$transactiondata['transactionid'] = (isset($incoming['transactionid']) ? $incoming['transactionid'] : '');				
+			
+			// Optional, used only if you are making a partial refund.
+		if(isset($incoming['amount'])){
+			$transactiondata['amount'] = (isset($incoming['amount']) ? $incoming['amount'] : '');
+		}	
+
+				
 			return $this->_send($transactiondata);
 		
 		} else {
-			$response['Message'] = 'Required Values Are Missing';
+			$response['Message'] = 'Required Values <strong>type or transactionid</strong> Are Missing';
 			$response['error'] = 1;
 			return $response;
 		}
@@ -511,15 +478,22 @@ public function SaleCheck($incoming=null){
 	
 	public function Update($incoming=null){
 		
-	}
+		$required = array('type', 'transactionid');
+		
+		if(count(array_intersect_key(array_flip($required), $incoming)) === count($required)) {
+			$transactiondata = array();
+			$transactiondata['type'] = 'void';
+			$transactiondata['transactionid'] = (isset($incoming['transactionid']) ? $incoming['transactionid'] : '');
+			
+			/* optional fields */
+			$transactiondata['tracking_number'] = (isset($incoming['tracking_number']) ? $incoming['tracking_number'] : '');				
+			$transactiondata['shipping_carrier'] = (isset($incoming['shipping_carrier']) ? $incoming['shipping_carrier'] : '');
+			$transactiondata['orderid'] = (isset($incoming['orderid']) ? $incoming['orderid'] : '');
+		
+			return $this->_send($transactiondata);		
+		}
 	
-	/* test cURL */
-	
-	protected function _sendtest($incoming=null){
-		
-		
-		
-	}
+	}// Update
 	
 	public function debug($data)
 	{

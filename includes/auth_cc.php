@@ -111,27 +111,27 @@ $orderid = date('YmdHis') . "TestAuthCC";
 		$response = $Payscape->Auth($incoming);
 		
 		
-		/*
+		
 		 echo "<pre>";
 		echo "INCOMING: <br>";
 		print_r($incoming);
-		*/
-		/*
+		
+	
 		echo "<br>RESPONSE:<br>";
 		print_r($response);
 		echo "<pre>";
 		
-		*/
+		
 		// exit();
 		
 		parse_str($response, $result_array);
 		
-		/*
+
 		echo "<pre>";
 		echo "RESULT ARRAY: ";
 		print_r($result_array);
 		echo "</pre>";
-		*/
+	
 	//	exit();
 		
 		if($result_array['response']==1){
@@ -184,7 +184,7 @@ $orderid = date('YmdHis') . "TestAuthCC";
     	require_once 'includes/auth_cc_form.php';
     	
     }		
- //   echo $message;
+   echo $message;
     
  // end auth_cc   
 ?>		

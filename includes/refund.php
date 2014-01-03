@@ -1,18 +1,6 @@
 <?php 
 
-$posturl = 'https://secure.payscapegateway.com/api/transact.php';
 
-$visa = 4111111111111111;
-$mastercard = 5431111111111111;
-$discover = 6011601160116611;
-$american_express = 341111111111111;
-$cc_expire = '1025'; // 10/25
-$cvv = 123;
-
-$key = '\!b2#I/wu%)4_tUdpAxO|GDWW?20:V.w';		// Replace with your Payscape Key
-$key_id = '449510';
-$type = 'refund';
-$time = gmdate('YmdHis');
 
 
 $ipaddress = $_SERVER['REMOTE_ADDR'];
@@ -48,7 +36,6 @@ $ipaddress = $_SERVER['REMOTE_ADDR'];
 		*/
 
 	$type = 'refund';
-
 	$amount = $_POST['amount'];
 
 	$transactionid = $_POST['transactionid'];
@@ -57,7 +44,7 @@ $ipaddress = $_SERVER['REMOTE_ADDR'];
 		}
 
 		/*
-		 * get the Auth information for the Capture Form
+		 * get the Sale information for the Refund Form
 		*
 		* */
 		
@@ -80,27 +67,33 @@ $ipaddress = $_SERVER['REMOTE_ADDR'];
 		
 		if ($rowcount==0) {
 			$process = 0;
-			$capture_message = "No Authorization record found, nothing to process.";
+			$refund_message = "No Authorization record found, nothing to process.";
 			exit;
 		} else {
 		
 			while($row = mysqli_fetch_assoc($result)){
 
 				$transactionid = $row['transactionid'];
+				$transaction_amount = $row['amount'];
 				$process = 1;
-				$capture_message = "Process Authorization Capture for Transaction  #$transactionid";
+				$refund_message = "Process Refund for Transaction  #$transactionid";
 			}
-		
-		
-		
+
 		}	
 
-
-		
 
 		$incoming = array();
 		$incoming['type'] = $type;
 		$incoming['transactionid'] = $transactionid;
+
+	if(isset($amount)){
+		if($amount < $transaction_amount && $amount != ""){	
+			$incoming['amount'] = $amount;
+			$refund_amount = $amount;
+		} else {
+			$refund_amount = $transaction_amount;
+		}
+	}	
 
 		
 
@@ -110,7 +103,7 @@ $ipaddress = $_SERVER['REMOTE_ADDR'];
 		
 		
 		echo "<pre>";
-		echo "INCOMING 71: <br>";
+		echo "INCOMING 104: <br>";
 		print_r($incoming);
 		
 		
@@ -137,7 +130,7 @@ $ipaddress = $_SERVER['REMOTE_ADDR'];
 		
 		/* save the submission and transaction details */
 			
-		$sql = "UPDATE transactions SET `type` = 'refund' WHERE `transactionid` = $authtransactionid";
+		$sql = "UPDATE transactions SET `type` = 'refund', amount = $refund_amount WHERE `transactionid` = $transactionid";
 		
 							/*			
 								echo "SQL: <BR>";
@@ -157,7 +150,7 @@ $ipaddress = $_SERVER['REMOTE_ADDR'];
 						}
 			
 			} else {
-				$message = "Transaction has failed.";
+				$message = "Refund Transaction has failed.";
 			}		
 			
 			mysqli_close($conn);
