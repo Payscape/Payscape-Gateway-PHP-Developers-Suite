@@ -93,7 +93,7 @@
 							
 						case "credit":
 							$paymentselect = "credit";
-							$required = "credit_form.php";
+							$required = "credit.php";
 							$transactionid = $_GET['transactionid'];
 							$message = "Credit Transaction";
 							

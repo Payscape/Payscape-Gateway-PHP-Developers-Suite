@@ -38,7 +38,7 @@
 		* */
 		
 		
-
+// required fields
     	$amount = $_POST['amount'];
     	$payment = 'check';
     	$checkname = $_POST['checkname'];
@@ -47,7 +47,8 @@
     	$account_holder_type = $_POST['account_holder_type'];
     	$account_type = $_POST['account_type'];
     	$sec_code = 'WEB';
-    	
+
+// optional fields
     	$firstname = $_POST['firstname'];
     	$lastname = $_POST['lastname'];
     	$company = $_POST['company'];
@@ -96,18 +97,21 @@
 		$Payscape = NEW Payscape();
 		$response = $Payscape->SaleCheck($incoming);
 		
-		/*
+		
 		echo "<pre>";
-		echo "INCOMING: ";
-		print_r($response);
-		echo "</pre>";
+		echo "INCOMING: <br>";
+		print_r($incoming);
 		
-		
+		echo "RESPONSE: ";
 		echo $response;
-		exit();
-		*/
+		//exit();
+		
 
 		parse_str($response, $result_array);
+		
+		echo "RESULT ARRAY: ";
+		print_r($result_array);
+		echo "</pre>";
 		
 					if($result_array['response']==1){
 						

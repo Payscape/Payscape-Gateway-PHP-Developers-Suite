@@ -115,28 +115,28 @@ $orderid = date('YmdHis') . "Test";
 		$response = $Payscape->Sale($incoming);
 		
 		
-		/*
+		
 		 echo "<pre>";
 		echo "INCOMING: <br>";
 		print_r($incoming);
-		*/
+	
 		
-		/*
+	
 		echo "<br>RESPONSE:<br>";
 		print_r($response);
 		echo "<pre>";
-		*/
+		
 		
 		//exit();
 		
 		parse_str($response, $result_array);
 		
-		/*
+	
 		echo "<pre>";
 		echo "RESULT ARRAY: ";
 		print_r($result_array);
 		echo "</pre>";
-		*/
+	
 	//	exit();
 		
 		if($result_array['response']==1){

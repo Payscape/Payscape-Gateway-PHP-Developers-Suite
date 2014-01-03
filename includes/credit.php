@@ -1,30 +1,13 @@
 <?php 
 
-$posturl = 'https://secure.payscapegateway.com/api/transact.php';
-$order_id = 'TestCC';
-
-$visa = 4111111111111111;
-$mastercard = 5431111111111111;
-$discover = 6011601160116611;
-$american_express = 341111111111111;
-$cc_expire = '1025'; // 10/25
-$cvv = 123;
-
-$key = '\!b2#Iwu%)4_tUdpAxO|GDWW?20:V.w';		// Replace with your Payscape Key
-$key_id = '449510';
-$type = 'sale';
-$time = gmdate('YmdHis');
-
-$ipaddress = $_SERVER['REMOTE_ADDR'];
-
-$orderid = date('YmdHis') . "Test";
+	$type = 'credit';
 
 			require_once 'classes/Payscape/Payscape.php';
 	
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-				
-		/* triggers */
+    	
+  	/* triggers */
 		
 		/*
 		 * To cause a declined message, pass an amount less than 1.00.
@@ -44,12 +27,24 @@ $orderid = date('YmdHis') . "Test";
 				exit();
 		*/
 	$amount = $_POST['amount'];
-	$payment = 'credit card';
-	$ccnumber = $_POST['ccnumber'];
-	$ccexp = $_POST['ccexp'];
-
-	$cvv = $_POST['cvv'];
+	$transactionid = $_POST['transactionid'];	// we may not want to use this?
+	$payment = $_POST['payment'];
 	
+	if($payment=='check'){
+		$checkname = $_POST['checkname'];
+		$checkaba = $_POST['checkaba'];
+		$checkaccount = $_POST['checkaccount'];
+		$account_holder_type = $_POST['account_holder_type'];
+		$account_type = $_POST['account_type'];
+	} else {
+		$ccnumber = $_POST['ccnumber'];
+		$ccexp = $_POST['ccexp'];
+		$cvv = $_POST['cvv'];		
+	}
+	
+	$orderid = $_POST['orderid'];
+
+/*	
 	$firstname = $_POST['firstname'];
 	$lastname = $_POST['lastname'];
 	$company = $_POST['company'];
@@ -62,9 +57,10 @@ $orderid = date('YmdHis') . "Test";
 	$fax = $_POST['fax'];
 	$email = $_POST['email'];
 	
-	$time = gmdate('YmdHis');	
+	$time = gmdate('YmdHis');
+		
 	$hash = md5($order_id|$amount|$time|$key);
-	
+*/	
 	
 /*	
 	echo "<br>ORDER ID: $order_id";
@@ -82,18 +78,33 @@ $orderid = date('YmdHis') . "Test";
 	echo "<br>PREPARED HASH: $hash";
 */			
 		$incoming = array();
-		$incoming['type'] = "$type";
+		$incoming['type'] = $type;
 		$incoming['amount'] = $amount;
-		$incoming['payment'] = 'credit card';
+		$incoming['payment'] = $payment;
 		
 //		$incoming['key_id'] = $key_id;
 //		$incoming['hash'] = $hash;
 //		$incoming['time'] = $time;
 
-		$incoming['ccnumber'] = $ccnumber;
-		$incoming['ccexp'] = $ccexp;
-		$incoming['cvv'] = $cvv;
+		if($payment=='check'){
+		$incoming['checkname'] = $checkname;
+		$incoming['checkaba'] = $checkaba;
+		$incoming['checkaccount'] = $checkaccount;
+		$incoming['account_holder_type'] = $account_holder_type;
+		$incoming['account_type'] = $account_type;
+		$incoming['payment'] = 'check';
+
+		} else {
+			$incoming['ccnumber'] = $ccnumber;
+			$incoming['ccexp'] = $ccexp;
+			$incoming['cvv'] = $cvv;				
+		}
 		
+		$incoming['orderid'] = $orderid;
+		$incoming['transactionid'] = $transactionid;
+
+		/*
+
 		$incoming['firstname'] = $firstname;
 		$incoming['lastname'] = $lastname;
 		$incoming['company'] = $company;
@@ -105,9 +116,13 @@ $orderid = date('YmdHis') . "Test";
 		$incoming['phone'] = $phone;
 		$incoming['fax'] = $fax;
 		$incoming['email'] = $email;
+		
+		*/
+		
 		$incoming['orderid'] = $orderid;
-
-
+		
+	
+		
 	
 		
 
@@ -115,28 +130,26 @@ $orderid = date('YmdHis') . "Test";
 		$response = $Payscape->Credit($incoming);
 		
 		
-		/*
-		 echo "<pre>";
+		
+		echo "<pre>";
 		echo "INCOMING: <br>";
 		print_r($incoming);
-		*/
 		
-		/*
 		echo "<br>RESPONSE:<br>";
 		print_r($response);
 		echo "<pre>";
-		*/
+		
 		
 		//exit();
 		
 		parse_str($response, $result_array);
 		
-		/*
+		
 		echo "<pre>";
 		echo "RESULT ARRAY: ";
 		print_r($result_array);
 		echo "</pre>";
-		*/
+		
 	//	exit();
 		
 		if($result_array['response']==1){
@@ -146,7 +159,8 @@ $orderid = date('YmdHis') . "Test";
 		
 		
 		/* save the submission and transaction details */
-			
+
+/*			
 		$sql = "INSERT INTO `transactions` (`type`, `key_id`, 
 				`hash`, `time`, `ccnumber`, `ccexp`,  
 				`amount`, `cvv`, `payment`, `ipaddress`, `firstname`, 
@@ -157,6 +171,11 @@ $orderid = date('YmdHis') . "Test";
 				$amount, '$cvv', '$payment', '$ipaddress', '$firstname', 
 				'$lastname', '$company', '$address1', '$city', '$state', '$zip', '$country',
 				'$phone', '$fax', '$email', '$orderid', $transactionid)";
+*/		
+		
+		$sql = "UPDATE transactions SET type = 'credit', amount = $amount WHERE transactionid = $transactionid";
+		
+		
 						/*		
 								echo "SQL: <BR>";
 										echo "<pre>";
@@ -182,13 +201,86 @@ $orderid = date('YmdHis') . "Test";
 			
 			mysqli_close($conn);
 									
-
+		// post
     } else {
     	
-    	require_once 'includes/credit_form.php';
     	
-    }		
+    	/*
+    	 * get the Sale information for the Credit Form
+    	* */
+    	 
+    	$sql = "SELECT key_id, 
+    	time, 
+    	ccnumber,
+    	ccexp,
+    	cvv,
+    	checkname, 
+    	checkaba, 
+    	checkaccount, 
+    	account_holder_type, 
+    	account_type, 
+    	amount, 
+    	payment, 
+    	orderid, 
+    	transactionid  
+    	FROM `transactions` 
+    	WHERE transactionid = $transactionid";
+    	
+    //	 echo "SQL: <br>";
+    //	echo $sql;
+    //	exit();
+    	
+    	 
+    	 
+    	if ($result=mysqli_query($conn,$sql))
+    	{
+    		// Return the number of rows in result set
+    		$rowcount=mysqli_num_rows($result);
+    		//	printf("Result set has %d rows.\n",$rowcount);
+    		 
+    	}
+    	 
+    	 
+    	if ($rowcount==0) {
+    		$process = 0;
+    		$message = "No Authorization record found, nothing to process.";
+    		exit;
+    	} else {
+    		 
+    		while($row = mysqli_fetch_assoc($result)){
+    			
+    			$key_id = $row['key_id'];
+    			$time = $row['time'];
+    			$ccnumber = $row['ccnumber'];
+    			$ccexp = $row['ccexp'];
+    			$cvv = $row['cvv'];
+    			$checkname = $row['checkname'];
+    			$checkaba = $row['checkaba'];
+    			$checkaccount = $row['checkaccount'];
+    			$account_holder_type = $row['account_holder_type'];
+    			$account_type = $row['account_type'];
+    			$amount = $row['amount'];
+    			$payment = $row['payment'];
+    			
+    			$transactionid = $row['transactionid'];
+    			$orderid = $row['orderid'];
+    			$process = 1;
+    			$message = "Process Credit for Transaction  #$transactionid";
+    		}
+    		 
+    		 
+    		 
+    	}// get form data
+    	
+    if($payment=='credit card'){
+    	require_once 'includes/credit_form.php';
+    } else {
+    	require_once 'includes/credit_check_form.php';
+    }	
+    	
+    	
+  }	// get	
  //   echo $message;
     
- // end add_cc   
+ // end Credit  
 ?>		
