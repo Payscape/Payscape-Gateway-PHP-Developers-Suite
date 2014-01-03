@@ -116,19 +116,22 @@ $orderid = date('YmdHis') . "TestAuthCC";
 		echo "INCOMING: <br>";
 		print_r($incoming);
 		*/
-		
+		/*
 		echo "<br>RESPONSE:<br>";
 		print_r($response);
 		echo "<pre>";
-		//exit();
+		
+		*/
+		// exit();
 		
 		parse_str($response, $result_array);
 		
+		/*
 		echo "<pre>";
 		echo "RESULT ARRAY: ";
 		print_r($result_array);
 		echo "</pre>";
-		
+		*/
 	//	exit();
 		
 		if($result_array['response']==1){
@@ -163,7 +166,7 @@ $orderid = date('YmdHis') . "TestAuthCC";
 						printf("Error: %s\n", mysqli_error($conn));
 						$message .= " but could not be saved to the database";
 					} else {
-						$message .= " and has been Saved to the database.";
+						$message .= " and Auth has been Saved to the database.";
 					}
 	
 			

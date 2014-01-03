@@ -58,7 +58,7 @@
 			<th>Name</th><th>Phone</th><th>Fax></th><th>Email</th><th>Company</th><th>IP Address</th>
 		</tr>
 		<tr>
-			<td><?php echo $row['firstname'];?>&nbps;<?php echo $row['lastname']; ?></td>
+			<td><?php echo $row['firstname'];?>&nbsp;<?php echo $row['lastname']; ?></td>
 			<td><?php echo $row['phone']; ?></td>
 			<td><?php echo $row['fax']; ?></td>
 			<td><?php echo $row['email']; ?></td>
@@ -81,8 +81,20 @@
 				<td><?php echo $row['type']; ?></td>
 				<td>
 							<?php if($row['type']=='auth'){ ?>
-				<a href="transactions.php?action=capture_cc&transactionid=<?php echo $row['transactionid']; ?>">Capture</a>
-			<?php } ?>	
+				<a href="transactions.php?action=capture_cc&transactionid=<?php echo $row['transactionid']; ?>">Capture</a><br>
+				<a href="transactions.php?action=credit&transactionid=<?php echo $row['transactionid']; ?>">Credit</a><br>
+				
+				<a href="transactions.php?action=update&transactionid=<?php echo $row['transactionid']; ?>">Update</a><br>
+				<a href="transactions.php?action=void&transactionid=<?php echo $row['transactionid']; ?>">Void</a><br>
+				
+				
+				
+			<?php } else { ?>
+				<a href="transactions.php?action=refund&transactionid=<?php echo $row['transactionid']; ?>">Refund</a><br>		
+			<?php 
+				}
+			?>
+				
 			&nbsp;
 				</td>
 				<td><?php echo $row['time']; ?></td>
@@ -187,7 +199,7 @@
 		} 
 	?>	
 	
-</div>
+
 
 <?php 
 		mysqli_free_result($result);

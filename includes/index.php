@@ -58,7 +58,7 @@
 		<td>	
 			<a href="transactions.php?action=view&id=<?php echo $row['id']; ?>"><strong>View</strong></a>
 		<?php if($row['type']=='auth'){ ?>
-			<a href="transactions.php?action=capture&transid=<?php echo $row['transactionid']; ?>"><strong>Capture</strong></a><br>
+			<a href="transactions.php?action=capture&transactionid=<?php echo $row['transactionid']; ?>"><strong>Capture</strong></a><br>
 		<?php } ?>
 		</td>
 		<td><?php echo $row['id']; ?></td>

@@ -112,7 +112,7 @@ $orderid = date('YmdHis') . "Test";
 		
 
 		$Payscape = NEW Payscape();
-		$response = $Payscape->Sale($incoming);
+		$response = $Payscape->Credit($incoming);
 		
 		
 		/*
@@ -185,7 +185,7 @@ $orderid = date('YmdHis') . "Test";
 
     } else {
     	
-    	require_once 'includes/add_cc_form.php';
+    	require_once 'includes/credit_form.php';
     	
     }		
  //   echo $message;

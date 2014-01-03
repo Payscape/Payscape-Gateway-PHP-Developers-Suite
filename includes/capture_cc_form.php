@@ -23,46 +23,7 @@
 	$ccnumber = 4111111111111111;
 	$message = "We have capture_cc_form.php included";
 	
-	/*
-	 * get the Auth information for the Capture Form
-	*
-	* */
-	 
-	$sql = "SELECT id, amount, transactionid, orderid, authcode FROM transactions WHERE `transactionid` = $transactionid";
-	/*
-	echo "SQL: <br>";
-	echo $sql;
-	exit();
-	*/
-	
-	 
-	if ($result=mysqli_query($conn,$sql))
-	{
-		// Return the number of rows in result set
-		$rowcount=mysqli_num_rows($result);
-		//	printf("Result set has %d rows.\n",$rowcount);
-		 
-	}
-	
-	 
-	if ($rowcount==0) {
-		$process = 0;
-		$capture_message = "No Authorization record found, nothing to process.";
-		exit;
-	} else {
-		
-		while($row = mysqli_fetch_assoc($result)){
-			$auth_amount = $row['amount'];
-			$transactionid = $row['transactionid'];
-			$orderid = $row['orderid'];
-			$authcode = $row['authcode'];
-			$process = 1;
-			$capture_message = "Process Authorization Capture for Transaction  #$transactionid";
-		}
-		
-		
 
-	}
 	
 		
 	

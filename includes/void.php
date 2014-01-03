@@ -1,20 +1,11 @@
 <?php 
-/* 1/02/2014 */
+
 $posturl = 'https://secure.payscapegateway.com/api/transact.php';
 
 
-$visa = 4111111111111111;
-$mastercard = 5431111111111111;
-$discover = 6011601160116611;
-$american_express = 341111111111111;
-$cc_expire = '1025'; // 10/25
-$cvv = 123;
 
-$key = '\!b2#I/wu%)4_tUdpAxO|GDWW?20:V.w';		// Replace with your Payscape Key
-$key_id = '449510';
-$type = 'capture';
+$type = 'void';
 $time = gmdate('YmdHis');
-
 
 
 $ipaddress = $_SERVER['REMOTE_ADDR'];
@@ -50,7 +41,7 @@ $ipaddress = $_SERVER['REMOTE_ADDR'];
 				exit();
 		*/
 
-	$type = 'capture';
+	$type = 'void';
 
 	$amount = $_POST['amount'];
 
@@ -83,36 +74,32 @@ $ipaddress = $_SERVER['REMOTE_ADDR'];
 		
 		if ($rowcount==0) {
 			$process = 0;
-			$capture_message = "No Authorization record found, nothing to process.";
+			$void_message = "No Authorization record found, nothing to process.";
 			exit;
 		} else {
 		
 			while($row = mysqli_fetch_assoc($result)){
-				$auth_amount = $row['amount'];
+
 				$transactionid = $row['transactionid'];
-				$orderid = $row['orderid'];
-				$authcode = $row['authcode'];
 				$process = 1;
-				$capture_message = "Process Authorization Capture for Transaction  #$transactionid";
+				$void_message = "Process Void for Transaction  #$transactionid";
 			}
 		
 		
 		
 		}	
 
-		$hash = md5($orderid|$amount|$time|$key);
+
 		
 
 		$incoming = array();
 		$incoming['type'] = $type;
-
 		$incoming['transactionid'] = $transactionid;
 
-//		$incoming['amount'] = $amount;
 		
 
 		$Payscape = NEW Payscape();
-		$response = $Payscape->Capture($incoming);
+		$response = $Payscape->Void($incoming);
 		
 		
 		
@@ -139,12 +126,12 @@ $ipaddress = $_SERVER['REMOTE_ADDR'];
 			$response_code = $result_array['response'];
 			$authtransactionid = $result_array['transactionid'];
 			$authcode = $result_array['authcode'];		
-			$message = "The capture was successful "; 
+			$message = "The Void was successful "; 
 		
 		
 		/* save the submission and transaction details */
 			
-		$sql = "UPDATE transactions SET `capture` = $response_code WHERE `transactionid` = $authtransactionid";
+		$sql = "UPDATE transactions SET `type` = 'void' WHERE `transactionid` = $authtransactionid";
 		
 							/*			
 								echo "SQL: <BR>";
@@ -178,7 +165,7 @@ $ipaddress = $_SERVER['REMOTE_ADDR'];
     	
     	
     	/*
-    	 * get the Auth information for the Capture Form
+    	 * get the Transaction information for the Void Form
     	*
     	* */
     	
@@ -201,7 +188,7 @@ $ipaddress = $_SERVER['REMOTE_ADDR'];
     	
     	if ($rowcount==0) {
     		$process = 0;
-    		$capture_message = "No Authorization record found, nothing to process.";
+    		$void_message = "No Authorization record found, nothing to process.";
     		exit;
     	} else {
     	
@@ -211,7 +198,7 @@ $ipaddress = $_SERVER['REMOTE_ADDR'];
     			$orderid = $row['orderid'];
     			$authcode = $row['authcode'];
     			$process = 1;
-    			$capture_message = "Process Authorization Capture for Transaction  #$transactionid";
+    			$void_message = "Process Void for Transaction  #$transactionid";
     		}
     	
     	
@@ -220,10 +207,10 @@ $ipaddress = $_SERVER['REMOTE_ADDR'];
     	
     	
     	
-   		require_once 'includes/capture_cc_form.php';
+   		require_once 'includes/void_form.php';
     	
     }// method post		
-    echo $capture_message;
+    echo $void_message;
     
- // end capture_cc   
+ // end void   
 ?>

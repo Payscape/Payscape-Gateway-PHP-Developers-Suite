@@ -4,7 +4,7 @@
 	 * Some values have been hard coded for testing.
 	 * */
 
-	$type = "auth"; 
+	$type = "credit"; 
 	$time = gmdate("YmdHis");
 	$key_id = 449510;
 	$key = '\!b2#1wu%)4_tUdpAxO|GDWW?20:V.w';		// Replace with your Payscape Key
@@ -12,17 +12,17 @@
 	$order_id = "Test";
 	
 	$ccnumber = 4111111111111111;
-	$message = "We have auth_cc_form.php included";
+	$message = "We have add_cc_form.php included";
 	
 ?>
 
 <div class="transactions form">
 <form action="transactions.php" id="TransactionAddForm" method="post" accept-charset="utf-8"><div style="display:none;"><input type="hidden" name="_method" value="POST"/></div>	<fieldset>
-		<legend>Auth Credit Card Transaction</legend>
-	<input name="action" value="auth-cc" type="hidden" id="TransactionAction"/>
+		<legend>Sale Credit Card Transaction</legend>
+	<input name="action" value="credit" type="hidden" id="TransactionAction"/>
 					
 		
-	<div class="input text"><label for="TransactionType">Type</label><input name="type" value="auth-cc" maxlength="20" type="text" id="TransactionType"/></div>				
+	<div class="input text"><label for="TransactionType">Type</label><input name="type" value="credit" maxlength="20" type="text" id="TransactionType"/></div>				
 <div class="input number required"><label for="TransactionKeyID">Key ID</label><input name="key_id" step="any" type="text" id="TransactionKeyID" value="<?php echo $key_id; ?>" required="required"/>
 
 </div>

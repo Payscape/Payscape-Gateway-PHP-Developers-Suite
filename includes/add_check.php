@@ -42,7 +42,7 @@ $orderid = date('YmdHis') . "Test";
 					print_r($_POST);
 				echo "</pre>";	
 				exit();
-		*/
+			*/
 	$amount = $_POST['amount'];
 	$payment = 'credit card';
 	$ccnumber = $_POST['ccnumber'];
@@ -121,18 +121,21 @@ $orderid = date('YmdHis') . "Test";
 		print_r($incoming);
 		*/
 		
+		/*
 		echo "<br>RESPONSE:<br>";
 		print_r($response);
 		echo "<pre>";
+		*/
 		//exit();
 		
 		parse_str($response, $result_array);
 		
+		/*
 		echo "<pre>";
 		echo "RESULT ARRAY: ";
 		print_r($result_array);
 		echo "</pre>";
-		
+		*/
 	//	exit();
 		
 		if($result_array['response']==1){

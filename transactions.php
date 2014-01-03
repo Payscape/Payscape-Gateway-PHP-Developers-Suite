@@ -6,6 +6,8 @@
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			
 			$action = $_POST['action'];
+			
+
 	
 			switch ($action){
 				case "add-cc":
@@ -16,27 +18,53 @@
 					$paymentselect = "check";
 					$required = "add_check.php";
 					break;
+				case "credit":
+					$paymentselect = "credit";
+					$required = "credit.php";
+					break;							
 				case "auth-cc":
 					$paymentselect = "auth";
 					$required = "auth_cc.php";
 					break;
-				case "capture":
-					$transactionid = $_GET['trans'];	
-						if(isset($transactionid)){
-							$transactionid = int $transactionid;
-						}	
+
+				case "capture-cc":
+					$paymentselect = "capture_cc";
+	
 					$required = "capture_cc.php";
-					break;	
+					break;
+					
+				case "void":
+					// used for transactions that have not been settled
+					$paymentselect = "void";
+			
+					$required = "void.php";
+					break;
+
+				case "refund":
+					// used for settled transactions
+					$paymentselect = "refund";
+			
+					$required = "refund.php";
+					break;
+							
+					
+				case "update":
+					$paymentselect = "update";
+			
+					$required = "update.php";
+					break;		
 			}			
 		
 			
 		} else {
 				if(!isset($_GET['action'])){
+			
 				
 					header("Location: http://localhost/sporty.localdomain/transactions.php?action=index");
 				} else {
 					
 					$action = $_GET['action'];
+		
 					switch ($action){
 						case "add-cc":
 							$paymentselect = "credit card";
@@ -56,9 +84,10 @@
 							
 						case "capture":
 							$paymentselect = "capture";
-							$required = "capture_cc_form.php";
+							$required = "capture_cc.php";
 							$transactionid = $_GET['transactionid'];
 							$capture_message = "Capture Transaction";
+							$process = 1;
 
 							break; 
 							
@@ -67,25 +96,38 @@
 							$required = "credit_form.php";
 							$transactionid = $_GET['transactionid'];
 							$message = "Credit Transaction";
+							
+							break;
 								
 						case "void":
 							$paymentselect = "void";
-							$required = "void_form.php";
+							$required = "void.php";
 							$transactionid = $_GET['transactionid'];
 							$message = "Void Transaction";
+							
+							$process = 1;
+							
+							break;
 
 						case "refund":
 							$paymentselect = "refund";
-							$required = "refund_form.php";
+							$required = "refund.php";
 							$transactionid = $_GET['transactionid'];
 							$message = "Refund Transaction";
+							
+							$process = 1;
+							
+							break;
 
 						case "update":
 							$paymentselect = "update";
 							$required = "update_form.php";
 							$transactionid = $_GET['transactionid'];
-							$message = "Update Transaction";									
+							$message = "Update Transaction";	
+
+							$process = 1;
 							
+							break;
 							
 						case "index":
 							$required = "index.php";
@@ -101,17 +143,6 @@
 				}
 			
 			}// is post
-			
-		
-
-	
-	
-
-
-
-
-		
-
 
 ?>
 <!DOCTYPE html>
