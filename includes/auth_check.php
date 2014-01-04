@@ -7,9 +7,10 @@
 	$order_id = 'Test';
 	$key = '\!b2#1wu%)4_tUdpAxO|GDWW?20:V.w';		// Replace with your Payscape Key
 	$key_id = '449510';
-	$type = 'sale';
+	$type = 'auth';
 	$time = gmdate('YmdHis');
 	$order_id = 'TestCheck';
+
 	
 	$ipaddress = $_SERVER['REMOTE_ADDR'];
 	
@@ -78,9 +79,9 @@
 		$incoming['checkaba'] = $checkaba;
 		$incoming['checkaccount'] = $checkaccount;
 		$incoming['account_holder_type'] = $account_holder_type;
-		$incoming['account_type'] = $account_type;					
-		$incoming['amount'] = $amount;		
-		$incoming['sec_code'] = $sec_code;	
+		$incoming['account_type'] = $account_type;
+		$incoming['sec_code'] = 'WEB';					
+		$incoming['amount'] = $amount;			
 		$incoming['payment'] = 'check';
 		$incoming['firstname'] = $firstname;
 		$incoming['lastname'] = $lastname;
@@ -96,15 +97,15 @@
 		$incoming['orderid'] = $orderid;		
 		
 		$Payscape = NEW Payscape();
-		$response = $Payscape->SaleCheck($incoming);
+		$response = $Payscape->Auth($incoming);
 		
 		
 		echo "<pre>";
-		echo "INCOMING: <br>";
+		echo "INCOMING 104: <br>";
 		print_r($incoming);
 		
-		echo "RESPONSE: ";
-		echo $response;
+		echo "RESPONSE: 107";
+		print_r($response); 
 		//exit();
 		
 
@@ -156,7 +157,7 @@
 		
 				
 			} else {
-		    	require_once 'includes/add_check_form.php';
+		    	require_once 'includes/auth_check_form.php';
     		}// method post	
 
     	//	echo $message;

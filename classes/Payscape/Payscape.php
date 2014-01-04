@@ -5,7 +5,7 @@
 * and sends the relevant data to the Payment API
 *
 * Uses SSL verification
-* 12/30/2013
+* 1/04/2013
 *
 * */
 
@@ -104,7 +104,7 @@ class Payscape
 		$transactiondata['redirect'] = $this->redirect_url;
 		
 		$transactiondata['username'] = $this->userid;
-		$transactiondata['password'] = $this->password;
+		$transactiondata['password'] = $this->userpass;
 		$transactiondata['key'] = $this->key;
 		
 		$transactiondata['redirect'] = $this->redirect_url;
@@ -161,6 +161,97 @@ class Payscape
 		return $response;
 	}
 }// end Sale()
+
+public function Validate($incoming=null){
+
+	$key = $this->key;
+	$time = gmdate('YmdHis');
+	$type = 'validate';
+	$response = array();
+
+	$amount = (isset($incoming['amount']) ? $incoming['amount'] : '');
+	$payment = (isset($incoming['payment']) ? $incoming['payment'] : '');
+
+	if($payment=='check'){
+		//			$required = array('type', 'key_id', 'hash', 'time', 'checkname', 'checkaba', 'checkaccount', 'account_holder_type', 'account_type', 'amount');
+		$required = array('type', 'checkname', 'checkaba', 'checkaccount', 'account_holder_type', 'account_type', 'amount');
+			
+	} else {
+
+		//$required = array('type', 'key_id', 'hash', 'time', 'ccnumber', 'ccexp', 'amount');
+		$required = array('type', 'ccnumber', 'ccexp', 'amount');
+	}
+
+	if(count(array_intersect_key(array_flip($required), $incoming)) === count($required)) {
+		$transactiondata = array();
+		$transactiondata['type'] = 'sale';
+		$transactiondata['amount'] = urlencode($amount);
+
+		/*
+		 $transactiondata['type'] = 'sale';
+		$transactiondata['key_id'] = $this->keyid;
+		$transactiondata['hash'] = $hash;
+		$transactiondata['time'] = $time;
+		$transactiondata['redirect'] = $this->redirect_url;
+
+		$transactiondata['username'] = $this->userid;
+		$transactiondata['password'] = $this->password;
+		$transactiondata['key'] = $this->key;
+
+		$transactiondata['redirect'] = $this->redirect_url;
+		*/
+
+		/* user supplied required data */
+		if($payment=='check'){
+			$transactiondata['checkname'] = (isset($incoming['checkname']) ? $incoming['checkname'] : '');
+			$transactiondata['checkaba'] = (isset($incoming['checkaba']) ? $incoming['checkaba'] : '');
+			$transactiondata['checkaccount'] = (isset($incoming['checkaccount']) ? $incoming['checkaccount'] : '');
+			$transactiondata['account_holder_type'] = (isset($incoming['account_holder_type']) ? $incoming['account_holder_type'] : '');
+			$transactiondata['account_type'] = (isset($incoming['account_type']) ? $incoming['account_type'] : '');
+		} else {
+			$transactiondata['ccexp'] = (isset($incoming['ccexp']) ? $incoming['ccexp'] : '');
+			$transactiondata['ccnumber'] = (isset($incoming['ccnumber']) ? $incoming['ccnumber'] : '');
+			$transactiondata['cvv'] = (isset($incoming['cvv']) ? $incoming['cvv'] : '');
+		}
+
+
+
+
+
+		/* user supplied optional data */
+
+
+		$transactiondata['firstname'] = (isset($incoming['firstname']) ? $incoming['firstname'] : '');
+		$transactiondata['lastname'] = (isset($incoming['lastname']) ? $incoming['lastname'] : '');
+		$transactiondata['company'] = (isset($incoming['company']) ? $incoming['company'] : '');
+		$transactiondata['address1'] = (isset($incoming['address1']) ? $incoming['address1'] : '');
+		$transactiondata['city'] = (isset($incoming['city']) ? $incoming['city'] : '');
+		$transactiondata['state'] = (isset($incoming['state']) ? $incoming['state'] : '');
+		$transactiondata['zip'] = (isset($incoming['zip']) ? $incoming['zip'] : '');
+		$transactiondata['country'] = (isset($incoming['country']) ? $incoming['country'] : '');
+		$transactiondata['phone'] = (isset($incoming['phone']) ? $incoming['phone'] : '');
+		$transactiondata['fax'] = (isset($incoming['fax']) ? $incoming['fax'] : '');
+		$transactiondata['email'] = (isset($incoming['email']) ? $incoming['email'] : '');
+		$transactiondata['orderid'] = (isset($incoming['orderid']) ? $incoming['orderid'] : '');
+
+
+
+		/*
+		 echo "TRANSACTIONDATA:";
+		echo "<pre>";
+		print_r($transactiondata);
+		echo "</pre>";
+		exit();
+		*/
+
+		return $this->_send($transactiondata);
+
+	} else {
+		$response['Message'] = 'Required Values Are Missing';
+		$response['error'] = 1;
+		return $response;
+	}
+}// end Validate()
 
 public function SaleCheck($incoming=null){
 
@@ -271,7 +362,7 @@ public function SaleCheck($incoming=null){
 		$payment = (isset($incoming['payment']) ? $incoming['payment'] : '');
 
 	if($payment=='check'){
-		$required = array('type', 'checkname', 'checkaba', 'checkaba', 'checkaccount', 'account_holder_type', 'account_type', 'amount');
+		$required = array('type', 'checkname', 'checkaba', 'checkaccount', 'account_holder_type', 'account_type', 'sec_code', 'amount');
 	} else {	
 		$required = array('type', 'ccnumber', 'ccexp', 'amount');
 	}
@@ -288,6 +379,7 @@ public function SaleCheck($incoming=null){
 				$transactiondata['checkaccount'] = (isset($incoming['checkaccount']) ? $incoming['checkaccount'] : '');
 				$transactiondata['account_holder_type'] = (isset($incoming['account_holder_type']) ? $incoming['account_holder_type'] : '');
 				$transactiondata['account_type'] = (isset($incoming['account_type']) ? $incoming['account_type'] : '');
+				$transactiondata['sec_code'] = (isset($incoming['sec_code']) ? $incoming['sec_code'] : '');
 			} else {
 				$transactiondata['ccexp'] = (isset($incoming['ccexp']) ? $incoming['ccexp'] : '');
 				$transactiondata['ccnumber'] = (isset($incoming['ccnumber']) ? $incoming['ccnumber'] : '');
@@ -309,13 +401,15 @@ public function SaleCheck($incoming=null){
 			$transactiondata['fax'] = (isset($incoming['fax']) ? $incoming['fax'] : '');
 			$transactiondata['email'] = (isset($incoming['email']) ? $incoming['email'] : '');
 			$transactiondata['orderid'] = (isset($incoming['orderid']) ? $incoming['orderid'] : '');
-		
+
+
+			
 			return $this->_send($transactiondata);
 		
 		} else {
 			
 			if($payment=='check'){
-				$response['Message'] = 'One or more Required Values of <strong>type, checkname, checkaba, checkaba, checkaccount, account_holder_type, account_type, amount</strong> Are Missing';
+				$response['Message'] = 'One or more Required Values of <strong>type, checkname, checkaba, checkaccount, account_holder_type, account_type, amount</strong> Are Missing';
 				
 			} else {
 				$response['Message'] = 'One or more Required Values of <strong>type, ccnumber, ccexp or amount</strong> Are Missing';
@@ -397,11 +491,6 @@ public function SaleCheck($incoming=null){
 		return $response;
 	}
 }// end Credit()
-	
-	public function Validate($incoming=null){
-		
-	}
-	
 
 	public function Capture($incoming=null){
 
@@ -486,8 +575,11 @@ public function SaleCheck($incoming=null){
 		
 		if(count(array_intersect_key(array_flip($required), $incoming)) === count($required)) {
 			$transactiondata = array();
+			
 			$transactiondata['type'] = 'update';
-	//		$transactiondata['transactionid'] = (isset($incoming['transactionid']) ? $incoming['transactionid'] : '');
+			$transactiondata['username'] = $this->userid;
+			$transactiondata['password'] = $this->userpass;			
+			$transactiondata['transactionid'] = (isset($incoming['transactionid']) ? $incoming['transactionid'] : '');
 			
 			/* optional fields */
 			$transactiondata['tracking_number'] = (isset($incoming['tracking_number']) ? $incoming['tracking_number'] : '');				

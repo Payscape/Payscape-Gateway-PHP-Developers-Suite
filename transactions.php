@@ -26,7 +26,14 @@
 					$paymentselect = "auth";
 					$required = "auth_cc.php";
 					break;
-
+				case "validate-cc":
+					$paymentselect = "validate";
+					$required = "validate_cc.php";
+					break;					
+				case "auth-check":
+					$paymentselect = "auth";
+					$required = "auth_check.php";
+					break;
 				case "capture-cc":
 					$paymentselect = "capture_cc";
 	
@@ -71,6 +78,11 @@
 							$required = "add_cc_form.php";
 							$message = "New Credit Card Transaction";
 							break;
+						case "validate-cc":	
+							$paymentselect = "credit card";
+							$required = "validate_cc_form.php";
+							$message = "Validate Credit Card Transaction";
+							break;
 						case "add-check":
 							$paymentselect = "check";
 							$required = "add_check_form.php";
@@ -81,7 +93,11 @@
 							$required = "auth_cc_form.php";
 							$message = "New Auth CC Transaction";
 							break;
-							
+						case "auth-check":
+							$paymentselect = "auth";
+							$required = "auth_check_form.php";
+							$message = "New Auth Check Transaction";
+							break;							
 						case "capture":
 							$paymentselect = "capture";
 							$required = "capture_cc.php";
