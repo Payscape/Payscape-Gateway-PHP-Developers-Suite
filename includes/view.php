@@ -77,11 +77,8 @@
 			</tr>
 			<tr>
 			<td>
-							<?php if($row['type']=='auth'){ ?>
+		<?php if($row['type']=='auth'){ ?>
 				<a href="transactions.php?action=capture_cc&transactionid=<?php echo $row['transactionid']; ?>">Capture</a><br>
-
-				
-				
 			<?php } 
 			
 			if($row['type']=='sale') { ?>
