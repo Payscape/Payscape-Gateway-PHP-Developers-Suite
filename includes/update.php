@@ -217,7 +217,7 @@ $ipaddress = $_SERVER['REMOTE_ADDR'];
     }// method post	/ get	
 
     
-    echo $message
+ //   echo $message
     
  // end Update   
 ?>

@@ -125,7 +125,7 @@ $ipaddress = $_SERVER['REMOTE_ADDR'];
 			$response_code = $result_array['response'];
 			$authtransactionid = $result_array['transactionid'];
 			$authcode = $result_array['authcode'];		
-			$message = "The Refund was successful "; 
+			$message = "<br>The Refund was successful "; 
 		
 		
 		/* save the submission and transaction details */
@@ -211,10 +211,9 @@ $ipaddress = $_SERVER['REMOTE_ADDR'];
     	
    		require_once 'includes/refund_form.php';
     	
-    }// method post		
+    }// method post
     echo $refund_message;
-    
-    echo $message
+ 
     
  // end refund   
 ?>

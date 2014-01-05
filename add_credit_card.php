@@ -74,8 +74,8 @@
 		echo "RESULT: ";
 		print_r($result);
 		
-		echo "MESSAGE: ";
-		echo $message;
+	//	echo "MESSAGE: ";
+	//	echo $message;
 		
 		echo "</pre>";
 		*/

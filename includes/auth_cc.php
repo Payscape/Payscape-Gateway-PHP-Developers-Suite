@@ -184,7 +184,7 @@ $orderid = date('YmdHis') . "TestAuthCC";
     	require_once 'includes/auth_cc_form.php';
     	
     }		
-   echo $message;
+   //echo $message;
     
  // end auth_cc   
 ?>		
