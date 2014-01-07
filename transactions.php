@@ -1,5 +1,9 @@
 <?php 
+	
 
+
+	require_once 'config.php';
+	require_once 'db-config.php';
 	
 
 
@@ -67,7 +71,7 @@
 				if(!isset($_GET['action'])){
 			
 				
-					header("Location: http://localhost/sporty.localdomain/transactions.php?action=index");
+					header("Location: $base_url . 'transactions.php?action=index'");
 				} else {
 					
 					$action = $_GET['action'];
@@ -175,21 +179,21 @@
     <!-- Bootstrap core CSS -->
 
     
-    <link rel="stylesheet" type="text/css" href="/sporty.localdomain/css/bootstrap.css" />
-    <link rel="stylesheet" type="text/css" href="/sporty.localdomain/css/jumbotron-narrow.css" />
-    <link rel="stylesheet" type="text/css" href="/sporty.localdomain/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="<?php echo $base_url; ?>css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="<?php echo $base_url; ?>css/jumbotron-narrow.css" />
+    <link rel="stylesheet" type="text/css" href="<?php echo $base_url; ?>css/custom.css" />
     <!-- Custom styles for this template -->
 
 
     <!-- Just for debugging purposes. Don't actually copy this line! -->
-    <!--[if lt IE 9]><script src="assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <!--[if lt IE 9]><script src="<?php echo $base_url; ?>js/ie8-responsive-file-warning.js"></script><![endif]-->
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
-    <link href="/sporty.localdomain/favicon.ico" type="image/x-icon" rel="icon" /><link href="/sporty.localdomain/favicon.ico" type="image/x-icon" rel="shortcut icon" />    
+    <link href="<?php echo $base_url; ?>favicon.ico" type="image/x-icon" rel="icon" /><link href="<?php echo $base_url; ?>favicon.ico" type="image/x-icon" rel="shortcut icon" />    
         <style>
 	.odd {background-color:#ffffff;}
 	.even {background-color:#eeeeee;}
@@ -209,34 +213,16 @@
 
       <div class="jumbotron">
         <h1>Payscape Development Lab</h1>
-        		<a href="http://www.payscape.com/" target="_blank"><img src="/sporty.localdomain/img/payscape_home_logo.png" alt="Payscape Advisor" border="0" /></a>        <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-        <p><a class="btn btn-lg btn-success" href="#" role="button">Sign up today</a></p>
+        		<a href="http://www.payscape.com/" target="_blank"><img src="<?php echo $base_url; ?>img/payscape_home_logo.png" alt="Payscape Advisor" border="0" /></a>        <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+        <p><a class="btn btn-lg btn-success" href="<?php echo $base_url; ?>" role="button">Sign up today</a></p>
       </div>
 
       <div class="span9">
       <div class="span4"></div>
       
 
-	<?php 
-	/*
-		$server = 'localhost';
-		$userid = 'veracini_5_w';
-		$userpass = 'zC2HKGSB';
-		$dbname = 'veracini_dogwood66';
-		$conn = mysql_connect($server, $userid, $userpass) or die('No luck for you, boy.');
-        mysql_select_db($conn, $dbname);
-    */    
-        
-        $server = 'localhost';
-        $userid = 'root';
-        $userpass = '';
-        $dbname = 'payscape';
-        $conn = mysqli_connect($server, $userid, $userpass) or die('No connection.');
-        mysqli_select_db($conn, $dbname);
-        
-	?>
-		
-		<?php 	require_once "includes/$required"; ?>
+	<?php 	require_once "includes/$required"; ?>
+    
      <?php 
      echo "<pre>";
      echo "<p>$message</p>";
@@ -252,7 +238,7 @@
         <p>&copy; Payscape Advisors 2013</p>
       </div>
 
-		<a href="http://www.payscape.com/" target="_blank"><img src="/sporty.localdomain/img/payscape_footer_logo.png" alt="Payscape Advisor" border="0" /></a>
+		<a href="http://www.payscape.com/" target="_blank"><img src="<?php echo $base_url; ?>img/payscape_footer_logo.png" alt="Payscape Advisor" border="0" /></a>
 
 </footer>
   </div>
@@ -267,6 +253,6 @@
   
 	
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <script src="<?php echo $base_url; ?>js/bootstrap.min.js"></script>
 </body>
 </html>

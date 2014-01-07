@@ -1,4 +1,6 @@
-
+<?php 
+	require_once 'config.php';
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -13,9 +15,9 @@
     <!-- Bootstrap core CSS -->
 
     
-    <link rel="stylesheet" type="text/css" href="/sporty.localdomain/css/bootstrap.css" /><link rel="stylesheet" type="text/css" href="/sporty.localdomain/css/jumbotron-narrow.css" /><link rel="stylesheet" type="text/css" href="/sporty.localdomain/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="<?php echo $base_url; ?>css/bootstrap.css" /><link rel="stylesheet" type="text/css" href="<?php echo $base_url; ?>css/jumbotron-narrow.css" /><link rel="stylesheet" type="text/css" href="<?php echo $base_url; ?>css/custom.css" />
     <!-- Custom styles for this template -->
-    <link href="assets/css/jumbotron-narrow.css" rel="stylesheet">
+    <link href="<?php echo $base_url; ?>css/jumbotron-narrow.css" rel="stylesheet">
 
     <!-- Just for debugging purposes. Don't actually copy this line! -->
     <!--[if lt IE 9]><script src="assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -25,14 +27,14 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
-    <link href="/sporty.localdomain/favicon.ico" type="image/x-icon" rel="icon" /><link href="/sporty.localdomain/favicon.ico" type="image/x-icon" rel="shortcut icon" />    
+    <link href="<?php echo $base_url; ?>favicon.ico" type="image/x-icon" rel="icon" /><link href="<?php echo $base_url; ?>favicon.ico" type="image/x-icon" rel="shortcut icon" />    
   
-	<link rel="stylesheet" type="text/css" href="/sporty.localdomain/debug_kit/css/debug_toolbar.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $base_url; ?>debug_kit/css/debug_toolbar.css" />
 <script type="text/javascript">
 //<![CDATA[
-window.DEBUGKIT_JQUERY_URL = "/sporty.localdomain/debug_kit/js/jquery.js";
+window.DEBUGKIT_JQUERY_URL = "<?php echo $base_url; ?>debug_kit/js/jquery.js";
 //]]>
-</script><script type="text/javascript" src="/sporty.localdomain/debug_kit/js/js_debug_toolbar.js"></script>
+</script><script type="text/javascript" src="<?php echo $base_url; ?>debug_kit/js/js_debug_toolbar.js"></script>
 </head>
 
   <body>
@@ -46,7 +48,8 @@ window.DEBUGKIT_JQUERY_URL = "/sporty.localdomain/debug_kit/js/jquery.js";
   
       <div class="jumbotron">
         <h1>Payscape Development Lab</h1>
-        		<a href="http://www.payscape.com/" target="_blank"><img src="/sporty.localdomain/img/payscape_home_logo.png" alt="Payscape Advisor" border="0" /></a>        <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+        		<a href="http://www.payscape.com/" target="_blank"><img src="<?php echo $base_url; ?>img/payscape_home_logo.png" alt="Payscape Advisor" border="0" /></a>        
+        		<p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
         <p><a class="btn btn-lg btn-success" href="#" role="button">Sign up today</a></p>
       </div>
 
@@ -144,7 +147,7 @@ Our primary goal is to provide a structured framework that enables PHP users at 
 	        <p>&copy; Payscape Advisors 2013</p>
 	      </div>
 	
-			<a href="http://www.payscape.com/" target="_blank"><img src="/sporty.localdomain/img/payscape_footer_logo.png" alt="Payscape Advisor" border="0" /></a>
+			<a href="http://www.payscape.com/" target="_blank"><img src="<?php echo $base_url; ?>img/payscape_footer_logo.png" alt="Payscape Advisor" border="0" /></a>
 	
 	</footer>
 
@@ -159,6 +162,6 @@ Our primary goal is to provide a structured framework that enables PHP users at 
   
 
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <script src="<?php echo $base_url; ?>js/bootstrap.min.js"></script>
 </body>
 </html>

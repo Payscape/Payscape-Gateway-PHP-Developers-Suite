@@ -44,10 +44,9 @@ $orderid = date('YmdHis') . "TestAuthCC";
 				exit();
 		*/
 	$amount = $_POST['amount'];
-	$payment = 'credit card';
+	$payment = 'creditcard';
 	$ccnumber = $_POST['ccnumber'];
 	$ccexp = $_POST['ccexp'];
-
 	$cvv = $_POST['cvv'];
 	
 	$firstname = $_POST['firstname'];
