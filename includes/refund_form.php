@@ -17,7 +17,7 @@
 	<?php if($process==1){ ?>
 <div class="transactions form">
 <form action="transactions.php" id="TransactionCaptureForm" method="post" accept-charset="utf-8"><div style="display:none;"><input type="hidden" name="_method" value="POST"/></div>	<fieldset>
-		<legend>Capture Auth Transaction</legend>
+		<legend>Refund Sale Credit Card Transaction</legend>
 	<input name="action" value="refund" type="hidden" id="TransactionAction"/>				
 		
 	<div class="input text"><label for="TransactionType">Type:</label> Refund. 	</div>				

@@ -511,6 +511,9 @@ public function SaleCheck($incoming=null){
 		
 		if(count(array_intersect_key(array_flip($required), $incoming)) === count($required)) {
 			$transactiondata = array();
+			$transactiondata['username'] = $this->userid;
+			$transactiondata['password'] = $this->userpass;
+			
 			$transactiondata['type'] = 'refund';
 			$transactiondata['transactionid'] = (isset($incoming['transactionid']) ? $incoming['transactionid'] : '');				
 			
