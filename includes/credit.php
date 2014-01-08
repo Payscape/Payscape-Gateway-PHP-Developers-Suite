@@ -1,6 +1,7 @@
 <?php 
 
 	$type = 'credit';
+	$ipaddress = $_SERVER['REMOTE_ADDR'];
 
 			require_once 'classes/Payscape/Payscape.php';
 	
@@ -27,24 +28,18 @@
 				exit();
 		*/
 	$amount = $_POST['amount'];
-	$transactionid = $_POST['transactionid'];	// we may not want to use this?
+	$tax = $_POST['tax'];
+	$transactionid = $_POST['transactionid'];	
 	$payment = $_POST['payment'];
-	
-	if($payment=='check'){
-		$checkname = $_POST['checkname'];
-		$checkaba = $_POST['checkaba'];
-		$checkaccount = $_POST['checkaccount'];
-		$account_holder_type = $_POST['account_holder_type'];
-		$account_type = $_POST['account_type'];
-	} else {
-		$ccnumber = $_POST['ccnumber'];
-		$ccexp = $_POST['ccexp'];
-		$cvv = $_POST['cvv'];		
-	}
+	$orderdescription = $_POST['orderdescription'];
+
+	$ccnumber = $_POST['ccnumber'];
+	$ccexp = $_POST['ccexp'];
+	$cvv = $_POST['cvv'];			
 	
 	$orderid = $_POST['orderid'];
 
-/*	
+
 	$firstname = $_POST['firstname'];
 	$lastname = $_POST['lastname'];
 	$company = $_POST['company'];
@@ -59,8 +54,8 @@
 	
 	$time = gmdate('YmdHis');
 		
-	$hash = md5($order_id|$amount|$time|$key);
-*/	
+//	$hash = md5($order_id|$amount|$time|$key);
+
 	
 /*	
 	echo "<br>ORDER ID: $order_id";
@@ -68,42 +63,28 @@
 	echo "<br>TIME: $time";
 	echo "<br>KEY: $key";
 	echo "<br>MD5(order_id|amount|time|): " . md5("$order_id|$amount|$time|$key") . "<br>";
-
-
 	echo "<br>md5(order_id|amount|time): " . md5("$order_id|$amount|time") . "<br>";
-	
-	
-	
 	echo "<br>HASH: $order_id|$amount|$time|$key";
 	echo "<br>PREPARED HASH: $hash";
 */			
 		$incoming = array();
 		$incoming['type'] = $type;
 		$incoming['amount'] = $amount;
+		$incoming['tax'] = $tax;
 		$incoming['payment'] = $payment;
-		
-//		$incoming['key_id'] = $key_id;
-//		$incoming['hash'] = $hash;
-//		$incoming['time'] = $time;
+		$incoming['orderdescription'] = $orderdescription;		
+		$incoming['time'] = $time;
 
-		if($payment=='check'){
-		$incoming['checkname'] = $checkname;
-		$incoming['checkaba'] = $checkaba;
-		$incoming['checkaccount'] = $checkaccount;
-		$incoming['account_holder_type'] = $account_holder_type;
-		$incoming['account_type'] = $account_type;
-		$incoming['payment'] = 'check';
 
-		} else {
-			$incoming['ccnumber'] = $ccnumber;
-			$incoming['ccexp'] = $ccexp;
-			$incoming['cvv'] = $cvv;				
-		}
+		$incoming['ccnumber'] = $ccnumber;
+		$incoming['ccexp'] = $ccexp;
+		$incoming['cvv'] = $cvv;				
 		
+
 		$incoming['orderid'] = $orderid;
 		$incoming['transactionid'] = $transactionid;
 
-		/*
+		/* user supplied optional data */
 
 		$incoming['firstname'] = $firstname;
 		$incoming['lastname'] = $lastname;
@@ -117,14 +98,7 @@
 		$incoming['fax'] = $fax;
 		$incoming['email'] = $email;
 		
-		*/
-		
-		$incoming['orderid'] = $orderid;
-		
-	
-		
-	
-		
+
 
 		$Payscape = NEW Payscape();
 		$response = $Payscape->Credit($incoming);
@@ -133,11 +107,12 @@
 		
 		echo "<pre>";
 		echo "INCOMING: <br>";
+		echo "<pre>";
 		print_r($incoming);
 		
 		echo "<br>RESPONSE:<br>";
 		print_r($response);
-		echo "<pre>";
+		echo "</pre>";
 		
 		
 		//exit();
@@ -152,7 +127,7 @@
 		
 	//	exit();
 		
-		if($result_array['response']==1){
+	if($result_array['response']==1){
 		
 			$transactionid = $result_array['transactionid'];		
 			$message = "The transaction was successful "; 
@@ -160,20 +135,25 @@
 		
 		/* save the submission and transaction details */
 
-/*			
-		$sql = "INSERT INTO `transactions` (`type`, `key_id`, 
-				`hash`, `time`, `ccnumber`, `ccexp`,  
-				`amount`, `cvv`, `payment`, `ipaddress`, `firstname`, 
+/* create a unique record for the Credit: */
+			
+		$sql = "INSERT INTO `transactions` (`type`,  
+				`hash`, `time`, `ccnumber`, `ccexp`,   
+				`amount`, `tax`, `cvv`, `payment`, `orderdescription`,
+				`ipaddress`, `firstname`, 
 				`lastname`, `company`, `address1`, `city`, `state`, `zip`, `country`, 
 				`phone`, `fax`, `email`, `orderid`, `transactionid`) 
-				VALUES('$type', '$key_id',
+				VALUES('$type', 
 				'$hash', '$time', '$ccnumber', '$ccexp', 
-				$amount, '$cvv', '$payment', '$ipaddress', '$firstname', 
+				$amount, $tax, '$cvv', '$payment', '$orderdescription', 
+				'$ipaddress', '$firstname', 
 				'$lastname', '$company', '$address1', '$city', '$state', '$zip', '$country',
 				'$phone', '$fax', '$email', '$orderid', $transactionid)";
-*/		
 		
+
+	/* if we only want to update the existing sale record: 		
 		$sql = "UPDATE transactions SET type = 'credit', amount = $amount WHERE transactionid = $transactionid";
+	*/	
 		
 		
 						/*		
@@ -209,18 +189,26 @@
     	 * get the Sale information for the Credit Form
     	* */
     	 
-    	$sql = "SELECT key_id, 
+    	$sql = "SELECT 
     	time, 
     	ccnumber,
     	ccexp,
     	cvv,
-    	checkname, 
-    	checkaba, 
-    	checkaccount, 
-    	account_holder_type, 
-    	account_type, 
-    	amount, 
+    	ipaddress, 
+    	firstname,
+    	lastname, 
+    	company, 
+    	address1, 
+    	city, 
+    	state, 
+    	zip, 
+    	country,
+    	phone, 
+    	fax, 
+    	email,     	
+     	amount, 
     	payment, 
+    	orderdescription,
     	orderid, 
     	transactionid  
     	FROM `transactions` 
@@ -249,38 +237,41 @@
     		 
     		while($row = mysqli_fetch_assoc($result)){
     			
-    			$key_id = $row['key_id'];
+
     			$time = $row['time'];
     			$ccnumber = $row['ccnumber'];
     			$ccexp = $row['ccexp'];
     			$cvv = $row['cvv'];
-    			$checkname = $row['checkname'];
-    			$checkaba = $row['checkaba'];
-    			$checkaccount = $row['checkaccount'];
-    			$account_holder_type = $row['account_holder_type'];
-    			$account_type = $row['account_type'];
     			$amount = $row['amount'];
-    			$payment = $row['payment'];
     			
+    			$firstname = $row['firstname'];
+    			$lastname = $row['lastname'];
+    			$company = $row['company'];
+    			$address1 = $row['address1'];
+    			$city = $row['city'];
+    			$state = $row['state'];
+    			$zip = $row['zip'];
+    			$country = $row['country'];
+    			$phone = $row['phone'];
+    			$fax = $row['fax'];
+    			$email = $row['email'];
+    			
+    			
+    			$payment = $row['payment'];
+    			$orderdescription = $row['orderdescription'];
     			$transactionid = $row['transactionid'];
     			$orderid = $row['orderid'];
     			$process = 1;
-    			$message = "Process Credit for Transaction  #$transactionid";
+    			$message = "Process Credit Transaction  #$transactionid";
     		}
-    		 
-    		 
-    		 
     	}// get form data
     	
-    if($payment=='credit card'){
     	require_once 'includes/credit_form.php';
-    } else {
-    	require_once 'includes/credit_check_form.php';
-    }	
+   
     	
     	
   }	// get	
- //   echo $message;
+
     
  // end Credit  
 ?>		

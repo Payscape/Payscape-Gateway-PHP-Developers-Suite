@@ -184,42 +184,18 @@ public function Validate($incoming=null){
 
 	if(count(array_intersect_key(array_flip($required), $incoming)) === count($required)) {
 		$transactiondata = array();
-		$transactiondata['type'] = 'sale';
+		$transactiondata['username'] = $this->userid;
+		$transactiondata['password'] = $this->userpass;
+		$transactiondata['type'] = $type;
 		$transactiondata['amount'] = urlencode($amount);
 
-		/*
-		 $transactiondata['type'] = 'sale';
-		$transactiondata['key_id'] = $this->keyid;
-		$transactiondata['hash'] = $hash;
-		$transactiondata['time'] = $time;
-		$transactiondata['redirect'] = $this->redirect_url;
-
-		$transactiondata['username'] = $this->userid;
-		$transactiondata['password'] = $this->password;
-		$transactiondata['key'] = $this->key;
-
-		$transactiondata['redirect'] = $this->redirect_url;
-		*/
-
 		/* user supplied required data */
-		if($payment=='check'){
-			$transactiondata['checkname'] = (isset($incoming['checkname']) ? $incoming['checkname'] : '');
-			$transactiondata['checkaba'] = (isset($incoming['checkaba']) ? $incoming['checkaba'] : '');
-			$transactiondata['checkaccount'] = (isset($incoming['checkaccount']) ? $incoming['checkaccount'] : '');
-			$transactiondata['account_holder_type'] = (isset($incoming['account_holder_type']) ? $incoming['account_holder_type'] : '');
-			$transactiondata['account_type'] = (isset($incoming['account_type']) ? $incoming['account_type'] : '');
-		} else {
-			$transactiondata['ccexp'] = (isset($incoming['ccexp']) ? $incoming['ccexp'] : '');
-			$transactiondata['ccnumber'] = (isset($incoming['ccnumber']) ? $incoming['ccnumber'] : '');
-			$transactiondata['cvv'] = (isset($incoming['cvv']) ? $incoming['cvv'] : '');
-		}
 
-
-
-
+		$transactiondata['ccexp'] = (isset($incoming['ccexp']) ? $incoming['ccexp'] : '');
+		$transactiondata['ccnumber'] = (isset($incoming['ccnumber']) ? $incoming['ccnumber'] : '');
+		$transactiondata['cvv'] = (isset($incoming['cvv']) ? $incoming['cvv'] : '');
 
 		/* user supplied optional data */
-
 
 		$transactiondata['firstname'] = (isset($incoming['firstname']) ? $incoming['firstname'] : '');
 		$transactiondata['lastname'] = (isset($incoming['lastname']) ? $incoming['lastname'] : '');
@@ -238,9 +214,7 @@ public function Validate($incoming=null){
 
 		/*
 		 echo "TRANSACTIONDATA:";
-		echo "<pre>";
-		print_r($transactiondata);
-		echo "</pre>";
+		$this->debug($transactiondata);
 		exit();
 		*/
 
@@ -430,12 +404,8 @@ public function SaleCheck($incoming=null){
 		$amount = (isset($incoming['amount']) ? $incoming['amount'] : '');
 		$payment = (isset($incoming['payment']) ? $incoming['payment'] : '');
 		
-		if($payment=='check'){
-			$required = array('type', 'checkname', 'checkaba', 'checkaccount', 'account_holder_type', 'account_type', 'amount');					
-		} else {
-			$required = array('type', 'ccnumber', 'ccexp', 'amount');
-		}		
-		
+		$required = array('type', 'ccnumber', 'ccexp', 'amount');
+	
 		if(count(array_intersect_key(array_flip($required), $incoming)) === count($required)) {		
 		$transactiondata = array();
 		$transactiondata['type'] = 'credit';
@@ -443,22 +413,15 @@ public function SaleCheck($incoming=null){
 
 		
 		/* user supplied required data */
-		if($payment=='check'){
-			$transactiondata['checkname'] = (isset($incoming['checkname']) ? $incoming['checkname'] : '');
-			$transactiondata['checkaba'] = (isset($incoming['checkaba']) ? $incoming['checkaba'] : '');
-			$transactiondata['checkaccount'] = (isset($incoming['checkaccount']) ? $incoming['checkaccount'] : '');
-			$transactiondata['account_holder_type'] = (isset($incoming['account_holder_type']) ? $incoming['account_holder_type'] : '');
-			$transactiondata['account_type'] = (isset($incoming['account_type']) ? $incoming['account_type'] : '');
-		} else {
-			$transactiondata['ccexp'] = (isset($incoming['ccexp']) ? $incoming['ccexp'] : '');			
-			$transactiondata['ccnumber'] = (isset($incoming['ccnumber']) ? $incoming['ccnumber'] : '');
-			$transactiondata['cvv'] = (isset($incoming['cvv']) ? $incoming['cvv'] : '');		
-		}
+		
+		$transactiondata['ccexp'] = (isset($incoming['ccexp']) ? $incoming['ccexp'] : '');			
+		$transactiondata['ccnumber'] = (isset($incoming['ccnumber']) ? $incoming['ccnumber'] : '');
+		$transactiondata['cvv'] = (isset($incoming['cvv']) ? $incoming['cvv'] : '');		
+		
 		
 		$transactiondata['transactionid'] = (isset($incoming['transactionid']) ? $incoming['transactionid'] : '');
 		
 		/* user supplied optional data */
-
 /*
 		$transactiondata['firstname'] = (isset($incoming['firstname']) ? $incoming['firstname'] : '');
 		$transactiondata['lastname'] = (isset($incoming['lastname']) ? $incoming['lastname'] : '');
@@ -472,14 +435,12 @@ public function SaleCheck($incoming=null){
 		$transactiondata['fax'] = (isset($incoming['fax']) ? $incoming['fax'] : '');
 		$transactiondata['email'] = (isset($incoming['email']) ? $incoming['email'] : '');
 		$transactiondata['orderid'] = (isset($incoming['orderid']) ? $incoming['orderid'] : '');
-
-*/		
+*/
+		
 		
 	/*
 		 echo "TRANSACTIONDATA:";
-		echo "<pre>";
-		print_r($transactiondata);
-		echo "</pre>";
+		$this->debug($transactiondata);
 		exit();
 	*/	
 	

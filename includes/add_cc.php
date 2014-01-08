@@ -44,7 +44,9 @@ $orderid = date('YmdHis') . "Test";
 				exit();
 		*/
 	$amount = $_POST['amount'];
+	$tax = $_POST['tax'];
 	$payment = 'credit card';
+	$orderdescription = $_POST['orderdescription'];
 	$ccnumber = $_POST['ccnumber'];
 	$ccexp = $_POST['ccexp'];
 
@@ -84,6 +86,7 @@ $orderid = date('YmdHis') . "Test";
 		$incoming = array();
 		$incoming['type'] = "$type";
 		$incoming['amount'] = $amount;
+		$incoming['tax'] = $tax;
 		$incoming['payment'] = 'credit card';
 		
 //		$incoming['key_id'] = $key_id;
@@ -147,24 +150,26 @@ $orderid = date('YmdHis') . "Test";
 		
 		/* save the submission and transaction details */
 			
-		$sql = "INSERT INTO `transactions` (`type`, `key_id`, 
-				`hash`, `time`, `ccnumber`, `ccexp`,  
-				`amount`, `cvv`, `payment`, `ipaddress`, `firstname`, 
+		$sql = "INSERT INTO `transactions` (`type`,  
+				`hash`, `time`, `ccnumber`, `ccexp`,   
+				`amount`, `tax`, `cvv`, `payment`, `orderdescription`,
+				`ipaddress`, `firstname`, 
 				`lastname`, `company`, `address1`, `city`, `state`, `zip`, `country`, 
 				`phone`, `fax`, `email`, `orderid`, `transactionid`) 
-				VALUES('$type', '$key_id',
+				VALUES('$type', 
 				'$hash', '$time', '$ccnumber', '$ccexp', 
-				$amount, '$cvv', '$payment', '$ipaddress', '$firstname', 
+				$amount, $tax, '$cvv', '$payment', '$orderdescription', 
+				'$ipaddress', '$firstname', 
 				'$lastname', '$company', '$address1', '$city', '$state', '$zip', '$country',
 				'$phone', '$fax', '$email', '$orderid', $transactionid)";
-						/*		
+							/*	
 								echo "SQL: <BR>";
 										echo "<pre>";
 								echo $sql;
 										echo "</pre>";
 										
 								exit();		
-						*/
+							*/
 					if(!mysqli_query($conn, $sql)){
 						/* for testing */
 						printf("Error: %s\n", mysqli_error($conn));
