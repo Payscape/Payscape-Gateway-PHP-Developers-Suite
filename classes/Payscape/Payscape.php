@@ -489,6 +489,8 @@ public function SaleCheck($incoming=null){
 	
 		if(count(array_intersect_key(array_flip($required), $incoming)) === count($required)) {
 			$transactiondata = array();
+			$transactiondata['username'] = $this->userid;
+			$transactiondata['password'] = $this->userpass;
 			$transactiondata['type'] = 'void';
 			$transactiondata['transactionid'] = (isset($incoming['transactionid']) ? $incoming['transactionid'] : '');
 				
@@ -551,6 +553,10 @@ public function SaleCheck($incoming=null){
 			$transactiondata['orderid'] = (isset($incoming['orderid']) ? $incoming['orderid'] : '');
 		
 			return $this->_send($transactiondata);		
+		}  else {
+			$response['Message'] = 'Required Values <strong>type or transactionid</strong> Are Missing';
+			$response['error'] = 1;
+			return $response;
 		}
 	
 	}// Update
