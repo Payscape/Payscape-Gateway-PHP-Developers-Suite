@@ -1,15 +1,11 @@
 <?php 
-/* 1/02/2014 */
-/*
- * REQUIRED FIELDS
- * type = 'capture' 
- * transactionid = transactionid returned by the API of previous Auth 
- * 
- * */
+	/*
+	 * Transaction with Payscape Direct Post API PHP Wrapper
+	 * Capture Authorization Example 
+	 * */
 
 			require_once 'classes/Payscape/Payscape.php';
 	
-
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     	/* triggers */
@@ -22,20 +18,10 @@
 		*
 		* */
 		
-		
-			/*
-			$data_debug = $_POST;	
-		
-				echo "<pre>";
-					print_r($_POST);
-				echo "</pre>";	
-				exit();
-		*/
-
 	$type = 'capture';
 	$amount = $_POST['amount'];
-
 	$transactionid = $_POST['transactionid'];
+
 		if(isset($transactionid)){
 			$transactionid = (int) $transactionid;
 		}
@@ -46,18 +32,10 @@
 		* */
 		
 		$sql = "SELECT id, amount, transactionid, orderid, authcode FROM transactions WHERE `transactionid` = $transactionid";
-		/*
-		 echo "SQL: <br>";
-		echo $sql;
-		exit();
-		*/
-		
 		
 		if ($result=mysqli_query($conn,$sql))
 		{
-			// Return the number of rows in result set
 			$rowcount=mysqli_num_rows($result);
-			//	printf("Result set has %d rows.\n",$rowcount);			
 		}
 		
 		
@@ -75,9 +53,6 @@
 				$process = 1;
 				$capture_message = "Process Authorization Capture for Transaction  #$transactionid";
 			}
-		
-		
-		
 		}	
 
 		$incoming = array();
@@ -92,46 +67,20 @@
 
 		$Payscape = NEW Payscape();
 		$response = $Payscape->Capture($incoming);
-		
-		echo "<pre>";
-		echo "INCOMING: <br>";
-		print_r($incoming);
-		
-		
-		echo "<br>RESPONSE:<br>";
-		print_r($response);
-		echo "<pre>";
-		//exit();
-		
+				
 		parse_str($response, $result_array);
-		
-		echo "<pre>";
-		echo "RESULT ARRAY: ";
-		print_r($result_array);
-		echo "</pre>";
-		
-	//	exit();
 		
 		if($result_array['response']==1){
 			$response_code = $result_array['response'];
 			$authtransactionid = $result_array['transactionid'];
 			$authcode = $result_array['authcode'];		
-			$message = "The capture was successful "; 
+			$message = "The capture was successful"; 
 		
 		
-		/* save the submission and transaction details */
+		/* update the transaction record with the capture details  */
 			
 		$sql = "UPDATE transactions SET `capture` = $response_code, type = 'capture' WHERE `transactionid` = $authtransactionid";
 		
-							/*			
-								echo "SQL: <BR>";
-										echo "<pre>";
-								echo $sql;
-										echo "</pre>";
-										
-								exit();		
-							*/
-						
 						if(!mysqli_query($conn, $sql)){
 							/* for testing */
 							printf("Error: %s\n", mysqli_error($conn));
@@ -183,7 +132,7 @@
     	} else {
     	
     		while($row = mysqli_fetch_assoc($result)){
-    			$auth_amount = $row['amount'];
+    			$amount = $row['amount'];
     			$transactionid = $row['transactionid'];
     			$orderid = $row['orderid'];
     			$authcode = $row['authcode'];

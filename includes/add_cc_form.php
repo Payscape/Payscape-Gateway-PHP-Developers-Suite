@@ -6,13 +6,8 @@
 
 	$type = "sale"; 
 	$time = gmdate("YmdHis");
-	$key_id = 449510;
-	$key = '\!b2#1wu%)4_tUdpAxO|GDWW?20:V.w';		// Replace with your Payscape Key
 
-	$order_id = "Test";
-	
-	$ccnumber = 4111111111111111;
-	$message = "We have add_cc_form.php included";
+	$message = "Credit Card transaction";
 	
 ?>
 
@@ -22,12 +17,12 @@
 		<legend>Sale Credit Card Transaction</legend>
 		<input name="action" value="add-cc" type="hidden" id="TransactionAction"/>
 					
-			<div class="input text"><label for="TransactionType">Type</label><input name="type" value="sale" maxlength="20" type="text" id="TransactionType"/></div>				
-			<div class="input text"><label for="TransactionCcnumber">Ccnumber</label><input name="ccnumber" value="4111111111111111" maxlength="20" type="text" id="TransactionCcnumber"/></div>
-			<div class="input text"><label for="TransactionCcexp">Ccexp</label><input name="ccexp" value="1010" maxlength="4" type="text" id="TransactionCcexp"/></div>	
-			<div class="input number required"><label for="TransactionAmount">Amount</label><input name="amount" step="any" type="text" id="TransactionAmount" required="required" value="2.00" /></div>
+			<div class="input text"><label for="TransactionType">Type: Sale</label></div>				
+			<div class="input text"><label for="TransactionCcnumber">Ccnumber</label><input name="ccnumber" maxlength="20" type="text" id="TransactionCcnumber"/></div>
+			<div class="input text"><label for="TransactionCcexp">Ccexp</label><input name="ccexp" maxlength="4" type="text" id="TransactionCcexp"/></div>	
 			<div class="input text"><label for="TransactionCvv">Cvv</label><input name="cvv" maxlength="4" type="text" id="TransactionCvv"/></div>
-			
+
+			<div class="input number required"><label for="TransactionAmount">Amount</label><input name="amount" step="any" type="text" id="TransactionAmount" required="required" /></div>			
 			<div class="input number"><label for="TransactionTax">Tax</label><input name="tax" step="any" type="text" id="TransactionTax" /></div>
 			<div class="input number"><label for="TransactionOrderID">Order ID</label><input name="orderid" step="any" type="text" id="TransactionOrderID" /></div>
 			<div class="input"><label for="TransactionOrderDescription">Order Description</label><br>

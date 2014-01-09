@@ -1,23 +1,22 @@
 <?php 
+	/*
+	 * Transaction with Payscape Direct Post API PHP Wrapper
+	 * Credit Card Example 
+	 * */
 
-$posturl = 'https://secure.payscapegateway.com/api/transact.php';
-$order_id = 'TestCC';
 
-$visa = 4111111111111111;
-$mastercard = 5431111111111111;
-$discover = 6011601160116611;
-$american_express = 341111111111111;
-$cc_expire = '1025'; // 10/25
-$cvv = 123;
-
-$key = '\!b2#Iwu%)4_tUdpAxO|GDWW?20:V.w';		// Replace with your Payscape Key
-$key_id = '449510';
 $type = 'sale';
 $time = gmdate('YmdHis');
 
 $ipaddress = $_SERVER['REMOTE_ADDR'];
 
-$orderid = date('YmdHis') . "Test";
+/* test data */
+$visa = 4111111111111111;
+$mastercard = 5431111111111111;
+$discover = 6011601160116611;
+$american_express = 341111111111111;
+$cc_expire = '1010'; // 10/10
+$cvv = 123;
 
 			require_once 'classes/Payscape/Payscape.php';
 	
@@ -47,9 +46,10 @@ $orderid = date('YmdHis') . "Test";
 	$tax = $_POST['tax'];
 	$payment = 'credit card';
 	$orderdescription = $_POST['orderdescription'];
+	$orderid = $_POST['orderid'];
+	
 	$ccnumber = $_POST['ccnumber'];
 	$ccexp = $_POST['ccexp'];
-
 	$cvv = $_POST['cvv'];
 	
 	$firstname = $_POST['firstname'];
@@ -65,38 +65,17 @@ $orderid = date('YmdHis') . "Test";
 	$email = $_POST['email'];
 	
 	$time = gmdate('YmdHis');	
-	$hash = md5($order_id|$amount|$time|$key);
-	
-	
-/*	
-	echo "<br>ORDER ID: $order_id";
-	echo "<br>AMOUNT: $amount";
-	echo "<br>TIME: $time";
-	echo "<br>KEY: $key";
-	echo "<br>MD5(order_id|amount|time|): " . md5("$order_id|$amount|$time|$key") . "<br>";
-
-
-	echo "<br>md5(order_id|amount|time): " . md5("$order_id|$amount|time") . "<br>";
-	
-	
-	
-	echo "<br>HASH: $order_id|$amount|$time|$key";
-	echo "<br>PREPARED HASH: $hash";
-*/			
+		
 		$incoming = array();
+		/* required */
 		$incoming['type'] = "$type";
 		$incoming['amount'] = $amount;
-		$incoming['tax'] = $tax;
-		$incoming['payment'] = 'credit card';
-		
-//		$incoming['key_id'] = $key_id;
-//		$incoming['hash'] = $hash;
-//		$incoming['time'] = $time;
-
+		$incoming['payment'] = 'creditcard';	
 		$incoming['ccnumber'] = $ccnumber;
 		$incoming['ccexp'] = $ccexp;
+		/* optional */
 		$incoming['cvv'] = $cvv;
-		
+		$incoming['tax'] = $tax;
 		$incoming['firstname'] = $firstname;
 		$incoming['lastname'] = $lastname;
 		$incoming['company'] = $company;
@@ -110,37 +89,11 @@ $orderid = date('YmdHis') . "Test";
 		$incoming['email'] = $email;
 		$incoming['orderid'] = $orderid;
 
-
-	
-		
-
 		$Payscape = NEW Payscape();
-		$response = $Payscape->Sale($incoming);
-		
-		
-		
-		 echo "<pre>";
-		echo "INCOMING: <br>";
-		print_r($incoming);
-	
-		
-	
-		echo "<br>RESPONSE:<br>";
-		print_r($response);
-		echo "<pre>";
-		
-		
-		//exit();
-		
+		$response = $Payscape->Sale($incoming);		
+
+				
 		parse_str($response, $result_array);
-		
-	
-		echo "<pre>";
-		echo "RESULT ARRAY: ";
-		print_r($result_array);
-		echo "</pre>";
-	
-	//	exit();
 		
 		if($result_array['response']==1){
 		
@@ -150,26 +103,17 @@ $orderid = date('YmdHis') . "Test";
 		
 		/* save the submission and transaction details */
 			
-		$sql = "INSERT INTO `transactions` (`type`,  
-				`hash`, `time`, `ccnumber`, `ccexp`,   
-				`amount`, `tax`, `cvv`, `payment`, `orderdescription`,
+		$sql = "INSERT INTO `transactions` (`type`, 
+				`time`, `amount`, `tax`, `payment`, `orderdescription`,
 				`ipaddress`, `firstname`, 
 				`lastname`, `company`, `address1`, `city`, `state`, `zip`, `country`, 
 				`phone`, `fax`, `email`, `orderid`, `transactionid`) 
 				VALUES('$type', 
-				'$hash', '$time', '$ccnumber', '$ccexp', 
-				$amount, $tax, '$cvv', '$payment', '$orderdescription', 
+				'$time', $amount, $tax, '$payment', '$orderdescription', 
 				'$ipaddress', '$firstname', 
 				'$lastname', '$company', '$address1', '$city', '$state', '$zip', '$country',
 				'$phone', '$fax', '$email', '$orderid', $transactionid)";
-							/*	
-								echo "SQL: <BR>";
-										echo "<pre>";
-								echo $sql;
-										echo "</pre>";
-										
-								exit();		
-							*/
+							
 					if(!mysqli_query($conn, $sql)){
 						/* for testing */
 						printf("Error: %s\n", mysqli_error($conn));
@@ -183,8 +127,6 @@ $orderid = date('YmdHis') . "Test";
 				$message = "Transaction has failed.";
 			}		
 			
-			
-			
 			mysqli_close($conn);
 									
 
@@ -196,4 +138,4 @@ $orderid = date('YmdHis') . "Test";
  //   echo $message;
     
  // end add_cc   
-?>		
+?>

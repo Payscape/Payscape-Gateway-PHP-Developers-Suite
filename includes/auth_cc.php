@@ -1,23 +1,27 @@
 <?php 
 
-$posturl = 'https://secure.payscapegateway.com/api/transact.php';
+	/*
+	 * Transaction with Payscape Direct Post API PHP Wrapper
+	 * Credit Card Authorization Example 
+	 * */
 
 
-$visa = 4111111111111111;
-$mastercard = 5431111111111111;
-$discover = 6011601160116611;
-$american_express = 341111111111111;
-$cc_expire = '1025'; // 10/25
-$cvv = 123;
+	/* test data */
 
-$key = '\!b2#Iwu%)4_tUdpAxO|GDWW?20:V.w';		// Replace with your Payscape Key
-$key_id = '449510';
-$type = 'auth';
-$time = gmdate('YmdHis');
+	$visa = 4111111111111111;
+	$mastercard = 5431111111111111;
+	$discover = 6011601160116611;
+	$american_express = 341111111111111;
+	$cc_expire = '1010'; // 10/10
+	$cvv = 123;
+	
+	
+	$type = 'auth';
+	$time = gmdate('YmdHis');
+	
+	$ipaddress = $_SERVER['REMOTE_ADDR'];
+	
 
-$ipaddress = $_SERVER['REMOTE_ADDR'];
-
-$orderid = date('YmdHis') . "TestAuthCC";
 
 			require_once 'classes/Payscape/Payscape.php';
 	
@@ -34,15 +38,6 @@ $orderid = date('YmdHis') . "TestAuthCC";
 		*
 		* */
 		
-		
-			/*
-			$data_debug = $_POST;	
-		
-				echo "<pre>";
-					print_r($_POST);
-				echo "</pre>";	
-				exit();
-		*/
 	$amount = $_POST['amount'];
 	$payment = 'creditcard';
 	$ccnumber = $_POST['ccnumber'];
@@ -62,33 +57,13 @@ $orderid = date('YmdHis') . "TestAuthCC";
 	$email = $_POST['email'];
 	
 	$time = gmdate('YmdHis');	
-	$hash = md5($orderid|$amount|$time|$key);
-	
-	
-/*	
-	echo "<br>ORDER ID: $order_id";
-	echo "<br>AMOUNT: $amount";
-	echo "<br>TIME: $time";
-	echo "<br>KEY: $key";
-	echo "<br>MD5(order_id|amount|time|): " . md5("$order_id|$amount|$time|$key") . "<br>";
 
-
-	echo "<br>md5(order_id|amount|time): " . md5("$order_id|$amount|time") . "<br>";
 	
-	
-	
-	echo "<br>HASH: $order_id|$amount|$time|$key";
-	echo "<br>PREPARED HASH: $hash";
-*/			
 		$incoming = array();
 		$incoming['type'] = "$type";
 		$incoming['amount'] = $amount;
 		$incoming['payment'] = 'credit card';
 		
-//		$incoming['key_id'] = $key_id;
-//		$incoming['hash'] = $hash;
-//		$incoming['time'] = $time;
-
 		$incoming['ccnumber'] = $ccnumber;
 		$incoming['ccexp'] = $ccexp;
 		$incoming['cvv'] = $cvv;
@@ -108,30 +83,10 @@ $orderid = date('YmdHis') . "TestAuthCC";
 
 		$Payscape = NEW Payscape();
 		$response = $Payscape->Auth($incoming);
-		
-		
-		
-		 echo "<pre>";
-		echo "INCOMING: <br>";
-		print_r($incoming);
-		
-	
-		echo "<br>RESPONSE:<br>";
-		print_r($response);
-		echo "<pre>";
-		
+
 		
 		// exit();
-		
 		parse_str($response, $result_array);
-		
-
-		echo "<pre>";
-		echo "RESULT ARRAY: ";
-		print_r($result_array);
-		echo "</pre>";
-	
-	//	exit();
 		
 		if($result_array['response']==1){
 		
@@ -143,23 +98,15 @@ $orderid = date('YmdHis') . "TestAuthCC";
 		/* save the submission and transaction details */
 			
 		$sql = "INSERT INTO `transactions` (`type`, `key_id`, 
-				`hash`, `time`, `ccnumber`, `ccexp`,  
-				`amount`, `cvv`, `payment`, `ipaddress`, `firstname`, 
+				`time`,  `amount`, `payment`, `ipaddress`, `firstname`, 
 				`lastname`, `company`, `address1`, `city`, `state`, `zip`, `country`, 
 				`phone`, `fax`, `email`, `orderid`, `transactionid`, `authcode`) 
 				VALUES('$type', '$key_id',
-				'$hash', '$time', '$ccnumber', '$ccexp', 
-				$amount, '$cvv', '$payment', '$ipaddress', '$firstname', 
+				'$hash', '$time',  
+				$amount, '$payment', '$ipaddress', '$firstname', 
 				'$lastname', '$company', '$address1', '$city', '$state', '$zip', '$country',
 				'$phone', '$fax', '$email', '$orderid', $transactionid, $authcode)";
-						/*		
-								echo "SQL: <BR>";
-										echo "<pre>";
-								echo $sql;
-										echo "</pre>";
-										
-								exit();		
-						*/
+
 					if(!mysqli_query($conn, $sql)){
 						/* for testing */
 						printf("Error: %s\n", mysqli_error($conn));
@@ -167,13 +114,10 @@ $orderid = date('YmdHis') . "TestAuthCC";
 					} else {
 						$message .= " and Auth has been Saved to the database.";
 					}
-	
 			
 			} else {
 				$message = "Transaction has failed.";
 			}		
-			
-			
 			
 			mysqli_close($conn);
 									

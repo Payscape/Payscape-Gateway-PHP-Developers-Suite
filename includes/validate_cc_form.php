@@ -1,18 +1,19 @@
 <?php
-
-	/*
-	 * Some values have been hard coded for testing.
-	 * */
+		/*
+		 * Transaction with Payscape Direct Post Gateway PHP Wrapper
+		 * Validate Credit Card Example
+		 * */
 
 	$type = "validate"; 
 	$time = gmdate("YmdHis");
-	$key_id = 449510;
-	$key = '\!b2#1wu%)4_tUdpAxO|GDWW?20:V.w';		// Replace with your Payscape Key
+	
+	/* test data */
 
 	$order_id = "Test";
-	
 	$ccnumber = 4111111111111111;
-	$message = "We have validate_cc_form.php included";
+	$ccexp = '1010'; // 10/10
+	$cvv = '123';
+	$message = "Validate Credit Card";
 	
 ?>
 
@@ -22,14 +23,12 @@
 	<fieldset>
 		<legend>Validate Credit Card Transaction</legend>
 		<input name="action" value="validate-cc" type="hidden" id="TransactionAction"/>
-					
-		<div class="input text"><label for="TransactionType">Type</label><input name="type" value="validate" maxlength="20" type="text" id="TransactionType"/></div>				
-		<div class="input number required"><label for="TransactionKeyID">Key ID</label><input name="key_id" step="any" type="text" id="TransactionKeyID" value="<?php echo $key_id; ?>" required="required"/></div>
-		<div class="input text"><label for="TransactionCcnumber">Ccnumber</label><input name="ccnumber" value="4111111111111111" maxlength="20" type="text" id="TransactionCcnumber"/></div>
-		<div class="input text"><label for="TransactionCcexp">Ccexp</label><input name="ccexp" value="1010" maxlength="4" type="text" id="TransactionCcexp"/></div>		
-		<div class="input number required"><label for="TransactionAmount">Amount</label><input name="amount" step="any" type="text" id="TransactionAmount" required="required" value="2.00" /></div>
-		<div class="input text"><label for="TransactionCvv">Cvv</label><input name="cvv" maxlength="4" type="text" id="TransactionCvv"/></div>
-		<div class="input text"><input name="payment" type="hidden" value="credit card" id="TransactionPayment"></div>
+		<input name="type" value="validate" maxlength="20" type="hidden" id="TransactionType"/>	
+		Transaction type: validate		
+	<div class="input text"><label for="TransactionCcnumber">Ccnumber</label><input name="ccnumber" maxlength="20" type="text" id="TransactionCcnumber"/></div>
+		<div class="input text"><label for="TransactionCcexp">Ccexp</label><input name="ccexp" maxlength="4" type="text" id="TransactionCcexp"/></div>		
+		<div class="input text"><label for="TransactionCvv">Cvv</label><input name="cvv" maxlength="4" type="text" id="TransactionCvv" /></div>
+		<div class="input text"><input name="payment" type="hidden" value="creditcard" id="TransactionPayment"></div>
 		<div class="input text"><label for="TransactionFirstname">Firstname</label><input name="firstname" maxlength="30" type="text" id="TransactionFirstname"/></div>
 		<div class="input text"><label for="TransactionLastname">Lastname</label><input name="lastname" maxlength="30" type="text" id="TransactionLastname"/></div>
 		<div class="input text"><label for="TransactionCompany">Company</label><input name="company" maxlength="60" type="text" id="TransactionCompany"/></div>

@@ -1,26 +1,25 @@
 <?php 
 
+	/*
+	 *  Transaction with Payscape Direct Post API PHP Wrapper
+	 * eCheck Example 
+	 * */
+	
 
-	/* variables for Check Transactions */
-
-	$posturl = 'https://secure.payscapegateway.com/api/transact.php';
-	$order_id = 'Test';
-	$key = '\!b2#1wu%)4_tUdpAxO|GDWW?20:V.w';		// Replace with your Payscape Key
-	$key_id = '449510';
 	$type = 'sale';
 	$time = gmdate('YmdHis');
-	$order_id = 'TestCheck';
 	
 	$ipaddress = $_SERVER['REMOTE_ADDR'];
 	
-	$account_ach = '123123123'; // Replace with your Bank Account Number (ACH)
-	$routing_ach = '123123123'; // Replace with your Bank Routing Number (ACH)
-	$account_holder_type = 'business'; // Replace with your Payscape Account Holder Type (business / personal)
-	$account_type = 'checking'; // Replace with your bank account type (checking / savings)
-	$checkname = 'Test'; // Replace with the name on your ACH Account
-
-	$orderid = date('YmdHis') . "TestCheck";	
+	/* test data */
 	
+	$key = '\!b2#1wu%)4_tUdpAxO|GDWW?20:V.w';		// Replace with your Payscape Key	
+	$account_ach = '123123123'; 
+	$routing_ach = '123123123';
+	$account_holder_type = 'business'; 
+	$account_type = 'checking'; 
+	$checkname = 'Test'; 
+
 	require_once 'classes/Payscape/Payscape.php';
 	
 
@@ -49,6 +48,8 @@
     	$sec_code = 'WEB';
 
 // optional fields
+		$orderid = $_POST['orderid'];
+		$orderdescription = $_POST['orderdescription'];
     	$firstname = $_POST['firstname'];
     	$lastname = $_POST['lastname'];
     	$company = $_POST['company'];
@@ -62,16 +63,11 @@
     	$email = $_POST['email'];
     	
     	$time = gmdate('YmdHis');
-    	$hash = md5($order_id|$amount|$time|$key);
-    	
-	
-
-    	
-    	$hash = md5($order_id|$amount|$time|$key);
+    	$hash = md5($orderid|$amount|$time|$key);
 			
 		$incoming = array();
 		$incoming['type'] = $type;
-		$incoming['key_id'] = $key_id;
+	
 
 		$incoming['time'] = $time;
 		$incoming['checkname'] = $checkname;
@@ -96,48 +92,28 @@
 		$incoming['orderid'] = $orderid;		
 		
 		$Payscape = NEW Payscape();
-		$response = $Payscape->SaleCheck($incoming);
-		
-		
-		echo "<pre>";
-		echo "INCOMING: <br>";
-		print_r($incoming);
-		
-		echo "RESPONSE: ";
-		echo $response;
-		//exit();
-		
+		$response = $Payscape->Sale($incoming);	
 
 		parse_str($response, $result_array);
 		
-		echo "RESULT ARRAY: ";
-		print_r($result_array);
-		echo "</pre>";
-		
 					if($result_array['response']==1){
 						
-						$message = "The transaction was successful";
+						$message = "The transaction was successful ";
 						$transactionid = $result_array['transactionid'];
 						
 					/* save the submission */
 						
-					$sql = "INSERT INTO `transactions` (`type`, `key_id`, 
-							`hash`, `time`, `checkname`, `checkaba`, 
-							`checkaccount`, `account_holder_type`, `account_type`, `sec_code`, 
+					$sql = "INSERT INTO `transactions` (`type`, 
+							`time`, `account_holder_type`, `account_type`, `sec_code`, 
 							`amount`, `payment`, `ipaddress`, `firstname`, 
 							`lastname`, `company`, `address1`, `city`, `state`, `zip`, `country`, 
 							`phone`, `fax`, `email`, `orderid`, `transactionid`) 
-							VALUES('$type', '$key_id',
-							'$hash', '$time', '$checkname', '$checkaba', 
-							'$checkaccount', '$account_holder_type', '$account_type', '$sec_code',
+							VALUES('$type',
+							'$time', '$account_holder_type', '$account_type', '$sec_code',
 							$amount, '$payment', '$ipaddress', '$firstname', 
 							'$lastname', '$company', '$address1', '$city', '$state', '$zip', '$country',
 							'$phone', '$fax', '$email', '$orderid', $transactionid)";
-					
-			//	echo "$sql";
-			//	exit();	
-					
-					
+	
 								if(!mysqli_query($conn, $sql)){
 									printf("Error: %s\n", mysqli_error($conn));
 						
@@ -146,14 +122,12 @@
 						
 									$message .= "and has been saved to the database.";
 								}	
-
 							
 							} else {
 								$message = "Transaction has failed.";
 							}
 								
 							mysqli_close($conn);
-		
 				
 			} else {
 		    	require_once 'includes/add_check_form.php';

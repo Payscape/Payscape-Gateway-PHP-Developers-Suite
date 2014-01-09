@@ -1,4 +1,8 @@
 <?php 
+	/*
+	* Transaction with Payscape Direct Post API PHP Wrapper
+	* Credit Example
+	* */
 
 	$type = 'credit';
 	$ipaddress = $_SERVER['REMOTE_ADDR'];
@@ -18,15 +22,6 @@
 		*
 		* */
 		
-		
-			/*
-			$data_debug = $_POST;	
-		
-				echo "<pre>";
-					print_r($_POST);
-				echo "</pre>";	
-				exit();
-		*/
 	$amount = $_POST['amount'];
 	$tax = $_POST['tax'];
 	$transactionid = $_POST['transactionid'];	
@@ -53,20 +48,7 @@
 	$email = $_POST['email'];
 	
 	$time = gmdate('YmdHis');
-		
-//	$hash = md5($order_id|$amount|$time|$key);
-
-	
-/*	
-	echo "<br>ORDER ID: $order_id";
-	echo "<br>AMOUNT: $amount";
-	echo "<br>TIME: $time";
-	echo "<br>KEY: $key";
-	echo "<br>MD5(order_id|amount|time|): " . md5("$order_id|$amount|$time|$key") . "<br>";
-	echo "<br>md5(order_id|amount|time): " . md5("$order_id|$amount|time") . "<br>";
-	echo "<br>HASH: $order_id|$amount|$time|$key";
-	echo "<br>PREPARED HASH: $hash";
-*/			
+				
 		$incoming = array();
 		$incoming['type'] = $type;
 		$incoming['amount'] = $amount;
@@ -78,14 +60,12 @@
 
 		$incoming['ccnumber'] = $ccnumber;
 		$incoming['ccexp'] = $ccexp;
-		$incoming['cvv'] = $cvv;				
-		
 
 		$incoming['orderid'] = $orderid;
 		$incoming['transactionid'] = $transactionid;
 
 		/* user supplied optional data */
-
+		$incoming['cvv'] = $cvv;
 		$incoming['firstname'] = $firstname;
 		$incoming['lastname'] = $lastname;
 		$incoming['company'] = $company;
@@ -96,36 +76,12 @@
 		$incoming['country'] = $country;
 		$incoming['phone'] = $phone;
 		$incoming['fax'] = $fax;
-		$incoming['email'] = $email;
-		
-
+		$incoming['email'] = $email;		
 
 		$Payscape = NEW Payscape();
 		$response = $Payscape->Credit($incoming);
 		
-		
-		
-		echo "<pre>";
-		echo "INCOMING: <br>";
-		echo "<pre>";
-		print_r($incoming);
-		
-		echo "<br>RESPONSE:<br>";
-		print_r($response);
-		echo "</pre>";
-		
-		
-		//exit();
-		
 		parse_str($response, $result_array);
-		
-		
-		echo "<pre>";
-		echo "RESULT ARRAY: ";
-		print_r($result_array);
-		echo "</pre>";
-		
-	//	exit();
 		
 	if($result_array['response']==1){
 		
@@ -138,14 +94,14 @@
 /* create a unique record for the Credit: */
 			
 		$sql = "INSERT INTO `transactions` (`type`,  
-				`hash`, `time`, `ccnumber`, `ccexp`,   
-				`amount`, `tax`, `cvv`, `payment`, `orderdescription`,
+				`time`,    
+				`amount`, `tax`, `payment`, `orderdescription`,
 				`ipaddress`, `firstname`, 
 				`lastname`, `company`, `address1`, `city`, `state`, `zip`, `country`, 
 				`phone`, `fax`, `email`, `orderid`, `transactionid`) 
 				VALUES('$type', 
-				'$hash', '$time', '$ccnumber', '$ccexp', 
-				$amount, $tax, '$cvv', '$payment', '$orderdescription', 
+				'$time',  
+				$amount, $tax, '$payment', '$orderdescription', 
 				'$ipaddress', '$firstname', 
 				'$lastname', '$company', '$address1', '$city', '$state', '$zip', '$country',
 				'$phone', '$fax', '$email', '$orderid', $transactionid)";
@@ -155,15 +111,6 @@
 		$sql = "UPDATE transactions SET type = 'credit', amount = $amount WHERE transactionid = $transactionid";
 	*/	
 		
-		
-						/*		
-								echo "SQL: <BR>";
-										echo "<pre>";
-								echo $sql;
-										echo "</pre>";
-										
-								exit();		
-						*/
 					if(!mysqli_query($conn, $sql)){
 						/* for testing */
 						printf("Error: %s\n", mysqli_error($conn));
@@ -176,8 +123,6 @@
 			} else {
 				$message = "Transaction has failed.";
 			}		
-			
-			
 			
 			mysqli_close($conn);
 									
@@ -207,25 +152,18 @@
     	fax, 
     	email,     	
      	amount, 
+     	tax, 
     	payment, 
     	orderdescription,
     	orderid, 
     	transactionid  
     	FROM `transactions` 
     	WHERE transactionid = $transactionid";
-    	
-    //	 echo "SQL: <br>";
-    //	echo $sql;
-    //	exit();
-    	
     	 
     	 
     	if ($result=mysqli_query($conn,$sql))
     	{
-    		// Return the number of rows in result set
-    		$rowcount=mysqli_num_rows($result);
-    		//	printf("Result set has %d rows.\n",$rowcount);
-    		 
+    		$rowcount=mysqli_num_rows($result);	 
     	}
     	 
     	 
@@ -244,6 +182,7 @@
     			$cvv = $row['cvv'];
     			$amount = $row['amount'];
     			
+    			$tax = $row['tax'];
     			$firstname = $row['firstname'];
     			$lastname = $row['lastname'];
     			$company = $row['company'];
@@ -266,12 +205,11 @@
     		}
     	}// get form data
     	
-    	require_once 'includes/credit_form.php';
-   
+    	require_once 'includes/credit_form.php';   
     	
     	
   }	// get	
 
     
- // end Credit  
+ // Credit  
 ?>		

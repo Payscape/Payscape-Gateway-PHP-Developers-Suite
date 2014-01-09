@@ -21,13 +21,6 @@
     	exit;
     }
 
-    
-    /*
-    echo "<pre>";
-    print_r($result);
-    echo "</pre>";
-    exit();
-    */
 ?>
 
 
@@ -123,7 +116,10 @@
 		<td><?php echo $row['zip']; ?></td>
 		<td><?php echo $row['country']; ?></td>
 	</tr>
-	
+		<tr>
+		<td colspan="3"><strong>Carrier: <?php echo $row['shipping_carrier']; ?></strong></td>
+		<td colspan="2"><strong>Tracking Number: <?php echo $row['tracking_number']; ?></strong></td>
+	</tr>
 	</table>
 		<hr>
 	
@@ -136,23 +132,19 @@
 		
 <?php if($row['payment']=='credit card'){ ?>
 	<tr>
-		<th>Payment</th><th>Credit Card Number</th><th>Expiration</th><th>CVV</th>
+		<th>Payment</th>
 		</tr>
 	<tr>	
 		<td><?php echo $row['payment']; ?></td>
-		<td><?php echo $row['ccnumber']; ?></td>
-		<td><?php echo $row['ccexp']; ?></td>
-		<td><?php echo $row['cvv']; ?></td>
+
 	</tr>
 
 <?php } else { ?>
 	<tr>
-	<th>Checkname</th><th>Check Account </th><th>Routing Number</th><th>Account Type</th><th>Account Holder Type</th>
+	<th>Account Type</th><th>Account Holder Type</th>
 	</tr>
 	<tr>
-	<td><?php echo $row['checkname']; ?></td>
-	<td><?php echo $row['checkaccount']; ?></td>
-	<td><?php echo $row['checkaba']; ?></td>
+
 	<td>	<?php echo $row['account_type']; ?></td>
 	<td>	<?php echo $row['account_holder_type']; ?></td>
 	
@@ -169,15 +161,10 @@
 		<table class="transaction">
 	<caption><h3>Credentials</h3></caption>
 	<tr>
-		<th>Key ID</th><th>Hash</th><th>Sec Code</th><th>Processor ID</th>
+		<th>Sec Code</th>
 	</tr>
 	<tr>
-		<td><?php echo $row['key_id']; ?>
-		</td>
-		<td><?php echo $row['hash']; ?></td>
 		<td><?php echo $row['sec_code']; ?></td>
-		<td><?php echo $row['processor_id']; ?></td>
-	
 	</tr>
 	
 	</table>

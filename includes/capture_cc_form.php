@@ -1,50 +1,30 @@
 <?php
 
-	/*
-	 * amount // rectified amount, not the amount of the original auth transaction
-	 * transactionid // the transactionid of the auth
-	 * username
-	 * password
-	 * 
-	 * 
-	 * */
-
-	/*
-	 * Some values have been hard coded for testing.
-	 * */
-
 	$type = "auth"; 
 	$time = gmdate("YmdHis");
-	$key_id = 449510;
-	$key = '\!b2#1wu%)4_tUdpAxO|GDWW?20:V.w';		// Replace with your Payscape Key
 
-	$order_id = "Test";
-	
-	$ccnumber = 4111111111111111;
-	$message = "We have capture_cc_form.php included";
-	
-
-	
-		
-	
-	
+	$message = "Capture Credit Card Authorization";
 	
 ?>
 	<h3><?php echo $capture_message; ?></h3>
 
 	<?php if($process==1){ ?>
 <div class="transactions form">
-<form action="transactions.php" id="TransactionCaptureForm" method="post" accept-charset="utf-8"><div style="display:none;"><input type="hidden" name="_method" value="POST"/></div>	<fieldset>
+	<form action="transactions.php" id="TransactionCaptureForm" method="post" accept-charset="utf-8"><div style="display:none;"><input type="hidden" name="_method" value="POST"/></div>	<fieldset>
 		<legend>Capture Auth Transaction</legend>
-	<input name="action" value="capture-cc" type="hidden" id="TransactionAction"/>				
-		
-	<div class="input text"><label for="TransactionType">Type:</label> Capture. 	</div>				
-
-	<div class="input number required"><label for="TransactionTransactionID">Auth Transaction ID</label><input name="transactionid" step="any" type="text" id="TransactionTransactionID" value="<?php echo $transactionid; ?>" required="required"/></div>
-	<div class="input number required"><label for="TransactionAmount">Amount Total</label><input name="amount" step="any" type="text" id="TransactionAmount" required="required" value="2.00" /></div>
-
-</fieldset>
-<div class="submit"><input  type="submit" value="Submit"/></div></form></div>
+		<input name="action" value="capture-cc" type="hidden" id="TransactionAction" />				
+		<input name="type" type="hidden" value="capture" id="TransactionType" />
+			
+		<div class="input text"><label for="TransactionType">Type:</label> Capture. 	</div>				
+	
+		<div class="input number required"><label for="TransactionTransactionID">Auth Transaction ID</label><input name="transactionid" step="any" type="text" id="TransactionTransactionID" value="<?php echo $transactionid; ?>" required="required"/></div>
+		<div class="input number required"><label for="TransactionAmount">Amount Total</label><input name="amount" step="any" type="text" id="TransactionAmount" required="required" value="<?php echo $amount; ?>" /></div>
+	
+	<div class="submit"><input  type="submit" value="Submit"/></div>
+	</fieldset>
+	
+	</form>
+</div>
 
 	<?php } ?>
 
@@ -55,5 +35,4 @@
 		<li><a href="/payscape.localdomain/transactions">List Transactions</a></li>
 	</ul>
 </div>
-        
-      </div>
+

@@ -27,14 +27,14 @@
 	<input name="orderid" step="any" type="text" id="TransactionOrderID" value="<?php echo $orderid; ?>" />
 	</div>
 	
-	<div class="input required"><label for="TransactionTrackingID">Tracking Number</label>
+	<div class="input required"><label for="TransactionTrackingID">Tracking Number: <?php echo $tracking_number; ?></label>
 
-	<input name="tracking_number" step="any" type="text" id="TransactionTrackingNumber" />
+	<br><input name="tracking_number" step="any" type="text" id="TransactionTrackingNumber" />
 	</div>
 
-	<div class="input required"><label for="TransactionShippingCarrier">Shipping Carrier</label>
+	<div class="input required"><label for="TransactionShippingCarrier">Shipping Carrier: <?php echo $shipping_carrier; ?></label>
 
-	<select name="shipping_carrier" id="TransactionShippingCarrier">
+	<br><select name="shipping_carrier" id="TransactionShippingCarrier">
 	<option value="dhl">DHL</option>
 	<option value="fedex">FedEx</option>
 	<option value="usps">US Postal Service</option>

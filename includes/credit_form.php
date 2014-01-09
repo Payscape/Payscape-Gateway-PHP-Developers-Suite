@@ -7,7 +7,7 @@
 <form action="transactions.php" id="TransactionAddForm" method="post" accept-charset="utf-8">
 		<div style="display:none;"><input type="hidden" name="_method" value="POST"/></div>	
 	<fieldset>
-		<legend>aarf Process Credit for Transaction ID#<?php echo $transactionid; ?></legend>
+		<legend>Process Credit for Transaction ID#<?php echo $transactionid; ?></legend>
 			<input name="action" value="credit" type="hidden" id="TransactionAction"/>
 		<!-- required fields -->				
 			<div class="input text"><label for="Transactionid">Transaction id #</label><input name="transactionid" value="<?php echo $transactionid; ?>" type="text" id="Transactionid"/></div>
@@ -19,10 +19,10 @@
 			<div class="input number required"><label for="TransactionAmount">Amount</label><input name="amount" step="any" type="text" id="TransactionAmount" required="required" value="<?php echo $amount; ?>" /></div>
 			
 			<div class="input text"><input name="payment" type="hidden" value="<?php echo $payment; ?>" id="TransactionPayment"></div>
-			<div class="input number"><label for="TransactionTax">Tax</label><input name="tax" step="any" type="text" id="TransactionTax" /></div>
-			<div class="input number"><label for="TransactionOrderID">Order ID</label><input name="orderid" step="any" type="text" id="TransactionOrderID" /></div>
+			<div class="input number"><label for="TransactionTax">Tax</label><input name="tax" step="any" type="text" id="TransactionTax" value="<?php echo $tax; ?>" /></div>
+			<div class="input number"><label for="TransactionOrderID">Order ID</label><input name="orderid" step="any" type="text" id="TransactionOrderID" value="<?php echo $orderid; ?>" /></div>
 			<div class="input"><label for="TransactionOrderDescription">Order Description</label><br>
-			<textarea name="orderdescription" id="TransactionOrderdescription"></textarea></div>
+			<textarea name="orderdescription" id="TransactionOrderdescription"><?php echo $orderdescription; ?></textarea></div>
 		<!--  optional user information -->	
 			<div class="input text"><label for="TransactionCvv">Cvv</label><input name="cvv" maxlength="4" type="text" id="TransactionCvv" value="<?php echo $cvv; ?>"/></div>			
 	 		<div class="input text"><label for="TransactionFirstname">Firstname</label><input name="firstname" maxlength="30" type="text" id="TransactionFirstname" value="<?php echo $firstname; ?>" /></div>
@@ -48,5 +48,4 @@
 		<li><a href="/payscape.localdomain/transactions">List Transactions</a></li>
 	</ul>
 </div>
-        
-      </div>
+
