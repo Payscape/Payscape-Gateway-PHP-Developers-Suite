@@ -74,7 +74,7 @@
 				<a href="transactions.php?action=capture_cc&transactionid=<?php echo $row['transactionid']; ?>">Capture</a><br>
 			<?php } 
 			
-			if($row['type']=='sale') { ?>
+			if($row['type']=='sale' && $row['payment']!='check') { ?>
 				<a href="transactions.php?action=refund&transactionid=<?php echo $row['transactionid']; ?>">Refund</a><br>		
 				<a href="transactions.php?action=credit&transactionid=<?php echo $row['transactionid']; ?>">Credit</a><br>
 				<a href="transactions.php?action=update&transactionid=<?php echo $row['transactionid']; ?>">Update</a><br>

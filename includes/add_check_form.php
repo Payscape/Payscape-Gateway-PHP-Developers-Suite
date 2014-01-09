@@ -25,13 +25,13 @@ $account_type = 'checking'; // test bank account type (checking / savings)
 				<input type="hidden" name="action" value="add-check">
 	
 		<div class="input text"><label for="TransactionCheckaba">Checkaba - Bank Routing #</label>
-			<input name="checkaba" value="<?php echo $checkaba?>" type="text" id="TransactionCheckaba"/>
+			<input name="checkaba" type="text" id="TransactionCheckaba"/>
 		</div>
 		<div class="input text"><label for="TransactionCheckaccount">Checkaccount</label>
-			<input name="checkaccount" type="text" id="TransactionCheckaccount" value="<?php echo $checkaccount; ?>" />
+			<input name="checkaccount" type="text" id="TransactionCheckaccount" />
 		</div>
 		<div class="input text"><label for="TransactionCheckname">Checkname</label>
-			<input name="checkname" type="text" id="TransactionCheckname" value="<?php echo $checkname; ?>" />
+			<input name="checkname" type="text" id="TransactionCheckname" />
 		</div>
 		<div class="input text"><label for="TransactionAccountHolderType">Account Holder Type</label>
 		<select name="account_holder_type" id="TransactionAccountHoloderType">
@@ -47,7 +47,7 @@ $account_type = 'checking'; // test bank account type (checking / savings)
 		</div>
 		
 		<div class="input number required"><label for="TransactionAmount">Amount</label>
-			<input name="amount" step="any" type="text" id="TransactionAmount" required="required" value="2.00" />
+			<input name="amount" step="any" type="text" id="TransactionAmount" required="required" />
 		</div>
 		<div class="input number"><label for="TransactionTax">Tax</label>
 			<input name="tax" step="any" type="text" id="TransactionTax" />

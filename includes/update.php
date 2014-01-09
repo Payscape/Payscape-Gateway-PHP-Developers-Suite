@@ -69,23 +69,10 @@
 		$response = $Payscape->Update($incoming);
 
 
-		echo "<pre>";
-		echo "INCOMING 101: <br>";
-		print_r($incoming);
-		
-		
-		echo "<br>RESPONSE:<br>";
-		print_r($response);
-		echo "<pre>";
-		//exit();		
 		
 		parse_str($response, $result_array);
 
-		echo "<pre>";
-		echo "RESULT ARRAY: ";
-		print_r($result_array);
-		echo "</pre>";
-		
+
 		//	exit();
 		
 		if($result_array['response']==1){

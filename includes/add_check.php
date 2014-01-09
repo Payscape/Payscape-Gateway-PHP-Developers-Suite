@@ -13,7 +13,6 @@
 	
 	/* test data */
 	
-	$key = '\!b2#1wu%)4_tUdpAxO|GDWW?20:V.w';		// Replace with your Payscape Key	
 	$account_ach = '123123123'; 
 	$routing_ach = '123123123';
 	$account_holder_type = 'business'; 
@@ -48,6 +47,7 @@
     	$sec_code = 'WEB';
 
 // optional fields
+		$tax = $_POST['tax'];
 		$orderid = $_POST['orderid'];
 		$orderdescription = $_POST['orderdescription'];
     	$firstname = $_POST['firstname'];
@@ -63,7 +63,7 @@
     	$email = $_POST['email'];
     	
     	$time = gmdate('YmdHis');
-    	$hash = md5($orderid|$amount|$time|$key);
+    //	$hash = md5($orderid|$amount|$time|$key);
 			
 		$incoming = array();
 		$incoming['type'] = $type;
@@ -75,7 +75,8 @@
 		$incoming['checkaccount'] = $checkaccount;
 		$incoming['account_holder_type'] = $account_holder_type;
 		$incoming['account_type'] = $account_type;					
-		$incoming['amount'] = $amount;		
+		$incoming['amount'] = $amount;	
+		$incoming['tax'] = $tax;
 		$incoming['sec_code'] = $sec_code;	
 		$incoming['payment'] = 'check';
 		$incoming['firstname'] = $firstname;
@@ -105,12 +106,12 @@
 						
 					$sql = "INSERT INTO `transactions` (`type`, 
 							`time`, `account_holder_type`, `account_type`, `sec_code`, 
-							`amount`, `payment`, `ipaddress`, `firstname`, 
+							`amount`, `tax`, `payment`, `ipaddress`, `firstname`, 
 							`lastname`, `company`, `address1`, `city`, `state`, `zip`, `country`, 
 							`phone`, `fax`, `email`, `orderid`, `transactionid`) 
 							VALUES('$type',
 							'$time', '$account_holder_type', '$account_type', '$sec_code',
-							$amount, '$payment', '$ipaddress', '$firstname', 
+							$amount, $tax, '$payment', '$ipaddress', '$firstname', 
 							'$lastname', '$company', '$address1', '$city', '$state', '$zip', '$country',
 							'$phone', '$fax', '$email', '$orderid', $transactionid)";
 	
