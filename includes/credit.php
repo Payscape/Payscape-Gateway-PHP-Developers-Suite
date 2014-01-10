@@ -28,9 +28,7 @@
 	$payment = $_POST['payment'];
 	$orderdescription = $_POST['orderdescription'];
 
-	$ccnumber = $_POST['ccnumber'];
-	$ccexp = $_POST['ccexp'];
-	$cvv = $_POST['cvv'];			
+		
 	
 	$orderid = $_POST['orderid'];
 
@@ -50,22 +48,22 @@
 	$time = gmdate('YmdHis');
 				
 		$incoming = array();
+		// required fields
 		$incoming['type'] = $type;
+		$incoming['transactionid'] = $transactionid;
+
+		// optional fields for database record
+		
 		$incoming['amount'] = $amount;
 		$incoming['tax'] = $tax;
 		$incoming['payment'] = $payment;
 		$incoming['orderdescription'] = $orderdescription;		
 		$incoming['time'] = $time;
-
-
-		$incoming['ccnumber'] = $ccnumber;
-		$incoming['ccexp'] = $ccexp;
-
 		$incoming['orderid'] = $orderid;
-		$incoming['transactionid'] = $transactionid;
+
 
 		/* user supplied optional data */
-		$incoming['cvv'] = $cvv;
+
 		$incoming['firstname'] = $firstname;
 		$incoming['lastname'] = $lastname;
 		$incoming['company'] = $company;
@@ -81,6 +79,9 @@
 		$Payscape = NEW Payscape();
 		$response = $Payscape->Credit($incoming);
 		
+	print_r($response);
+	exit();	
+		
 		parse_str($response, $result_array);
 		
 	if($result_array['response']==1){
@@ -91,7 +92,7 @@
 		
 		/* save the submission and transaction details */
 
-/* create a unique record for the Credit: */
+/* create a record for the Credit: */
 			
 		$sql = "INSERT INTO `transactions` (`type`,  
 				`time`,    
@@ -133,12 +134,10 @@
     	/*
     	 * get the Sale information for the Credit Form
     	* */
+    	$rowcount = 0;
     	 
     	$sql = "SELECT 
     	time, 
-    	ccnumber,
-    	ccexp,
-    	cvv,
     	ipaddress, 
     	firstname,
     	lastname, 
@@ -159,6 +158,7 @@
     	transactionid  
     	FROM `transactions` 
     	WHERE transactionid = $transactionid";
+
     	 
     	 
     	if ($result=mysqli_query($conn,$sql))
@@ -170,16 +170,14 @@
     	if ($rowcount==0) {
     		$process = 0;
     		$message = "No Authorization record found, nothing to process.";
-    		exit;
+    	
     	} else {
     		 
     		while($row = mysqli_fetch_assoc($result)){
     			
 
     			$time = $row['time'];
-    			$ccnumber = $row['ccnumber'];
-    			$ccexp = $row['ccexp'];
-    			$cvv = $row['cvv'];
+
     			$amount = $row['amount'];
     			
     			$tax = $row['tax'];
@@ -204,6 +202,8 @@
     			$message = "Process Credit Transaction  #$transactionid";
     		}
     	}// get form data
+    	
+
     	
     	require_once 'includes/credit_form.php';   
     	

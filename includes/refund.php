@@ -13,7 +13,7 @@
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     	
-
+// required fields for the Refund transaction
 	$type = 'refund';
 	$amount = $_POST['amount'];
 
@@ -21,13 +21,36 @@
 		if(isset($transactionid)){
 			$transactionid = (int) $transactionid;
 		}
-
+		
 		/*
-		 * get the Sale information for the Refund Form
+		 * get the Sale information of the original transaction
 		*
 		* */
 		
-		$sql = "SELECT id, amount, transactionid, orderid, authcode FROM transactions WHERE `transactionid` = $transactionid";
+//		$sql = "SELECT id, amount, transactionid, orderid, authcode FROM transactions WHERE `transactionid` = $transactionid";
+
+		$sql = "SELECT
+		amount,
+		tax,
+		payment,
+		ipaddress,
+		firstname,
+		lastname,
+		company,
+		address1,
+		city,
+		state,
+		zip,
+		country,
+		phone,
+		fax,
+		email,
+		orderdescription,
+		orderid,
+		transactionid
+		FROM `transactions`
+		WHERE transactionid = $transactionid";		
+		
 		
 		if ($result=mysqli_query($conn,$sql))
 		{
@@ -42,8 +65,32 @@
 		} else {
 		
 			while($row = mysqli_fetch_assoc($result)){
+// optional fields for the refund record
+				
 
-		
+				$amount = $row['amount'];
+				$ipaddress = $row['ipaddress']; 
+				$payment = $row['payment'];
+				$tax = $row['tax'];
+				$firstname = $row['firstname'];
+				$lastname = $row['lastname'];
+				$company = $row['company'];
+				$address1 = $row['address1'];
+				$city = $row['city'];
+				$state = $row['state'];
+				$zip = $row['zip'];
+				$country = $row['country'];
+				$phone = $row['phone'];
+				$fax = $row['fax'];
+				$email = $row['email'];
+				 
+				 
+			
+				$orderdescription = $row['orderdescription'];
+				$transactionid = $row['transactionid'];
+				$orderid = $row['orderid'];
+
+// required field				
 				$transaction_amount = $row['amount'];
 				$process = 1;
 				$refund_message = "Process Refund for Transaction  #$transactionid";
@@ -51,7 +98,7 @@
 
 		}	
 
-
+// required fields for the Refund transaction
 		$incoming = array();
 		$incoming['type'] = $type;
 		$incoming['transactionid'] = $transactionid;
@@ -70,7 +117,22 @@
 		$Payscape = NEW Payscape();
 		$response = $Payscape->Refund($incoming);
 		
+		echo "<pre>";
+		echo "INCOMING: <br>";
+		print_r($incoming);
+		
+		
+		
+		echo "<br>RESPONSE:<br>";
+		print_r($response);
+		echo "<pre>";		
+		
 		parse_str($response, $result_array);
+		
+		echo "<pre>";
+		echo "RESULT ARRAY: ";
+		print_r($result_array);
+		echo "</pre>";		
 		
 		if($result_array['response']==1){
 			$response_code = $result_array['response'];
@@ -78,10 +140,23 @@
 			$authcode = $result_array['authcode'];		
 			$message = "<br>The Refund was successful"; 
 		
-		
-		/* save the submission and transaction details */
+// create a record for the Refund transaction
+
+		$time = gmdate('YmdHis');
 			
-		$sql = "UPDATE transactions SET `type` = 'refund', amount = $refund_amount WHERE `transactionid` = $transactionid";
+		$sql = "INSERT INTO `transactions` (`type`,
+		`time`,
+		`amount`, `tax`, `payment`, `orderdescription`,
+		`ipaddress`, `firstname`,
+		`lastname`, `company`, `address1`, `city`, `state`, `zip`, `country`,
+		`phone`, `fax`, `email`,`tax`, `orderid`, `transactionid`, `authcode`, `refund_transactionid`)
+		VALUES('$type',
+		'$time',
+		$amount, $tax, '$payment', '$orderdescription',
+		'$ipaddress', '$firstname',
+		'$lastname', '$company', '$address1', '$city', '$state', '$zip', '$country',
+		'$phone', '$fax', '$email', '$orderid', $authtransactionid, $authcode, $transactionid)";					
+		
 						
 						if(!mysqli_query($conn, $sql)){
 							/* for testing */
@@ -105,7 +180,7 @@
     	
     	
     	/*
-    	 * get the Transaction information for the Void Form
+    	 * get the Transaction information for the Refund Form
     	*
     	* */
     	

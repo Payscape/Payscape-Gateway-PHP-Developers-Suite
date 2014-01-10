@@ -95,6 +95,13 @@
 				<td><?php echo $row['authcode']; ?></td>
 				
 			</tr>
+			<?php if($row['type']=='refund'){  ?>
+			<tr>
+			<td colspan="8"><strong>Refunded Transaction ID: <?php echo $row['refund_transactionid']; ?></strong>  </td>
+			
+			</tr>
+			<?php } ?>
+			
 		
 		</table>
 		<hr>

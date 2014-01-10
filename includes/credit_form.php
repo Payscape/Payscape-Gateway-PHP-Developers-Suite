@@ -1,8 +1,10 @@
 <?php
 
-	
+	if(isset($result_array)){
+		print_r($result_array);
+	}
 ?>
-
+<?php if($process==1){ ?>
 <div class="transactions form">
 <form action="transactions.php" id="TransactionAddForm" method="post" accept-charset="utf-8">
 		<div style="display:none;"><input type="hidden" name="_method" value="POST"/></div>	
@@ -13,9 +15,7 @@
 			<div class="input text"><label for="Transactionid">Transaction id #</label><input name="transactionid" value="<?php echo $transactionid; ?>" type="text" id="Transactionid"/></div>
 			<div class="input text"><label for="Orderid">Order ID</label><input name="orderid" value="<?php echo $orderid; ?>" type="text" id="TransactionOrderid"/></div>
 			<div class="input text"><label for="TransactionType">Type</label><input name="type" value="credit" maxlength="20" type="text" id="TransactionType"/></div>	
-			<div class="input text"><label for="TransactionCcnumber">Ccnumber</label><input name="ccnumber" value="<?php echo $ccnumber; ?>" maxlength="20" type="text" id="TransactionCcnumber"/></div>
-			<div class="input text"><label for="TransactionCcexp">Ccexp</label><input name="ccexp" value="<?php echo $ccexp; ?>" maxlength="4" type="text" id="TransactionCcexp"/></div>
-				
+		
 			<div class="input number required"><label for="TransactionAmount">Amount</label><input name="amount" step="any" type="text" id="TransactionAmount" required="required" value="<?php echo $amount; ?>" /></div>
 			
 			<div class="input text"><input name="payment" type="hidden" value="<?php echo $payment; ?>" id="TransactionPayment"></div>
@@ -24,8 +24,7 @@
 			<div class="input"><label for="TransactionOrderDescription">Order Description</label><br>
 			<textarea name="orderdescription" id="TransactionOrderdescription"><?php echo $orderdescription; ?></textarea></div>
 		<!--  optional user information -->	
-			<div class="input text"><label for="TransactionCvv">Cvv</label><input name="cvv" maxlength="4" type="text" id="TransactionCvv" value="<?php echo $cvv; ?>"/></div>			
-	 		<div class="input text"><label for="TransactionFirstname">Firstname</label><input name="firstname" maxlength="30" type="text" id="TransactionFirstname" value="<?php echo $firstname; ?>" /></div>
+	<div class="input text"><label for="TransactionFirstname">Firstname</label><input name="firstname" maxlength="30" type="text" id="TransactionFirstname" value="<?php echo $firstname; ?>" /></div>
 	 		<div class="input text"><label for="TransactionLastname">Lastname</label><input name="lastname" maxlength="30" type="text" id="TransactionLastname" value="<?php echo $lastname; ?>"/></div>
 	 		<div class="input text"><label for="TransactionCompany">Company</label><input name="company" maxlength="60" type="text" id="TransactionCompany" value="<?php echo $company; ?>" /></div>
 	 		<div class="input text"><label for="TransactionAddress1">Address1</label><input name="address1" maxlength="60" type="text" id="TransactionAddress1" value="<?php echo $address1; ?>" /></div>
@@ -48,4 +47,4 @@
 		<li><a href="/payscape.localdomain/transactions">List Transactions</a></li>
 	</ul>
 </div>
-
+<?php }  ?>

@@ -222,7 +222,8 @@ public function Validate($incoming=null){
 		$amount = (isset($incoming['amount']) ? $incoming['amount'] : '');
 		$payment = (isset($incoming['payment']) ? $incoming['payment'] : '');
 		
-		$required = array('type', 'ccnumber', 'ccexp', 'amount');
+//		$required = array('type', 'ccnumber', 'ccexp', 'amount');
+		$required = array('type', 'transactionid');
 	
 		if(count(array_intersect_key(array_flip($required), $incoming)) === count($required)) {		
 		$transactiondata = array();
@@ -230,11 +231,7 @@ public function Validate($incoming=null){
 		$transactiondata['amount'] = urlencode($amount);
 
 		
-		/* user supplied required data */
-		
-		$transactiondata['ccexp'] = (isset($incoming['ccexp']) ? $incoming['ccexp'] : '');			
-		$transactiondata['ccnumber'] = (isset($incoming['ccnumber']) ? $incoming['ccnumber'] : '');
-		$transactiondata['cvv'] = (isset($incoming['cvv']) ? $incoming['cvv'] : '');		
+		/* user supplied required data */	
 		$transactiondata['transactionid'] = (isset($incoming['transactionid']) ? $incoming['transactionid'] : '');
 		
 		/* user supplied optional data */
