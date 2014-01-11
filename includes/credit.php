@@ -21,118 +21,13 @@
 		* To simulate a CVV match, pass 999 in the cvv field.
 		*
 		* */
-		
-	$amount = $_POST['amount'];
-	$tax = $_POST['tax'];
-	$transactionid = $_POST['transactionid'];	
-	$payment = $_POST['payment'];
-	$orderdescription = $_POST['orderdescription'];
-
-		
-	
-	$orderid = $_POST['orderid'];
-
-
-	$firstname = $_POST['firstname'];
-	$lastname = $_POST['lastname'];
-	$company = $_POST['company'];
-	$address1 = $_POST['address1'];
-	$city = $_POST['city'];
-	$state = $_POST['state'];
-	$zip = $_POST['zip'];
-	$country = $_POST['country'];
-	$phone = $_POST['phone'];
-	$fax = $_POST['fax'];
-	$email = $_POST['email'];
-	
-	$time = gmdate('YmdHis');
-				
-		$incoming = array();
-		// required fields
-		$incoming['type'] = $type;
-		$incoming['transactionid'] = $transactionid;
-
-		// optional fields for database record
-		
-		$incoming['amount'] = $amount;
-		$incoming['tax'] = $tax;
-		$incoming['payment'] = $payment;
-		$incoming['orderdescription'] = $orderdescription;		
-		$incoming['time'] = $time;
-		$incoming['orderid'] = $orderid;
-
-
-		/* user supplied optional data */
-
-		$incoming['firstname'] = $firstname;
-		$incoming['lastname'] = $lastname;
-		$incoming['company'] = $company;
-		$incoming['address1'] = $address1;
-		$incoming['city'] = $city;
-		$incoming['state'] = $state;
-		$incoming['zip'] = $zip;
-		$incoming['country'] = $country;
-		$incoming['phone'] = $phone;
-		$incoming['fax'] = $fax;
-		$incoming['email'] = $email;		
-
-		$Payscape = NEW Payscape();
-		$response = $Payscape->Credit($incoming);
-		
-	print_r($response);
-	exit();	
-		
-		parse_str($response, $result_array);
-		
-	if($result_array['response']==1){
-		
-			$transactionid = $result_array['transactionid'];		
-			$message = "The transaction was successful "; 
-		
-		
-		/* save the submission and transaction details */
-
-/* create a record for the Credit: */
-			
-		$sql = "INSERT INTO `transactions` (`type`,  
-				`time`,    
-				`amount`, `tax`, `payment`, `orderdescription`,
-				`ipaddress`, `firstname`, 
-				`lastname`, `company`, `address1`, `city`, `state`, `zip`, `country`, 
-				`phone`, `fax`, `email`, `orderid`, `transactionid`) 
-				VALUES('$type', 
-				'$time',  
-				$amount, $tax, '$payment', '$orderdescription', 
-				'$ipaddress', '$firstname', 
-				'$lastname', '$company', '$address1', '$city', '$state', '$zip', '$country',
-				'$phone', '$fax', '$email', '$orderid', $transactionid)";
-		
-
-	/* if we only want to update the existing sale record: 		
-		$sql = "UPDATE transactions SET type = 'credit', amount = $amount WHERE transactionid = $transactionid";
-	*/	
-		
-					if(!mysqli_query($conn, $sql)){
-						/* for testing */
-						printf("Error: %s\n", mysqli_error($conn));
-						$message .= " but could not be saved to the database";
-					} else {
-						$message .= " and has been Saved to the database.";
-					}
-	
-			
-			} else {
-				$message = "Transaction has failed.";
-			}		
-			
-			mysqli_close($conn);
-									
-		// post
-    } else {
+    	
+    	$transactionid = $_POST['transactionid'];
     	
     	
-    	/*
-    	 * get the Sale information for the Credit Form
+		
+	    	/*
+    	 * get the Sale information for the Transaction
     	* */
     	$rowcount = 0;
     	 
@@ -201,12 +96,166 @@
     			$process = 1;
     			$message = "Process Credit Transaction  #$transactionid";
     		}
-    	}// get form data
+    	}// get transaction data
+	
+	$time = gmdate('YmdHis');
+				
+		$incoming = array();
+		// required fields
+		$incoming['type'] = $type;
+		$incoming['transactionid'] = $transactionid;
+		$incoming['amount'] = $amount;
+		$incoming['tax'] = $tax;
+		$incoming['payment'] = $payment;
+		$incoming['orderid'] = $orderid;		
+		$incoming['orderdescription'] = $orderdescription;		
+		$incoming['time'] = $time;
+
+		/* user supplied optional data */
+
+		$incoming['firstname'] = $firstname;
+		$incoming['lastname'] = $lastname;
+		$incoming['company'] = $company;
+		$incoming['address1'] = $address1;
+		$incoming['city'] = $city;
+		$incoming['state'] = $state;
+		$incoming['zip'] = $zip;
+		$incoming['country'] = $country;
+		$incoming['phone'] = $phone;
+		$incoming['fax'] = $fax;
+		$incoming['email'] = $email;		
+
+		$Payscape = NEW Payscape();
+		$response = $Payscape->Credit($incoming);
+
+	/*	
+	print_r($response);
+	exit();	
+	*/	
+		parse_str($response, $result_array);
+		
+	if($result_array['response']==1){
+		
+			$transactionid = $result_array['transactionid'];		
+			$message = "The transaction was successful "; 
+		
+		
+		/* save the submission and transaction details */
+
+/* create a record for the Credit: */
+			
+		$sql = "INSERT INTO `transactions` (`type`,  
+				`time`,    
+				`amount`, `tax`, `payment`, `orderdescription`,
+				`ipaddress`, `firstname`, 
+				`lastname`, `company`, `address1`, `city`, `state`, `zip`, `country`, 
+				`phone`, `fax`, `email`, `orderid`, `transactionid`) 
+				VALUES('$type', 
+				'$time',  
+				$amount, $tax, '$payment', '$orderdescription', 
+				'$ipaddress', '$firstname', 
+				'$lastname', '$company', '$address1', '$city', '$state', '$zip', '$country',
+				'$phone', '$fax', '$email', '$orderid', $transactionid)";
+		
+
+	/* if we only want to update the existing sale record: 		
+		$sql = "UPDATE transactions SET type = 'credit', amount = $amount WHERE transactionid = $transactionid";
+	*/	
+		
+					if(!mysqli_query($conn, $sql)){
+						/* for testing */
+						printf("Error: %s\n", mysqli_error($conn));
+						$message .= " but could not be saved to the database";
+					} else {
+						$message .= " and has been Saved to the database.";
+					}
+	
+			
+			} else {
+				$message = "Transaction has failed.";
+			}		
+			
+			mysqli_close($conn);
+									
+		// post
+    } else {
+    	
+    	
+    	/*
+    	 * get the Sale information for the Transaction
+    	* */
+    	$rowcount = 0;
+    	 
+    	$sql = "SELECT 
+    	time, 
+    	ipaddress, 
+    	firstname,
+    	lastname, 
+    	company, 
+    	address1, 
+    	city, 
+    	state, 
+    	zip, 
+    	country,
+    	phone, 
+    	fax, 
+    	email,     	
+     	amount, 
+     	tax, 
+    	payment, 
+    	orderdescription,
+    	orderid, 
+    	transactionid  
+    	FROM `transactions` 
+    	WHERE transactionid = $transactionid";
+
+    	 
+    	 
+    	if ($result=mysqli_query($conn,$sql))
+    	{
+    		$rowcount=mysqli_num_rows($result);	 
+    	}
+    	 
+    	 
+    	if ($rowcount==0) {
+    		$process = 0;
+    		$message = "No Authorization record found, nothing to process.";
+    	
+    	} else {
+    		 
+    		while($row = mysqli_fetch_assoc($result)){
+    			
+
+    			$time = $row['time'];
+
+    			$amount = $row['amount'];
+    			
+    			$tax = $row['tax'];
+    			$firstname = $row['firstname'];
+    			$lastname = $row['lastname'];
+    			$company = $row['company'];
+    			$address1 = $row['address1'];
+    			$city = $row['city'];
+    			$state = $row['state'];
+    			$zip = $row['zip'];
+    			$country = $row['country'];
+    			$phone = $row['phone'];
+    			$fax = $row['fax'];
+    			$email = $row['email'];
+    			
+    			
+    			$payment = $row['payment'];
+    			$orderdescription = $row['orderdescription'];
+    			$transactionid = $row['transactionid'];
+    			$orderid = $row['orderid'];
+    			$process = 1;
+    			$message = "Process Credit Transaction  #$transactionid";
+    		}
+    	}// get transaction data
     	
 
     	
     	require_once 'includes/credit_form.php';   
-    	
     	
   }	// get	
 

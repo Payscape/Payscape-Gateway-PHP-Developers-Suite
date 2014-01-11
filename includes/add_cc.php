@@ -95,6 +95,7 @@ $cvv = 123;
 				
 		parse_str($response, $result_array);
 		
+
 		if($result_array['response']==1){
 		
 			$transactionid = $result_array['transactionid'];		
@@ -125,7 +126,9 @@ $cvv = 123;
 			
 			} else {
 				$message = "Transaction has failed.";
-			}		
+			}	
+
+
 			
 			mysqli_close($conn);
 									
