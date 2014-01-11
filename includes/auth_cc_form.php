@@ -1,19 +1,5 @@
 <?php
 
-	/*
-	 * Some values have been hard coded for testing.
-	 * */
-
-	$type = "auth"; 
-	$time = gmdate("YmdHis");
-
-
-	$order_id = "Test";
-	
-	/* test data */
-	$ccnumber = 4111111111111111;
-	$ccexp = '1010' // 10/10
-	$cvv = '123' 
 					
 	$message = "Authorize Transaction";
 	

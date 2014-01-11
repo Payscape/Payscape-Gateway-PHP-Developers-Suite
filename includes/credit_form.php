@@ -1,8 +1,6 @@
 <?php
 
-	if(isset($result_array)){
-		print_r($result_array);
-	}
+
 ?>
 <?php if($process==1){ ?>
 <div class="transactions form">
@@ -20,7 +18,7 @@
 		
 			<div class="input number required"><label for="TransactionAmount">Amount: <?php echo $amount; ?></label></div>
 			
-			<div class="input text"><label for="TransactionPayment">Payment: <?php echo $payment; ?></div>
+			<div class="input text"><label for="TransactionPayment">Payment: <?php echo $payment; ?></label></div>
 			<div class="input number"><label for="TransactionTax">Tax: <?php echo $tax; ?></label></div>
 			<div class="input number"><label for="TransactionOrderID">Order ID: <?php echo $orderid; ?></label></div>
 			<div class="input"><label for="TransactionOrderDescription">Order Description: </label><br>

@@ -1,19 +1,5 @@
 <?php
-		/*
-		 * Transaction with Payscape Direct Post Gateway PHP Wrapper
-		 * Validate Credit Card Example
-		 * */
 
-	$type = "validate"; 
-	$time = gmdate("YmdHis");
-	
-	/* test data */
-
-	$order_id = "Test";
-	$ccnumber = 4111111111111111;
-	$ccexp = '1010'; // 10/10
-	$cvv = '123';
-	$message = "Validate Credit Card";
 	
 ?>
 
@@ -49,5 +35,4 @@
 		<li><a href="/payscape.localdomain/transactions">List Transactions</a></li>
 	</ul>
 </div>
-        
-      </div>
+ 

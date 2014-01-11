@@ -1,21 +1,6 @@
 <?php
 
-
-	/*
-	 * Some values have been hard coded for testing.
-	 * */
-
-	$type = "void"; 
-
-
 	$void_message = "Void an unsettled Transaction";
-	
-
-	
-		
-	
-	
-	
 ?>
 	<h3><?php echo $void_message; ?></h3>
 
@@ -50,4 +35,4 @@
 	</ul>
 </div>
         
-      </div>
+  

@@ -5,18 +5,18 @@
 	 * */
 
 
-$type = 'sale';
-$time = gmdate('YmdHis');
+		$type = 'sale';
+		$time = gmdate('YmdHis');
 
-$ipaddress = $_SERVER['REMOTE_ADDR'];
+		$ipaddress = $_SERVER['REMOTE_ADDR'];
 
-/* test data */
-$visa = 4111111111111111;
-$mastercard = 5431111111111111;
-$discover = 6011601160116611;
-$american_express = 341111111111111;
-$cc_expire = '1010'; // 10/10
-$cvv = 123;
+		/* test data */
+		$visa = 4111111111111111;
+		$mastercard = 5431111111111111;
+		$discover = 6011601160116611;
+		$american_express = 341111111111111;
+		$cc_expire = '1010'; // 10/10
+		$cvv = 123;
 
 			require_once 'classes/Payscape/Payscape.php';
 	
@@ -44,6 +44,9 @@ $cvv = 123;
 		*/
 	$amount = $_POST['amount'];
 	$tax = $_POST['tax'];
+		if($tax==""){
+			$tax = 0.00;
+		}
 	$payment = 'credit card';
 	$orderdescription = $_POST['orderdescription'];
 	$orderid = $_POST['orderid'];
@@ -95,7 +98,6 @@ $cvv = 123;
 				
 		parse_str($response, $result_array);
 		
-
 		if($result_array['response']==1){
 		
 			$transactionid = $result_array['transactionid'];		
@@ -114,6 +116,7 @@ $cvv = 123;
 				'$ipaddress', '$firstname', 
 				'$lastname', '$company', '$address1', '$city', '$state', '$zip', '$country',
 				'$phone', '$fax', '$email', '$orderid', $transactionid)";
+
 							
 					if(!mysqli_query($conn, $sql)){
 						/* for testing */
@@ -126,9 +129,7 @@ $cvv = 123;
 			
 			} else {
 				$message = "Transaction has failed.";
-			}	
-
-
+			}		
 			
 			mysqli_close($conn);
 									

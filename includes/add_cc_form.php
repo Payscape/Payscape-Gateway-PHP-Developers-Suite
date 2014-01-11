@@ -1,8 +1,5 @@
 <?php
 
-	/*
-	 * Some values have been hard coded for testing.
-	 * */
 
 	$type = "sale"; 
 	$time = gmdate("YmdHis");
@@ -53,5 +50,4 @@
 		<li><a href="/payscape.localdomain/transactions">List Transactions</a></li>
 	</ul>
 </div>
-        
-      </div>
+  

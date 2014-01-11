@@ -36,5 +36,3 @@
 		<li><a href="/payscape.localdomain/transactions">List Transactions</a></li>
 	</ul>
 </div>
-        
-      </div>
