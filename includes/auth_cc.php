@@ -39,6 +39,10 @@
 		* */
 		
 	$amount = $_POST['amount'];
+	$tax = $_POST['tax'];
+		if($tax==""){
+			$tax = 0.00;
+		}
 	$payment = 'creditcard';
 	$ccnumber = $_POST['ccnumber'];
 	$ccexp = $_POST['ccexp'];
@@ -56,7 +60,10 @@
 	$fax = $_POST['fax'];
 	$email = $_POST['email'];
 	
-	$time = gmdate('YmdHis');	
+	$time = gmdate('YmdHis');
+	$orderid = $_POST['orderid'];
+	$orderdescription = $_POST['orderdescription'];
+	
 
 	
 		$incoming = array();
@@ -80,6 +87,7 @@
 		$incoming['fax'] = $fax;
 		$incoming['email'] = $email;
 		$incoming['orderid'] = $orderid;
+		$incoming['orderdescription'] = $orderdescription;
 
 		$Payscape = NEW Payscape();
 		$response = $Payscape->Auth($incoming);
@@ -97,15 +105,14 @@
 		
 		/* save the submission and transaction details */
 			
-		$sql = "INSERT INTO `transactions` (`type`, `key_id`, 
-				`time`,  `amount`, `payment`, `ipaddress`, `firstname`, 
+		$sql = "INSERT INTO `transactions` (`type`, 
+				`time`,  `amount`, `tax`, `payment`, `ipaddress`, `firstname`, 
 				`lastname`, `company`, `address1`, `city`, `state`, `zip`, `country`, 
-				`phone`, `fax`, `email`, `orderid`, `transactionid`, `authcode`) 
-				VALUES('$type', '$key_id',
-				'$hash', '$time',  
-				$amount, '$payment', '$ipaddress', '$firstname', 
+				`phone`, `fax`, `email`, `orderid`, `orderdescription`, `transactionid`, `authcode`) 
+				VALUES('$type', 
+				'$time', $amount, $tax, '$payment', '$ipaddress', '$firstname', 
 				'$lastname', '$company', '$address1', '$city', '$state', '$zip', '$country',
-				'$phone', '$fax', '$email', '$orderid', $transactionid, $authcode)";
+				'$phone', '$fax', '$email', '$orderid', '$orderdescription', $transactionid, '$authcode')";
 
 					if(!mysqli_query($conn, $sql)){
 						/* for testing */

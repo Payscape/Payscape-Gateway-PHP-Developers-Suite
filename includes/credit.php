@@ -76,6 +76,9 @@
     			$amount = $row['amount'];
     			
     			$tax = $row['tax'];
+	    			if($tax==""){
+	    				$tax = 0.00;
+	    			}
     			$firstname = $row['firstname'];
     			$lastname = $row['lastname'];
     			$company = $row['company'];

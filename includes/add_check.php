@@ -48,6 +48,9 @@
 
 // optional fields
 		$tax = $_POST['tax'];
+		if($tax==""){
+			$tax = 0.00;
+		}
 		$orderid = $_POST['orderid'];
 		$orderdescription = $_POST['orderdescription'];
     	$firstname = $_POST['firstname'];

@@ -69,6 +69,7 @@
 				
 
 				$amount = $row['amount'];
+				$tax = $row['tax'];
 				$ipaddress = $row['ipaddress']; 
 				$payment = $row['payment'];
 				$tax = $row['tax'];
@@ -90,7 +91,7 @@
 				$transactionid = $row['transactionid'];
 				$orderid = $row['orderid'];
 
-// required field				
+			
 				$transaction_amount = $row['amount'];
 				$process = 1;
 				$refund_message = "Process Refund for Transaction  #$transactionid";
@@ -111,12 +112,12 @@
 			$refund_amount = $transaction_amount;
 		}
 	}	
-
+		$incoming['tax'] = $tax;
 		
 
 		$Payscape = NEW Payscape();
 		$response = $Payscape->Refund($incoming);
-		
+	/*	
 		echo "<pre>";
 		echo "INCOMING: <br>";
 		print_r($incoming);
@@ -126,14 +127,14 @@
 		echo "<br>RESPONSE:<br>";
 		print_r($response);
 		echo "<pre>";		
-		
+	*/	
 		parse_str($response, $result_array);
-		
+	/*	
 		echo "<pre>";
 		echo "RESULT ARRAY: ";
 		print_r($result_array);
 		echo "</pre>";		
-		
+*/		
 		if($result_array['response']==1){
 			$response_code = $result_array['response'];
 			$authtransactionid = $result_array['transactionid'];
@@ -145,17 +146,17 @@
 		$time = gmdate('YmdHis');
 			
 		$sql = "INSERT INTO `transactions` (`type`,
-		`time`,
-		`amount`, `tax`, `payment`, `orderdescription`,
-		`ipaddress`, `firstname`,
-		`lastname`, `company`, `address1`, `city`, `state`, `zip`, `country`,
-		`phone`, `fax`, `email`,`tax`, `orderid`, `transactionid`, `authcode`, `refund_transactionid`)
+		`time`, `amount`, `tax`, `payment`, `orderdescription`,
+		`ipaddress`, `firstname`, `lastname`, `company`, 
+		`address1`, `city`, `state`, `zip`, `country`,
+		`phone`, `fax`, `email`,`orderid`, `transactionid`, 
+		`authcode`, `refund_transactionid`)
 		VALUES('$type',
-		'$time',
-		$amount, $tax, '$payment', '$orderdescription',
-		'$ipaddress', '$firstname',
-		'$lastname', '$company', '$address1', '$city', '$state', '$zip', '$country',
-		'$phone', '$fax', '$email', '$orderid', $authtransactionid, $authcode, $transactionid)";					
+		'$time', $amount, $tax, '$payment', '$orderdescription',
+		'$ipaddress', '$firstname', '$lastname', '$company', 
+		'$address1', '$city', '$state', '$zip', '$country',
+		'$phone', '$fax', '$email', '$orderid', $authtransactionid, 
+		'$authcode', $transactionid)";					
 		
 						
 						if(!mysqli_query($conn, $sql)){

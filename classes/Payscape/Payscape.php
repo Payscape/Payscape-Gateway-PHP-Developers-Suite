@@ -171,16 +171,23 @@ public function Validate($incoming=null){
 		$type = 'auth';
 					
 
-		$payment = (isset($incoming['payment']) ? $incoming['payment'] : '');
-
+		
 	
 		$required = array('type', 'ccnumber', 'ccexp', 'amount');
 	
 		
 		if(count(array_intersect_key(array_flip($required), $incoming)) === count($required)) {
+			
+			$payment = (isset($incoming['payment']) ? $incoming['payment'] : '');
+			$amount = (isset($incoming['amount']) ? $incoming['amount'] : '');
+			$tax = (isset($incoming['tax']) ? $incoming['tax'] : '');
+				
+			
 			$transactiondata = array();
 			$transactiondata['type'] = $type;
-		
+			$transactiondata['amount'] = $amount;
+			$transactiondata['tax'] = $tax;
+				
 			/* user supplied required data */
 				
 			$transactiondata['ccexp'] = (isset($incoming['ccexp']) ? $incoming['ccexp'] : '');
@@ -201,7 +208,8 @@ public function Validate($incoming=null){
 			$transactiondata['fax'] = (isset($incoming['fax']) ? $incoming['fax'] : '');
 			$transactiondata['email'] = (isset($incoming['email']) ? $incoming['email'] : '');
 			$transactiondata['orderid'] = (isset($incoming['orderid']) ? $incoming['orderid'] : '');
-
+			$transactiondata['orderdescription'] = (isset($incoming['orderdescription']) ? $incoming['orderdescription'] : '');
+				
 			return $this->_send($transactiondata);
 		
 		} else {

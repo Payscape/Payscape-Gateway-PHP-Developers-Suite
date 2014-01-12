@@ -21,8 +21,14 @@
 	
 	<div class="input text"><label for="TransactionCcnumber">Ccnumber</label><input name="ccnumber" maxlength="20" type="text" id="TransactionCcnumber"/></div>
 	<div class="input text"><label for="TransactionCcexp">Ccexp</label><input name="ccexp" maxlength="4" type="text" id="TransactionCcexp"/></div>		
-	<div class="input number required"><label for="TransactionAmount">Amount</label><input name="amount" step="any" type="text" id="TransactionAmount" required="required" /></div>
 	<div class="input text"><label for="TransactionCvv">Cvv</label><input name="cvv" maxlength="4" type="text" id="TransactionCvv"/></div>			
+	
+	<div class="input number required"><label for="TransactionAmount">Amount</label><input name="amount" step="any" type="text" id="TransactionAmount" required="required" /></div>
+	<div class="input number required"><label for="TransactionAmount">Tax</label><input name="tax" step="any" type="text" id="TransactionTax" /></div>
+	<div class="input number required"><label for="TransactionOrderID">Order ID</label><input name="orderid" step="any" type="text" id="TransactionOrderID" /></div>
+	<div class="input number required"><label for="TransactionOrderDescription">Order Description</label><br>
+	<textarea name="orderdescription" step="any" id="TransactionOrderDescription"></textarea></div>
+	
 	<div class="input text"><input name="payment" type="hidden" value="creditcard" id="TransactionPayment"></div>
 	<div class="input text"><label for="TransactionFirstname">Firstname</label><input name="firstname" maxlength="30" type="text" id="TransactionFirstname"/></div>
 	<div class="input text"><label for="TransactionLastname">Lastname</label><input name="lastname" maxlength="30" type="text" id="TransactionLastname"/></div>
