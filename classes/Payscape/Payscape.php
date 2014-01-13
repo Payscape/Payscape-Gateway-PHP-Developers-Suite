@@ -106,12 +106,17 @@ class Payscape
 		$transactiondata['email'] = (isset($incoming['email']) ? $incoming['email'] : '');
 		$transactiondata['orderid'] = (isset($incoming['orderid']) ? $incoming['orderid'] : '');
 	
-		return $this->_send($transactiondata);
+		$response = $this->_send($transactiondata);
+		parse_str($response, $result_array);	
+		return $result_array;
 	
 	} else {
 		$response['Message'] = 'Required Values Are Missing';
 		$response['error'] = 1;
+
 		return $response;
+		
+		
 	}
 }// end Sale()
 
@@ -155,7 +160,10 @@ public function Validate($incoming=null){
 		$transactiondata['email'] = (isset($incoming['email']) ? $incoming['email'] : '');
 		$transactiondata['orderid'] = (isset($incoming['orderid']) ? $incoming['orderid'] : '');
 
-		return $this->_send($transactiondata);
+		$response = $this->_send($transactiondata);
+		parse_str($response, $result_array);	
+		return $result_array;
+		
 
 	} else {
 		$response['Message'] = 'Required Values Are Missing';
@@ -210,7 +218,10 @@ public function Validate($incoming=null){
 			$transactiondata['orderid'] = (isset($incoming['orderid']) ? $incoming['orderid'] : '');
 			$transactiondata['orderdescription'] = (isset($incoming['orderdescription']) ? $incoming['orderdescription'] : '');
 				
-			return $this->_send($transactiondata);
+		$response = $this->_send($transactiondata);
+		parse_str($response, $result_array);	
+		return $result_array;
+			
 		
 		} else {
 
@@ -257,14 +268,10 @@ public function Validate($incoming=null){
 		$transactiondata['email'] = (isset($incoming['email']) ? $incoming['email'] : '');
 		$transactiondata['orderid'] = (isset($incoming['orderid']) ? $incoming['orderid'] : '');
 	
-	/*
-		 echo "TRANSACTIONDATA:";
-		$this->debug($transactiondata);
-		exit();
-	*/	
-	
-		return $this->_send($transactiondata);
-	
+		$response = $this->_send($transactiondata);
+		parse_str($response, $result_array);	
+		return $result_array;
+			
 	} else {
 		$response['Message'] = 'Required Values Are Missing';
 		$response['error'] = 1;
@@ -284,7 +291,10 @@ public function Validate($incoming=null){
 			$transactiondata['type'] = 'capture';
 			$transactiondata['transactionid'] = (isset($incoming['transactionid']) ? $incoming['transactionid'] : '');
 				
-			return $this->_send($transactiondata);
+		$response = $this->_send($transactiondata);
+		parse_str($response, $result_array);	
+		return $result_array;
+			
 				
 		} else {
 			$response['Message'] = 'Required Values <strong>type or transactionid</strong> Are Missing';
@@ -313,7 +323,10 @@ public function Validate($incoming=null){
 			$transactiondata['type'] = 'void';
 			$transactiondata['transactionid'] = (isset($incoming['transactionid']) ? $incoming['transactionid'] : '');
 				
-			return $this->_send($transactiondata);
+		$response = $this->_send($transactiondata);
+		parse_str($response, $result_array);	
+		return $result_array;
+			
 				
 		} else {
 			$response['Message'] = $response['Message'] = 'Required Values <strong>type or transactionid</strong> Are Missing';
@@ -344,7 +357,10 @@ public function Validate($incoming=null){
 		}	
 
 				
-			return $this->_send($transactiondata);
+		$response = $this->_send($transactiondata);
+		parse_str($response, $result_array);	
+		return $result_array;
+		
 		
 		} else {
 			$response['Message'] = 'Required Values <strong>type or transactionid</strong> Are Missing';
@@ -371,7 +387,10 @@ public function Validate($incoming=null){
 			$transactiondata['shipping_carrier'] = (isset($incoming['shipping_carrier']) ? $incoming['shipping_carrier'] : '');
 			$transactiondata['orderid'] = (isset($incoming['orderid']) ? $incoming['orderid'] : '');
 		
-			return $this->_send($transactiondata);		
+		$response = $this->_send($transactiondata);
+		parse_str($response, $result_array);	
+		return $result_array;
+							
 		}  else {
 			$response['Message'] = 'Required Values <strong>type or transactionid</strong> Are Missing';
 			$response['error'] = 1;

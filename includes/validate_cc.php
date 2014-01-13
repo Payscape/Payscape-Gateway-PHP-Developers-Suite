@@ -72,13 +72,7 @@
 	
 
 		$Payscape = NEW Payscape();
-		$response = $Payscape->Validate($incoming);
-
-		
-		parse_str($response, $result_array);
-		
-
-				
+		$result_array = $Payscape->Validate($incoming);
 		
 		if($result_array['response']==1){
 		

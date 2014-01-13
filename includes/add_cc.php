@@ -93,11 +93,8 @@
 		$incoming['orderid'] = $orderid;
 
 		$Payscape = NEW Payscape();
-		$response = $Payscape->Sale($incoming);		
+		$result_array = $Payscape->Sale($incoming);		
 
-				
-		parse_str($response, $result_array);
-		
 		if($result_array['response']==1){
 		
 			$transactionid = $result_array['transactionid'];		

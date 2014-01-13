@@ -7,7 +7,7 @@
 
 
 	$type = 'void';
-	$time = gmdate('YmdHis');
+
 
 
 	$ipaddress = $_SERVER['REMOTE_ADDR'];
@@ -20,8 +20,8 @@
 
 
 	$type = 'void';
-
-	$amount = $_POST['amount'];
+	$time = gmdate('YmdHis');
+	
 
 	$transactionid = $_POST['transactionid'];
 		if(isset($transactionid)){
@@ -32,7 +32,8 @@
 		 * get the Auth information for the Void Form
 		 * */
 		
-		$sql = "SELECT id, amount, transactionid, orderid, authcode FROM transactions WHERE `transactionid` = $transactionid";
+		$sql = "SELECT id, firstname, lastname, company, address1, city, state, zip, country, 
+			phone, fax, email, amount, transactionid, orderid, authcode FROM transactions WHERE `transactionid` = $transactionid";
 		
 		if ($result=mysqli_query($conn,$sql))
 		{
@@ -48,7 +49,22 @@
 		
 			while($row = mysqli_fetch_assoc($result)){
 
+				$amount = $row['amount'];
+				$firstname = $row['firstname'];
+				$lastname = $row['lastname'];
+				$company = $row['company'];
+				$address1 = $row['address1'];
+				$city = $row['city'];
+				$state = $row['state'];
+				$zip = $row['zip'];
+				$country = $row['country'];
+				$phone = $row['phone'];
+				$fax = $row['fax'];
+				$email = $row['email'];
+				
 				$transactionid = $row['transactionid'];
+				$orderid = $row['orderid'];
+				
 				$process = 1;
 				$void_message = "Process Void for Transaction  #$transactionid";
 			}
@@ -58,13 +74,10 @@
 		$incoming = array();
 		$incoming['type'] = $type;
 		$incoming['transactionid'] = $transactionid;
+		
 
 		$Payscape = NEW Payscape();
-		$response = $Payscape->Void($incoming);
-
-		
-		parse_str($response, $result_array);
-
+		$result_array = $Payscape->Void($incoming);
 	
 		if($result_array['response']==1){
 			$response_code = $result_array['response'];
@@ -74,8 +87,19 @@
 		
 		
 		/* save the submission and transaction details */
-			
-		$sql = "UPDATE transactions SET `type` = 'void' WHERE `transactionid` = $authtransactionid";
+
+			$sql = "INSERT INTO `transactions` (`type`,
+			`time`,
+			`amount`,
+			`ipaddress`, `firstname`,
+			`lastname`, `company`, `address1`, `city`, `state`, `zip`, `country`,
+			`phone`, `fax`, `email`, `orderid`, `transactionid`)
+			VALUES('$type',
+			'$time',
+			$amount, 
+			'$ipaddress', '$firstname',
+			'$lastname', '$company', '$address1', '$city', '$state', '$zip', '$country',
+			'$phone', '$fax', '$email', '$orderid', $transactionid)";
 						
 						if(!mysqli_query($conn, $sql)){
 							/* for testing */
@@ -103,7 +127,8 @@
     	 * get the Transaction information for the Void Form
     	 * */
     	
-    	$sql = "SELECT id, amount, transactionid, orderid, authcode FROM transactions WHERE `transactionid` = $transactionid";
+    	$sql = "SELECT id, firstname, lastname, address1, city, state, zip, country, 
+			phone, fax, email, amount, transactionid, orderid, authcode FROM transactions WHERE `transactionid` = $transactionid";
 
     	
     	if ($result=mysqli_query($conn,$sql))

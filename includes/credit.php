@@ -129,13 +129,8 @@
 		$incoming['email'] = $email;		
 
 		$Payscape = NEW Payscape();
-		$response = $Payscape->Credit($incoming);
+		$result_array = $Payscape->Credit($incoming);
 
-	/*	
-	print_r($response);
-	exit();	
-	*/	
-		parse_str($response, $result_array);
 		
 	if($result_array['response']==1){
 		

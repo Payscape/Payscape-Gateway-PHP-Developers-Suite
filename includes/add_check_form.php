@@ -49,9 +49,7 @@ $account_type = 'checking'; // test bank account type (checking / savings)
 		<div class="input number required"><label for="TransactionAmount">Amount</label>
 			<input name="amount" step="any" type="text" id="TransactionAmount" required="required" />
 		</div>
-		<div class="input number"><label for="TransactionTax">Tax</label>
-			<input name="tax" step="any" type="text" id="TransactionTax" />
-		</div>
+
 		<div class="input number"><label for="TransactionOrderID">Order ID</label>
 			<input name="orderid" step="any" type="text" id="TransactionOrderID" />
 		</div>
@@ -96,10 +94,4 @@ $account_type = 'checking'; // test bank account type (checking / savings)
 	</form>
 </div>
 
-<div class="actions">
-	<h3>Actions</h3>
-	<ul>
-		<li><a href="/payscape.localdomain/transactions">List Transactions</a></li>
-	</ul>
-</div>
         

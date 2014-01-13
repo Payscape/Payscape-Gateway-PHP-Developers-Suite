@@ -47,10 +47,8 @@
     	$sec_code = 'WEB';
 
 // optional fields
-		$tax = $_POST['tax'];
-		if($tax==""){
-			$tax = 0.00;
-		}
+		$tax = 0.00;
+	
 		$orderid = $_POST['orderid'];
 		$orderdescription = $_POST['orderdescription'];
     	$firstname = $_POST['firstname'];
@@ -96,10 +94,8 @@
 		$incoming['orderid'] = $orderid;		
 		
 		$Payscape = NEW Payscape();
-		$response = $Payscape->Sale($incoming);	
+		$result_array = $Payscape->Sale($incoming);	
 
-		parse_str($response, $result_array);
-		
 					if($result_array['response']==1){
 						
 						$message = "The transaction was successful ";

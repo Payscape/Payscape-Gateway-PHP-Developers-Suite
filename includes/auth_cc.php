@@ -90,11 +90,7 @@
 		$incoming['orderdescription'] = $orderdescription;
 
 		$Payscape = NEW Payscape();
-		$response = $Payscape->Auth($incoming);
-
-		
-		// exit();
-		parse_str($response, $result_array);
+		$result_array = $Payscape->Auth($incoming);
 		
 		if($result_array['response']==1){
 		

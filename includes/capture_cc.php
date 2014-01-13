@@ -66,10 +66,8 @@
 		
 
 		$Payscape = NEW Payscape();
-		$response = $Payscape->Capture($incoming);
-				
-		parse_str($response, $result_array);
-		
+		$result_array = $Payscape->Capture($incoming);
+						
 		if($result_array['response']==1){
 			$response_code = $result_array['response'];
 			$authtransactionid = $result_array['transactionid'];

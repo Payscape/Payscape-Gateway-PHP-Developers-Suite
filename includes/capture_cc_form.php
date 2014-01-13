@@ -28,11 +28,5 @@
 
 	<?php } ?>
 
-<div class="actions">
-	<h3>Actions</h3>
-	<ul>
 
-		<li><a href="/payscape.localdomain/transactions">List Transactions</a></li>
-	</ul>
-</div>
 

@@ -4,7 +4,7 @@
 	$message = "Authorize Transaction";
 	
 ?>
-
+<?php if($process==1){ ?>
 <div class="transactions form">
 	<form action="transactions.php" id="TransactionAddForm" method="post" accept-charset="utf-8">
 	
@@ -47,12 +47,6 @@
 
 </form>
 </div>
-<div class="actions">
-	<h3>Actions</h3>
-	<ul>
-
-		<li><a href="/payscape.localdomain/transactions">List Transactions</a></li>
-	</ul>
-</div>
+<?php } ?>
         
  

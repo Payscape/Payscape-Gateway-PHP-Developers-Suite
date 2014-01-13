@@ -116,25 +116,9 @@
 		
 
 		$Payscape = NEW Payscape();
-		$response = $Payscape->Refund($incoming);
-	/*	
-		echo "<pre>";
-		echo "INCOMING: <br>";
-		print_r($incoming);
-		
-		
-		
-		echo "<br>RESPONSE:<br>";
-		print_r($response);
-		echo "<pre>";		
-	*/	
-		parse_str($response, $result_array);
-	/*	
-		echo "<pre>";
-		echo "RESULT ARRAY: ";
-		print_r($result_array);
-		echo "</pre>";		
-*/		
+		$result_array = $Payscape->Refund($incoming);
+
+	
 		if($result_array['response']==1){
 			$response_code = $result_array['response'];
 			$authtransactionid = $result_array['transactionid'];

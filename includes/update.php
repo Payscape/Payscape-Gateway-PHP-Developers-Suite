@@ -66,14 +66,7 @@
 		
 
 		$Payscape = NEW Payscape();
-		$response = $Payscape->Update($incoming);
-
-
-		
-		parse_str($response, $result_array);
-
-
-		//	exit();
+		$result_array = $Payscape->Update($incoming);
 		
 		if($result_array['response']==1){
 			$response_code = $result_array['response'];
