@@ -50,7 +50,7 @@ window.DEBUGKIT_JQUERY_URL = "<?php echo $base_url; ?>debug_kit/js/jquery.js";
         <h1>Payscape Development Lab</h1>
         		<a href="http://www.payscape.com/" target="_blank"><img src="<?php echo $base_url; ?>img/payscape_home_logo.png" alt="Payscape Advisor" border="0" /></a>        
         		<p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-        <p><a class="btn btn-lg btn-success" href="#" role="button">Sign up today</a></p>
+        <p><a class="btn btn-lg btn-success" href="#" >Sign up today</a></p>
       </div>
 
       <div class="span9">
@@ -100,7 +100,7 @@ You can also add some CSS styles for your pages at: APP/webroot/css.</p>
 		<a href="https://github.com/cakephp/localized">Localized</a>:
 		contains various localized validation classes and translations for specific countries	</li>
 </ul>
-</p>
+
 
 <h3>More about CakePHP</h3>
 <p>
