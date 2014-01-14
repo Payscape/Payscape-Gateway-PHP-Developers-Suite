@@ -8,7 +8,6 @@
                 <li><a href="transactions.php?action=add-cc">Sale Credit Card</a></li>
                 <li><a href="transactions.php?action=add-check">Sale Check</a></li>
                    <li><a href="transactions.php?action=auth-cc">Auth Credit Card</a></li>
-                      <li><a href="transactions.php?action=auth-check">Auth Check</a></li>
                 <li><a href="transactions.php?action=validate-cc">Validate Credit Card</a></li>
                  
                 

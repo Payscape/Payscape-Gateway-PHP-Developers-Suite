@@ -29,12 +29,6 @@
     <![endif]-->
     <link href="<?php echo $base_url; ?>favicon.ico" type="image/x-icon" rel="icon" /><link href="<?php echo $base_url; ?>favicon.ico" type="image/x-icon" rel="shortcut icon" />    
   
-	<link rel="stylesheet" type="text/css" href="<?php echo $base_url; ?>debug_kit/css/debug_toolbar.css" />
-<script type="text/javascript">
-//<![CDATA[
-window.DEBUGKIT_JQUERY_URL = "<?php echo $base_url; ?>debug_kit/js/jquery.js";
-//]]>
-</script><script type="text/javascript" src="<?php echo $base_url; ?>debug_kit/js/js_debug_toolbar.js"></script>
 </head>
 
   <body>
@@ -47,104 +41,45 @@ window.DEBUGKIT_JQUERY_URL = "<?php echo $base_url; ?>debug_kit/js/jquery.js";
 
   
       <div class="jumbotron">
-        <h1>Payscape Development Lab</h1>
-        		<a href="http://www.payscape.com/" target="_blank"><img src="<?php echo $base_url; ?>img/payscape_home_logo.png" alt="Payscape Advisor" border="0" /></a>        
-        		<p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-        <p><a class="btn btn-lg btn-success" href="#" >Sign up today</a></p>
+        <h1>Payscape PHP Developers Suite</h1>
+        <p>Rapid eCommerce Web Development with PHP and the Payscape Direct Post API.
+        </p> 
+        
       </div>
 
       <div class="span9">
       <div class="span4"></div>
       
-<h2>Release Notes for CakePHP 2.4.3.</h2>
+<h2>Payscape Direct Post API Development <br> with the PHP Developers Suite</h2>
 <p>
-	<a href="http://cakephp.org/changelogs/2.4.3">Read the changelog </a>
+Use the Payscape Class for Direct Post Transactions with the Payscape API
 </p>
-<p id="url-rewriting-warning" style="background-color:#e32; color:#fff;">
-	URL rewriting is not properly configured on your server.	1) <a target="_blank" href="http://book.cakephp.org/2.0/en/installation/url-rewriting.html" style="color:#fff;">Help me configure it</a>
-	2) <a target="_blank" href="http://book.cakephp.org/2.0/en/development/configuration.html#cakephp-core-configuration" style="color:#fff;">I don't / can't use URL rewriting</a>
-</p>
-<p>
-<span class="notice success">Your version of PHP is 5.2.8 or higher.</span></p>
-<p>
-	<span class="notice success">Your tmp directory is writable.</span></p>
-<p>
-	<span class="notice success">The <em>FileEngine</em> is being used for core caching. To change the config edit APP/Config/core.php</span></p>
-<p>
-	<span class="notice success">Your database configuration file is present.</span></p>
-<p>
-	<span class="notice success">CakePHP is able to connect to the database.</span></p>
 
-<p>
-	<span class="notice success">DebugKit plugin is present</span></p>
+<h3>Full Feature Examples</h3>
 
-<h3>Editing this Page</h3>
-<p>
-To change the content of this page, edit: APP/View/Pages/home.ctp.<br />
-To change its layout, edit: APP/View/Layouts/default.ctp.<br />
-You can also add some CSS styles for your pages at: APP/webroot/css.</p>
-
-<h3>Getting Started</h3>
-<p>
-	<a href="http://book.cakephp.org/2.0/en/" target="_blank"><strong>New</strong> CakePHP 2.0 Docs</a></p>
-<p>
-	<a href="http://book.cakephp.org/2.0/en/tutorials-and-examples/blog/blog.html" target="_blank">The 15 min Blog Tutorial</a></p>
-
-<h3>Official Plugins</h3>
-<p>
-<ul>
-	<li>
-		<a href="https://github.com/cakephp/debug_kit">DebugKit</a>:
-		provides a debugging toolbar and enhanced debugging tools for CakePHP applications.	</li>
-	<li>
-		<a href="https://github.com/cakephp/localized">Localized</a>:
-		contains various localized validation classes and translations for specific countries	</li>
-</ul>
+	<ul>
+		<li><strong>Sale</strong> - Credit Card</li>
+		<li><strong>Sale</strong> - eChech ACH</li>
+		<li><strong>Auth</strong> - authorize transaction</li>
+		<li><strong>Capture</strong> - capture auth transaction</li>
+		<li><strong>Refund</strong> - refund entire or part of credit card transaction</li>
+		<li><strong>Credit</strong> - credit a credit card transaction to a credit card transaction</li>
+		<li><strong>Update</strong> - add shipping information and other details for a credit card transaction</li>
+		<li><strong>Validate</strong> - credit card validation</li> 
+		<li><strong>Void</strong> - void a credit card transaction</li>
+	
+	
+	</ul>
 
 
-<h3>More about CakePHP</h3>
-<p>
-CakePHP is a rapid development framework for PHP which uses commonly known design patterns like Active Record, Association Data Mapping, Front Controller and MVC.</p>
-<p>
-Our primary goal is to provide a structured framework that enables PHP users at all levels to rapidly develop robust web applications, without any loss to flexibility.</p>
 
-<ul>
-	<li><a href="http://cakephp.org">CakePHP</a>
-	<ul><li>The Rapid Development Framework</li></ul></li>
-	<li><a href="http://book.cakephp.org">CakePHP Documentation </a>
-	<ul><li>Your Rapid Development Cookbook</li></ul></li>
-	<li><a href="http://api.cakephp.org">CakePHP API </a>
-	<ul><li>Quick API Reference</li></ul></li>
-	<li><a href="http://bakery.cakephp.org">The Bakery </a>
-	<ul><li>Everything CakePHP</li></ul></li>
-	<li><a href="http://plugins.cakephp.org">CakePHP Plugins </a>
-	<ul><li>A comprehensive list of all CakePHP plugins created by the community</li></ul></li>
-	<li><a href="http://community.cakephp.org">CakePHP Community Center </a>
-	<ul><li>Everything related to the CakePHP community in one place</li></ul></li>
-	<li><a href="https://groups.google.com/group/cake-php">CakePHP Google Group </a>
-	<ul><li>Community mailing list</li></ul></li>
-	<li><a href="irc://irc.freenode.net/cakephp">irc.freenode.net #cakephp</a>
-	<ul><li>Live chat about CakePHP</li></ul></li>
-	<li><a href="https://github.com/cakephp/">CakePHP Code </a>
-	<ul><li>Find the CakePHP code on GitHub and contribute to the framework</li></ul></li>
-	<li><a href="https://github.com/cakephp/cakephp/issues">CakePHP Issues </a>
-	<ul><li>CakePHP Issues</li></ul></li>
-	<li><a href="https://github.com/cakephp/cakephp/wiki#roadmaps">CakePHP Roadmaps </a>
-	<ul><li>CakePHP Roadmaps</li></ul></li>
-	<li><a href="http://training.cakephp.org">Training </a>
-	<ul><li>Join a live session and get skilled with the framework</li></ul></li>
-	<li><a href="http://cakefest.org">CakeFest </a>
-	<ul><li>Don't miss our annual CakePHP conference</li></ul></li>
-	<li><a href="http://cakefoundation.org">Cake Software Foundation </a>
-	<ul><li>Promoting development related to CakePHP</li></ul></li>
-</ul>
         
       </div>
 
 
 	<footer>
 	      <div class="footer">
-	        <p>&copy; Payscape Advisors 2013</p>
+	        <p>&copy; Payscape Advisors 2014</p>
 	      </div>
 	
 			<a href="http://www.payscape.com/" target="_blank"><img src="<?php echo $base_url; ?>img/payscape_footer_logo.png" alt="Payscape Advisor" border="0" /></a>

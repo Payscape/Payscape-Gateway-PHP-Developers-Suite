@@ -51,7 +51,7 @@
 				$orderid = $row['orderid'];
 				$authcode = $row['authcode'];
 				$process = 1;
-				$capture_message = "Process Authorization Capture for Transaction  #$transactionid";
+				$capture_message = "Process Capture for Authorization Transaction  #$transactionid";
 			}
 		}	
 
@@ -135,7 +135,7 @@
     			$orderid = $row['orderid'];
     			$authcode = $row['authcode'];
     			$process = 1;
-    			$capture_message = "Process Authorization Capture for Transaction  #$transactionid";
+    			$capture_message = "Process Capture for Authorization Transaction  #$transactionid";
     		}
     	
     	
@@ -147,7 +147,7 @@
    		require_once 'includes/capture_cc_form.php';
     	
     }// method post		
-    echo $capture_message;
+ 
     
  // end capture_cc   
 ?>

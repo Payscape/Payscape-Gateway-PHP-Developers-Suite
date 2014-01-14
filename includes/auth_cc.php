@@ -123,14 +123,16 @@
 			}		
 			
 			mysqli_close($conn);
-									
+
 
     } else {
+    	
+    
     	
     	require_once 'includes/auth_cc_form.php';
     	
     }		
-   //echo $message;
+
     
  // end auth_cc   
 ?>		

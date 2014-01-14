@@ -4,7 +4,7 @@
 	$message = "Authorize Transaction";
 	
 ?>
-<?php if($process==1){ ?>
+
 <div class="transactions form">
 	<form action="transactions.php" id="TransactionAddForm" method="post" accept-charset="utf-8">
 	
@@ -47,6 +47,6 @@
 
 </form>
 </div>
-<?php } ?>
+
         
  
