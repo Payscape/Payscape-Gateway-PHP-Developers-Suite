@@ -1,7 +1,7 @@
 
 #Payscape Gateway PHP Developers Suite#
 Rapid eCommerce development with PHP and the Payscape Gateway.
-Includes examples for all of the methods in the Payscape Gateway Direct Post API 
+Includes examples for all of the methods in the Payscape Gateway API 
 and their success responses. 
 
 Functions, scripts and Forms are included to assist your development
@@ -10,13 +10,8 @@ Database schema included builds the table that saves transactions and their deta
 
 ## Requirements
 * PHP 5.2.8 or greater
-
-* Database server in one of these flavors 
-** mySQL 4.2 or greater, PostgreSQL, Microsoft SQL Server or SQLite
-
+* Database server in one of these flavors *mySQL, PostgreSQL, Microsoft SQL Server or SQLite*
 * cURL 
-
-
 
 ## Database
 Import schema/transactions.sql into your database
