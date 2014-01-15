@@ -1,7 +1,3 @@
---
--- Table structure for table `transactions`
---
-
 CREATE TABLE IF NOT EXISTS `transactions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `type` varchar(20) NOT NULL,
