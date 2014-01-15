@@ -10,7 +10,11 @@ Database schema included builds the table that saves transactions and their deta
 
 ## Requirements
 * PHP 5.2.8 or greater
-* Database server in one of these flavors *mySQL, PostgreSQL, Microsoft SQL Server or SQLite*
+* Database server in one of these flavors 
+*mySQL, 
+PostgreSQL, 
+Microsoft SQL Server or 
+SQLite*
 * cURL 
 
 ## Database
