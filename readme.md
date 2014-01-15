@@ -14,11 +14,9 @@ Database schema included builds the table that saves transactions and their deta
 * Database server in one of these flavors 
 ** mySQL 4.2 or greater, PostgreSQL, Microsoft SQL Server or SQLite
 
- if you wish to use cURL posts: 
-
 * cURL 
 
-or you may opt to use the native Cake HTTPSocket for your posts.
+
 
 ## Database
 Import schema/transactions.sql into your database
