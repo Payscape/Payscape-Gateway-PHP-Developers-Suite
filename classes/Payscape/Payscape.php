@@ -51,7 +51,7 @@ class Payscape
 	
 	protected function _send($trans){
 
-		require_once('../payscape.php');
+		require_once('payscape-config.php');
 
 		$trans['username'] = $userid;
 		$trans['password'] = $userpass;
