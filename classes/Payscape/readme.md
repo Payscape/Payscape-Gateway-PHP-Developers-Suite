@@ -304,7 +304,7 @@ $incoming['fax'] = $_POST['fax'];
 $incoming['email'] = $_POST['email'];
 
 $Payscape = NEW Payscape();
-$result_array = $Payscape->ValidateCreditCard($incoming);	
+$result_array = $Payscape->Validate($incoming);	
 
 ```
 ### Example Response Validate Success
