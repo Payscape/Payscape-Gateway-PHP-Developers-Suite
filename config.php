@@ -8,5 +8,6 @@
 	$base_url = 'http://localhost/sporty.localdomain/';
 	
 
+
 ?>
 	

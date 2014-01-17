@@ -1,6 +1,6 @@
 <?php 
 	/*
-	 * Payscape Direct Post API PHP Class v3.0
+	 * Payscape Gateway PHP Class v3.0
 	 * 
 	 * Edit userid: replace with your User ID from your Payscape account
 	 * Edit userpass: replace with your Password from your Payscape account
@@ -44,17 +44,17 @@ class Payscape
 {
 	
 	var $url 		= 'https://secure.payscapegateway.com/api/transact.php';
-	var $userid 	= 'demo'; 					//Replace with your UserID from Payscape.com
-	var $userpass	= 'password';				//Replace with your Password from Payscape.com
+
 
 	
 	/* post to the API */
 	
 	protected function _send($trans){
-		
 
-		$trans['username'] = $this->userid;
-		$trans['password'] = $this->userpass;
+		require_once('../payscape.php');
+
+		$trans['username'] = $userid;
+		$trans['password'] = $userpass;
 
 			$ch = curl_init();
 			curl_setopt($ch, CURLOPT_URL, $this->url);
