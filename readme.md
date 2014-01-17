@@ -52,6 +52,6 @@ SQLite*
 * Credit - credit a credit card transaction
 * Void - void credit card transaction
 
-* See *app/Plugin/Payscape/readme.md* for examples of each of the transaction methods.
+* See */classes/Payscape/readme.md* for examples of each of the transaction methods.
  	  
 1/15/2014
