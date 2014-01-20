@@ -27,7 +27,7 @@ git clone --recursive https://github.com/Payscape/Payscape-Gateway-PHP-Developer
 ```
 
 ### Download the ZIP File
-* Download the ZIP file to your machine from here: https://github.com/Payscape/Payscape-Gateway-CakePHP-Developers-Suite/archive/master.zip
+* Download the ZIP file to your machine from here: https://github.com/Payscape/Payscape-Gateway-PHP-Developers-Suite/archive/master.zip
 * Unzip the archive and copy it to your local development server.
 
 
