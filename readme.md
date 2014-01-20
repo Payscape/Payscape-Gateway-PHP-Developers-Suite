@@ -38,7 +38,7 @@ git clone --recursive https://github.com/Payscape/Payscape-Gateway-PHP-Developer
 ##Configuration
 * Edit db-configuration.php with your database information.
 * Edit config.php to set the base url for your app. 
-* Edit /classes/Payscape/Payscape.php with your Payscape username and password
+* Edit /classes/Payscape/payscape-config.php with your Payscape username and password
 
 	
 ##Payscape Gateway PHP Class v3.0
