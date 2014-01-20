@@ -16,6 +16,20 @@ Microsoft SQL Server or
 SQLite*
 
 ##Installation
+### Clone With GIT
+* Open your command line interface
+* Navigate to the directory where you want to create your application
+* Run the following command to install Payscape Gateway CakePHP Developers Suite, including the Payscape Gateway CakePHP Plugin.
+* That dot . at the end will install the repo within the current directory
+* --recursive pulls the Payscape Gateway CakePHP Plugin submodule when you clone the Developers Suite supermodule  
+```
+git clone --recursive https://github.com/Payscape/Payscape-Gateway-PHP-Developers-Suite.git .  
+```
+
+### Download the ZIP File
+* Download the ZIP file to your machine from here: https://github.com/Payscape/Payscape-Gateway-CakePHP-Developers-Suite/archive/master.zip
+* Unzip the archive and copy it to your local development server.
+
 
 ## Database set up
 * Import schema/transactions.sql into your database
@@ -32,7 +46,7 @@ SQLite*
 * See the readme.md file in the Payscape PHP Class folder /classes/Payscape for examples of the transactions available in the Payscape Gateway
 
 ## cURL notes	  
-* /webroot/crt/cacert.pem is included so that you may use cURL. 
+* /crt/cacert.pem is included so that you may use cURL. 
 * You may also download this file at the cURL website http://curl.haxx.se/ca/cacert.pem 
 	 
 	
@@ -54,4 +68,4 @@ SQLite*
 
 * See */classes/Payscape/readme.md* for examples of each of the transaction methods.
  	  
-1/15/2014
+*1/15/2014*
