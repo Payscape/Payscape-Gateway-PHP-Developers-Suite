@@ -50,9 +50,9 @@
       <div class="span9">
       <div class="span4"></div>
       
-<h2>Payscape Direct Post API Development <br> with the PHP Developers Suite</h2>
+<h2>Payscape Gateway Development <br> with the PHP Developers Suite</h2>
 <p>
-Use the Payscape Class for Direct Post Transactions with the Payscape API
+Use the Payscape PHP Class for Direct Post Transactions with the Payscape API
 </p>
 
 <h3>Full Feature Examples</h3>

@@ -127,14 +127,22 @@
 		$incoming['phone'] = $phone;
 		$incoming['fax'] = $fax;
 		$incoming['email'] = $email;		
+		
+		echo "<pre>";
+		echo "INCOMING: ";
+		print_r($incoming);
+		echo "<pre>";		
 
 		$Payscape = NEW Payscape();
 		$result_array = $Payscape->Credit($incoming);
-
+echo "<pre>";
+echo "RESULT ARRAY: ";
+		print_r($result_array);
+echo "<pre>";		
 		
 	if($result_array['response']==1){
 		
-			$transactionid = $result_array['transactionid'];		
+			$authtransactionid = $result_array['transactionid'];		
 			$message = "The transaction was successful "; 
 		
 		
@@ -153,12 +161,7 @@
 				$amount, $tax, '$payment', '$orderdescription', 
 				'$ipaddress', '$firstname', 
 				'$lastname', '$company', '$address1', '$city', '$state', '$zip', '$country',
-				'$phone', '$fax', '$email', '$orderid', $transactionid)";
-		
-
-	/* if we only want to update the existing sale record: 		
-		$sql = "UPDATE transactions SET type = 'credit', amount = $amount WHERE transactionid = $transactionid";
-	*/	
+				'$phone', '$fax', '$email', '$orderid', $authtransactionid)";
 		
 					if(!mysqli_query($conn, $sql)){
 						/* for testing */
@@ -167,6 +170,18 @@
 					} else {
 						$message .= " and has been Saved to the database.";
 					}
+					
+				$sql_update = "UPDATE transactions SET type = 'credited', amount = $amount WHERE transactionid = $transactionid";
+
+				if(!mysqli_query($conn, $sql_update)){
+					/* for testing */
+					printf("Error: %s\n", mysqli_error($conn));
+					$message .= " but the original transaction could not be updated in the database";
+				} else {
+					$message .= " and the original transaction has been Updated in the database.";
+				}
+				
+					
 	
 			
 			} else {
