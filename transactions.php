@@ -174,7 +174,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-  <title>Payscape PHP Wrappers</title>
+  <title>Payscape PHP Developers Suite</title>
 
     <!-- Bootstrap core CSS -->
 
