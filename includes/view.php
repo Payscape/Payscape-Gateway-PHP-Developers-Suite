@@ -95,14 +95,11 @@
 				<td><?php echo $row['authcode']; ?></td>
 				
 			</tr>
+			<?php // bof refund ?>
 			<?php if($row['type']=='refund'){  ?>
 			
 			<?php 
-		
-			
 				$refund_transactionid = $row['refund_transactionid'];
-			
-
 			
 				$sql = "SELECT id, amount FROM transactions WHERE transactionid = $refund_transactionid";
 					if ($order=mysqli_query($conn,$sql))
@@ -124,22 +121,51 @@
 							}
 						
 						}
-						
-			//	$order = array_shift($order);
-			
-			//	$this->set('order', $order);
-		
 			?>
 			
 			<tr>
 			<td colspan="8">Refund for Order Transaction ID: <a href="transactions.php?action=view&id=<?php echo $order_id; ?>">
-					<strong><?php echo $order_id; ?></strong></a>, 
+					<strong><?php echo $refund_transactionid; ?></strong></a>, 
 					Order Amount: $<?php echo $order_amount; ?>
-	
-			   </td>
-			
+			   </td>		
 			</tr>
 			<?php } ?>
+		
+		<?php // bof void ?>
+			<?php if($row['type']=='void'){  ?>
+			
+			<?php 
+				$void_transaction_id = $row['void_transaction_id'];
+			
+				$sql = "SELECT transactionid FROM transactions WHERE id = $void_transaction_id";
+					if ($voidorder=mysqli_query($conn,$sql))
+						{
+							// Return the number of rows in result set
+							$rowcount=mysqli_num_rows($voidorder);
+							//	printf("Result set has %d rows.\n",$rowcount);
+						
+						}
+						
+						if ($rowcount==0) {
+							echo "No rows found, nothing to print so am exiting";
+							exit;
+						} else {
+			
+							while($row3 = mysqli_fetch_assoc($voidorder)){
+									$void_transactionid = $row3['transactionid'];
+								
+							}
+						
+						}
+			?>
+			
+			<tr>
+			<td colspan="8">Void for Order Transaction ID: <a href="transactions.php?action=view&id=<?php echo $void_transaction_id; ?>">
+					<strong><?php echo $void_transactionid; ?></strong></a> 
+					
+			   </td>		
+			</tr>
+			<?php } ?>			
 			
 		
 		</table>

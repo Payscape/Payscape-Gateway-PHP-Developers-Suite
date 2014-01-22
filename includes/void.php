@@ -19,7 +19,6 @@
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
-	$type = 'void';
 	$time = gmdate('YmdHis');
 	
 
@@ -33,7 +32,9 @@
 		 * */
 		
 		$sql = "SELECT id, firstname, lastname, company, address1, city, state, zip, country, 
-			phone, fax, email, amount, transactionid, orderid, authcode FROM transactions WHERE `transactionid` = $transactionid";
+			phone, fax, email, 
+		amount, transactionid, orderid, orderdescription,
+		authcode FROM transactions WHERE `transactionid` = $transactionid";
 		
 		if ($result=mysqli_query($conn,$sql))
 		{
@@ -48,8 +49,11 @@
 		} else {
 		
 			while($row = mysqli_fetch_assoc($result)){
+				$void_transaction_id = $row['id'];
 
 				$amount = $row['amount'];
+				$orderid = $row['orderid'];
+				$authcode = $row['authcode'];				
 				$firstname = $row['firstname'];
 				$lastname = $row['lastname'];
 				$company = $row['company'];
@@ -63,7 +67,8 @@
 				$email = $row['email'];
 				
 				$transactionid = $row['transactionid'];
-				$orderid = $row['orderid'];
+
+				$orderdescription = $row['orderdescription'];
 				
 				$process = 1;
 				$void_message = "Process Void for Transaction  #$transactionid";
@@ -74,11 +79,15 @@
 		$incoming = array();
 		$incoming['type'] = $type;
 		$incoming['transactionid'] = $transactionid;
+		$incoming['amount'] = $amount;
 		
 
 		$Payscape = NEW Payscape();
 		$result_array = $Payscape->Void($incoming);
-	
+
+
+		
+		
 		if($result_array['response']==1){
 			$response_code = $result_array['response'];
 			$authtransactionid = $result_array['transactionid'];
@@ -93,28 +102,37 @@
 			`amount`,
 			`ipaddress`, `firstname`,
 			`lastname`, `company`, `address1`, `city`, `state`, `zip`, `country`,
-			`phone`, `fax`, `email`, `orderid`, `transactionid`)
+			`phone`, `fax`, `email`, `orderdescription`, `orderid`, `authcode`, `transactionid`, `void_transaction_id`)
 			VALUES('$type',
 			'$time',
 			$amount, 
 			'$ipaddress', '$firstname',
 			'$lastname', '$company', '$address1', '$city', '$state', '$zip', '$country',
-			'$phone', '$fax', '$email', '$orderid', $transactionid)";
+			'$phone', '$fax', '$email', '$orderdescription', '$orderid', '$authcode', $transactionid, $void_transaction_id)";
 						
 						if(!mysqli_query($conn, $sql)){
 							/* for testing */
 							printf("Error: %s\n", mysqli_error($conn));
 							$message .= " but could not be saved to the database";
 						} else {
-							$message .= " and has been Saved to the database.";
+							$message .= " and has been Saved to the database.";		
+							$sql_update = "UPDATE `transactions` SET type = 'voided' WHERE id = $void_transaction_id";		
+									
+							if(!mysqli_query($conn, $sql_update)){
+
+								/* for testing */
+								printf("Error: %s\n", mysqli_error($conn));
+								$message .= " but the original record could not be updagted";
+							} else {
+								$message .= " The original transaction has been updated to 'voided'";
+							}
 						}
 			
 			} else {
-				$message = "Transaction has failed.";
+				$message = "Void Transaction has failed.";
 			}		
 			
-			mysqli_close($conn);
-									
+			mysqli_close($conn);								
 
     } else {
     	$transactionid = $_GET['transactionid'];
