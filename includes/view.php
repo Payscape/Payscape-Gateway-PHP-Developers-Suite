@@ -96,8 +96,47 @@
 				
 			</tr>
 			<?php if($row['type']=='refund'){  ?>
+			
+			<?php 
+		
+			
+				$refund_transactionid = $row['refund_transactionid'];
+			
+
+			
+				$sql = "SELECT id, amount FROM transactions WHERE transactionid = $refund_transactionid";
+					if ($order=mysqli_query($conn,$sql))
+						{
+							// Return the number of rows in result set
+							$rowcount=mysqli_num_rows($result);
+							//	printf("Result set has %d rows.\n",$rowcount);
+						
+						}
+						
+						if ($rowcount==0) {
+							echo "No rows found, nothing to print so am exiting";
+							exit;
+						} else {
+			
+							while($row2 = mysqli_fetch_assoc($order)){
+									$order_id = $row2['id'];
+									$order_amount = $row2['amount'];
+							}
+						
+						}
+						
+			//	$order = array_shift($order);
+			
+			//	$this->set('order', $order);
+		
+			?>
+			
 			<tr>
-			<td colspan="8"><strong>Refunded Transaction ID: <?php echo $row['refund_transactionid']; ?></strong>  </td>
+			<td colspan="8">Refund for Order Transaction ID: <a href="transactions.php?action=view&id=<?php echo $order_id; ?>">
+					<strong><?php echo $order_id; ?></strong></a>, 
+					Order Amount: $<?php echo $order_amount; ?>
+	
+			   </td>
 			
 			</tr>
 			<?php } ?>

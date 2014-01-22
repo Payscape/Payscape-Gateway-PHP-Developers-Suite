@@ -128,17 +128,10 @@
 		$incoming['fax'] = $fax;
 		$incoming['email'] = $email;		
 		
-		echo "<pre>";
-		echo "INCOMING: ";
-		print_r($incoming);
-		echo "<pre>";		
 
 		$Payscape = NEW Payscape();
 		$result_array = $Payscape->Credit($incoming);
-echo "<pre>";
-echo "RESULT ARRAY: ";
-		print_r($result_array);
-echo "<pre>";		
+	
 		
 	if($result_array['response']==1){
 		

@@ -19,11 +19,14 @@
 		<input name="type" value="refund" type="hidden" id="TransactionType" />
 	<div class="input text"><label for="TransactionType">Type:</label> Refund. 	</div>				
 
-	<div class="input number required"><label for="TransactionTransactionID">Refund Transaction ID</label><input name="transactionid" step="any" type="text" id="TransactionTransactionID" value="<?php echo $transactionid; ?>" required="required"/></div>
+	<div class="input number required"><label for="TransactionTransactionID">Refund Transaction ID: <?php echo $transactionid; ?></label>
 	
-	<div class="input number required"><label for="TransactionAmount">Refund Total <span style="font-style:italic">(if less than original Amount)</span></label>
-	<br>Transaction Amount: <?php echo $amount; ?><br>
-	<input name="amount" step="any" type="text" id="TransactionAmount" /></div>
+	<input name="transactionid" step="any" type="hidden" id="TransactionTransactionID" value="<?php echo $transactionid; ?>" required="required"/></div>
+	
+	<div class="input number required">
+		Transaction Amount: <?php echo $amount; ?><br>
+	<label for="TransactionAmount">Refund Total <span style="font-style:italic">(if less than original Transaction Amount)</span></label>
+		<br><input name="amount" step="any" type="text" id="TransactionAmount" /></div>
 </fieldset>
 <div class="submit"><input  type="submit" value="Submit"/></div></form></div>
 
