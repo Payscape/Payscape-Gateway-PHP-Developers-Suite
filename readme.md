@@ -5,8 +5,10 @@
 * Functions, Scripts and Forms are included to get you up and running quickly.
 * Built with the latest release of Twitter Bootstrap for Responsive Web Development.
 * The Database Schema included builds the table that saves your transactions and their details.
+
 ## Author
 * github@payscape.com
+
 ## Contact
 * github@payscape.com
 
